@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Montserrat incl. Black Italic -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rebel Bingo – Xmas</title>
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #fff;
+      --muted: #cccccc;
+      --red: #e31b23;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.4;
+    }
+
+    /* ===== Scrolling CTA banner (Montserrat Black Italic) ===== */
+    .scrollBanner {
+      position: relative;
+      background: var(--red);
+      color: #fff;
+      border-bottom: 2px solid #000;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    }
+    .scrollViewport { white-space: nowrap; width: 100%; }
+    .scrollTrack {
+      display: inline-flex;
+      gap: 3rem;
+      padding: 0.6rem 0;
+      will-change: transform;
+      animation: bannerScroll 35s linear infinite;
+    }
+    .scrollBanner:hover .scrollTrack { animation-play-state: paused; }
+    @keyframes bannerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .scrollChunk {
+      font-weight: 900;   /* Black */
+      font-style: italic; /* Italic */
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+      display: inline-block;
+      padding: 0 0.25rem;
+    }
+    @media (prefers-reduced-motion: reduce) { .scrollTrack { animation: none; } }
+
+    /* Low-visibility SEO helper */
+    .seoText {
+      position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+
+    /* ===== Hero (YouTube BG + overlay image + text) ===== */
+    .hero {
+      position: relative; width: 100%; min-height: 70vh;
+      display: grid; place-items: center; overflow: hidden; isolation: isolate;
+    }
+    .hero__videoWrap { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: #000; }
+    .hero__videoWrap iframe {
+      position: absolute; top: 50%; left: 50%;
+      width: 120vw; height: 67.5vw; transform: translate(-50%, -50%);
+      min-width: 100%; min-height: 100%; border: 0; pointer-events: none;
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.25), rgba(0,0,0,0.7) 70%);
+      z-index: -1;
+    }
+    .hero__content {
+      max-width: 1100px; width: min(92vw, 1100px);
+      text-align: center; padding: 6vh 0 3vh; display: grid; gap: 1rem; justify-items: center;
+    }
+    .hero__img {
+      max-width: min(90vw, 820px); width: 100%; height: auto; display: block;
+      filter: drop-shadow(0 12px 32px rgba(0,0,0,0.6)); user-select: none;
+    }
+    .hero__tagline {
+      margin: 0.5rem 0 0; font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--fg);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6); letter-spacing: 0.2px;
+    }
+    .hero__tagline a { color: var(--fg); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+    /* ===== Reviews marquee ===== */
+    .reviews { padding: 2.5rem 0; overflow: hidden; border-top: 1px solid #111; border-bottom: 1px solid #111; }
+    .marquee { display: flex; gap: 1rem; width: max-content; animation: scroll-left 28s linear infinite; }
+    .marqueeWrap { display: flex; gap: 1rem; width: max-content; }
+    @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .reviewCard {
+      flex: 0 0 auto; width: clamp(220px, 28vw, 420px); aspect-ratio: 1 / 1;
+      padding: 10px; background: #0a0a0a; border: 1px solid #111; border-radius: 14px;
+      overflow: hidden; display: grid; place-items: center;
+    }
+    .reviewCard img { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+
+    /* ===== Signup ===== */
+    .signup {
+      padding: 3rem 1rem 3.5rem;
+      display: grid; place-items: center; text-align: center; gap: 1rem;
+    }
+    .signup h2 { margin: 0 0 0.5rem 0; font-size: clamp(1.1rem, 3vw, 1.6rem); font-weight: 700; }
+    .formRow {
+      display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; width: min(92vw, 640px);
+    }
+    .emailInput {
+      width: 100%; padding: 0.9rem 1rem; border-radius: 10px; border: 1px solid #222;
+      background: #0d0d0d; color: #fff; font-size: 1rem; outline: none;
+    }
+    .emailInput::placeholder { color: var(--muted); }
+    .btn {
+      padding: 0.9rem 1.2rem; border: 0; border-radius: 10px; background: var(--red);
+      color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer;
+    }
+    .btn:active { transform: translateY(1px); }
+    @media (max-width: 520px) { .formRow { grid-template-columns: 1fr; } }
+
+    /* ===== Footer ===== */
+    footer { padding: 2rem 1rem 3rem; text-align: center; color: #bfbfbf; font-size: 0.95rem; border-top: 1px solid #111; }
+  </style>
+</head>
+<body>
+
+  <!-- Scrolling CTA banner -->
+  <div class="scrollBanner" role="region" aria-label="Booking announcement">
+    <div class="scrollViewport">
+      <div class="scrollTrack">
+        <span class="scrollChunk">
+          BOOK REBEL BINGO FOR YOUR XMAS OR HOLIDAY PARTY • WE’VE DONE SMALL PRIVATE EVENTS FOR POP STARS AND BRANDS — AND MASSIVE SHOWS FOR 3,000+ PEOPLE • EMAIL REBELS@REBELBINGO.COM
+        </span>
+        <span class="scrollChunk" aria-hidden="true">
+          BOOK REBEL BINGO FOR YOUR XMAS OR HOLIDAY PARTY • WE’VE DONE SMALL PRIVATE EVENTS FOR POP STARS AND BRANDS — AND MASSIVE SHOWS FOR 3,000+ PEOPLE • EMAIL REBELS@REBELBINGO.COM
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Low-visibility SEO helper -->
+  <p class="seoText" aria-hidden="true">
+    Rebel Bingo Christmas party entertainment, holiday party shows, corporate event entertainment, private events for brands and pop stars, large-scale corporate shows 3,000+, book Rebel Bingo worldwide.
+  </p>
+
+  <!-- HERO SECTION -->
+  <section class="hero" aria-label="Rebel Bingo – Christmas hero">
+    <div class="hero__videoWrap" aria-hidden="true">
+      <iframe
+        title="Background video"
+        src="https://www.youtube.com/embed/ehQtrH42Vmk?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&playsinline=1&loop=1&playlist=ehQtrH42Vmk"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="hero__content">
+  <img class="hero__img" src="rebelxmas.png" alt="Rebel Bingo – Christmas" loading="eager" />
+
+  <a href="https://www.instagram.com/rebel_bingo" target="_blank" class="insta-btn">
+    ⚡ Follow @rebel_bingo ⚡
+  </a>
+
+  <p class="hero__tagline">
+    Rebel Bingo at your Christmas Party, email:
+    <a href="mailto:rebels@rebelbingo.com">rebels@rebelbingo.com</a>
+  </p>
+</div>
+
+  </section>
+
+  <!-- REVIEWS MARQUEE -->
+  <section class="reviews" aria-label="Reviews and social proof">
+    <div class="marquee" role="list" aria-label="Scrolling reviews">
+      <div class="marqueeWrap">
+        <div class="reviewCard" role="listitem"><img src="review1.webp" alt="Review 1" loading="lazy"></div>
+        <div class="reviewCard" role="listitem"><img src="review2.webp" alt="Review 2" loading="lazy"></div>
+        <div class="reviewCard" role="listitem"><img src="review3.webp" alt="Review 3" loading="lazy"></div>
+        <div class="reviewCard" role="listitem"><img src="review4.webp" alt="Review 4" loading="lazy"></div>
+        <div class="reviewCard" role="listitem"><img src="review5.webp" alt="Review 5" loading="lazy"></div>
+        <div class="reviewCard" role="listitem"><img src="review6.webp" alt="Review 6" loading="lazy"></div>
+      </div>
+      <div class="marqueeWrap" aria-hidden="true">
+        <div class="reviewCard"><img src="review1.webp" alt="" loading="lazy"></div>
+        <div class="reviewCard"><img src="review2.webp" alt="" loading="lazy"></div>
+        <div class="reviewCard"><img src="review3.webp" alt="" loading="lazy"></div>
+        <div class="reviewCard"><img src="review4.webp" alt="" loading="lazy"></div>
+        <div class="reviewCard"><img src="review5.webp" alt="" loading="lazy"></div>
+        <div class="reviewCard"><img src="review6.webp" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNUP (ONLY ONE FORM) -->
+  <section class="signup" aria-label="Email signup">
+    <h2>Sign Up Find Out about our world tour:</h2>
+
+    <!-- hidden iframe keeps page on-screen during submit -->
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+    <form class="formRow"
+          method="post"
+          action="https://script.google.com/macros/s/AKfycbzgQmiyHeeuPrQrmeF76_8AqLKVM3qymJOwpLJwk78NSH2WvBDEmmhpPtIKqOkk9R3o/exec"
+          target="hidden_iframe"
+          id="signupForm">
+      <input class="emailInput" type="email" name="email" placeholder="Enter Email Here" aria-label="Email address" required />
+      <input type="hidden" name="source" value="rebelbingo_xmas" />
+      <button class="btn" type="submit">Sign Up</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>&copy; Rebel Bingo</footer>
+
+  <!-- Tiny UX script (no preventDefault) -->
+  <script>
+    (function () {
+      const form = document.getElementById('signupForm');
+      const btn  = form.querySelector('.btn');
+      const inp  = form.querySelector('.emailInput');
+      form.addEventListener('submit', function () {
+        btn.disabled = true;
+        btn.textContent = 'Thanks!';
+        setTimeout(() => { inp.value = ''; btn.textContent = 'Sign Up'; btn.disabled = false; }, 1200);
+      });
+    })();
+  </script>
+</body>
+</html>
