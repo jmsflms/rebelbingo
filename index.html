@@ -84,6 +84,24 @@
       max-width: min(90vw, 820px); width: 100%; height: auto; display: block;
       filter: drop-shadow(0 12px 32px rgba(0,0,0,0.6)); user-select: none;
     }
+
+    /* Instagram icon button under hero image */
+    .insta-icon {
+      margin-top: 1.5rem;
+      display: inline-block;
+      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    }
+    .insta-img {
+      width: clamp(60px, 10vw, 90px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(255, 90, 90, 0.4));
+    }
+    .insta-icon:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
     .hero__tagline {
       margin: 0.5rem 0 0; font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--fg);
       text-shadow: 0 2px 8px rgba(0,0,0,0.6); letter-spacing: 0.2px;
@@ -160,18 +178,17 @@
     </div>
 
     <div class="hero__content">
-  <img class="hero__img" src="rebelxmas.png" alt="Rebel Bingo – Christmas" loading="eager" />
+      <img class="hero__img" src="rebelxmas.png" alt="Rebel Bingo – Christmas" loading="eager" />
 
-  <a href="https://www.instagram.com/rebel_bingo" target="_blank" class="insta-btn">
-    ⚡ Follow @rebel_bingo ⚡
-  </a>
+      <a href="https://www.instagram.com/rebel_bingo" target="_blank" class="insta-icon">
+        <img src="Instagram.png" alt="Follow Rebel Bingo on Instagram" class="insta-img">
+      </a>
 
-  <p class="hero__tagline">
-    Rebel Bingo at your Christmas Party, email:
-    <a href="mailto:rebels@rebelbingo.com">rebels@rebelbingo.com</a>
-  </p>
-</div>
-
+      <p class="hero__tagline">
+        Rebel Bingo at your Christmas Party, email:
+        <a href="mailto:rebels@rebelbingo.com">rebels@rebelbingo.com</a>
+      </p>
+    </div>
   </section>
 
   <!-- REVIEWS MARQUEE -->
@@ -196,11 +213,10 @@
     </div>
   </section>
 
-  <!-- SIGNUP (ONLY ONE FORM) -->
+  <!-- SIGNUP -->
   <section class="signup" aria-label="Email signup">
     <h2>Sign Up Find Out about our world tour:</h2>
 
-    <!-- hidden iframe keeps page on-screen during submit -->
     <iframe name="hidden_iframe" style="display:none;"></iframe>
 
     <form class="formRow"
@@ -217,7 +233,7 @@
   <!-- FOOTER -->
   <footer>&copy; Rebel Bingo</footer>
 
-  <!-- Tiny UX script (no preventDefault) -->
+  <!-- Tiny UX script -->
   <script>
     (function () {
       const form = document.getElementById('signupForm');
