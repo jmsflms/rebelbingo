@@ -7,17 +7,26 @@
 
   <style>
     :root{
-      --girlsTop: 8vh;
+      /* Header */
+      --headerTop: 14px;
+      --logoW: min(360px, 72vw);
 
-      /* Hotspot orbit positions */
-      --bingoX: 64%;
-      --bingoY: 34%;
-      --musicX: 30%;
-      --musicY: 60%;
+      /* Push scene down so header has space */
+      --girlsTop: 18vh;
+
+      /* Hotspot positions (tweak these) */
+      --bingoX: 64%;  --bingoY: 40%;
+      --musicX: 30%;  --musicY: 72%;
+      --fashionX: 76%; --fashionY: 70%;
+      --dancingX: 24%; --dancingY: 46%;
+      --ticketsX: 50%; --ticketsY: 88%;
 
       /* Sizes */
       --bingoW: min(520px, 70vw);
       --musicW: min(320px, 48vw);
+      --fashionW: min(320px, 48vw);
+      --dancingW: min(320px, 48vw);
+      --ticketsW: min(380px, 70vw);
     }
 
     html, body{
@@ -62,10 +71,63 @@
       inset:0;
       z-index:2;
     }
-
     #scene{
       position:absolute;
       inset:0;
+    }
+
+    /* ======= HEADER (logo + strapline) ======= */
+    #header{
+      position:absolute;
+      top: var(--headerTop);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      width: min(720px, 94vw);
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      gap: 10px;
+      pointer-events:none; /* header never blocks clicks */
+      text-align:center;
+    }
+
+    #logoWrap{
+      width: var(--logoW);
+      max-width: 94vw;
+      pointer-events:none;
+    }
+
+    /* Animated logo (webm) */
+    #logoVideo{
+      width:100%;
+      height:auto;
+      display:block;
+      background: transparent;
+      pointer-events:none;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
+    }
+
+    /* Fallback logo (png / webp) */
+    #logoImg{
+      width:100%;
+      height:auto;
+      display:none; /* JS will enable if video fails */
+      pointer-events:none;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
+    }
+
+    #strap{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: clamp(11px, 1.6vw, 14px);
+      line-height: 1.25;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+      max-width: 92vw;
+      pointer-events:none;
     }
 
     /* SHOWGIRL */
@@ -74,7 +136,7 @@
       left:50%;
       top:var(--girlsTop);
       transform:translateX(-50%);
-      height:min(82vh, 720px);
+      height:min(74vh, 720px);
       width:auto;
       z-index:3;
       user-select:none;
@@ -84,8 +146,6 @@
     }
 
     /* ========== HOTSPOTS ========== */
-
-    /* container movement + placement */
     .hotspot{
       position:absolute;
       z-index:5;
@@ -94,9 +154,9 @@
       -webkit-user-drag:none;
       transform-origin:center;
       will-change: transform;
-      /* movement only (DO NOT put filter animation here) */
       animation: floaty 2.2s ease-in-out infinite;
       filter: drop-shadow(0 12px 22px rgba(0,0,0,0.6));
+      text-decoration:none;
     }
 
     .hotspot img{
@@ -106,7 +166,6 @@
       pointer-events:none;
       opacity:0.96;
       will-change: transform, filter, opacity;
-      /* glitch + neon live on the IMG (the pixels) */
       animation:
         glitch 0.35s steps(2,end) infinite,
         neonRGB 1.2s linear infinite;
@@ -119,18 +178,39 @@
       top:  var(--bingoY);
       width: var(--bingoW);
       transform: translate(-50%, -50%) rotate(-2deg);
-      animation-duration: 1.9s; /* floaty speed */
+      animation-duration: 1.9s;
     }
-
     #musicLink{
       left: var(--musicX);
       top:  var(--musicY);
       width: var(--musicW);
       transform: translate(-50%, -50%) rotate(3deg);
-      animation-duration: 2.6s; /* floaty speed */
+      animation-duration: 2.6s;
+    }
+    #fashionLink{
+      left: var(--fashionX);
+      top:  var(--fashionY);
+      width: var(--fashionW);
+      transform: translate(-50%, -50%) rotate(-4deg);
+      animation-duration: 2.3s;
+    }
+    #dancingLink{
+      left: var(--dancingX);
+      top:  var(--dancingY);
+      width: var(--dancingW);
+      transform: translate(-50%, -50%) rotate(5deg);
+      animation-duration: 2.0s;
+    }
+    #ticketsLink{
+      left: var(--ticketsX);
+      top:  var(--ticketsY);
+      width: var(--ticketsW);
+      transform: translate(-50%, -50%) rotate(-1deg);
+      animation-duration: 1.7s;
+      z-index: 7; /* CTA on top */
     }
 
-    /* Hover: bigger + stronger glow (applies to the IMG pixels) */
+    /* Hover: stronger glow */
     .hotspot:hover{ transform: translate(-50%, -50%) scale(1.06) rotate(var(--rot, 0deg)); }
     .hotspot:hover img{
       filter:
@@ -147,7 +227,6 @@
       100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
     }
 
-    /* Glitch effect */
     @keyframes glitch{
       0%   { transform: translate(0,0); opacity: 0.95; }
       12%  { transform: translate(2px,-1px); opacity: 0.85; }
@@ -160,8 +239,6 @@
       100% { transform: translate(0,0); opacity: 0.95; }
     }
 
-    /* Neon RGB cycle:
-       Key point: sepia+saturate creates colour from monochrome so hue-rotate works */
     @keyframes neonRGB{
       0%   { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(0deg); }
       33%  { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(120deg); }
@@ -169,18 +246,26 @@
       100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
     }
 
-    /* Mobile tweaks */
     @media (max-width: 520px){
       :root{
-        --girlsTop: 6vh;
-        --bingoX: 66%;
-        --bingoY: 36%;
-        --musicX: 30%;
-        --musicY: 66%;
+        --headerTop: 10px;
+        --logoW: min(320px, 82vw);
+        --girlsTop: 19vh;
+
+        --bingoX: 66%;  --bingoY: 42%;
+        --musicX: 30%;  --musicY: 75%;
+        --fashionX: 74%; --fashionY: 70%;
+        --dancingX: 26%; --dancingY: 48%;
+        --ticketsX: 50%; --ticketsY: 90%;
+
         --bingoW: min(460px, 92vw);
         --musicW: min(280px, 78vw);
+        --fashionW: min(280px, 78vw);
+        --dancingW: min(280px, 78vw);
+        --ticketsW: min(420px, 92vw);
       }
-      #girl{ height:min(80vh, 620px); }
+      #girl{ height:min(70vh, 620px); }
+      #strap{ letter-spacing: 0.06em; }
     }
   </style>
 </head>
@@ -195,14 +280,43 @@
     <div id="fg">
       <div id="scene">
 
-        <img id="girl" src="sprites/1.png" alt="Showgirl">
+        <!-- HEADER: logo + strapline -->
+        <div id="header" aria-hidden="true">
+          <div id="logoWrap">
+            <video id="logoVideo" autoplay muted loop playsinline preload="auto">
+              <source src="logos/logo.webm" type="video/webm" />
+            </video>
 
+            <!-- Fallback image (png/webp). JS will switch this on if video fails. -->
+            <img id="logoImg" src="logos/rebelbingologolong.png" alt="Rebel Bingo Logo">
+          </div>
+
+          <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
+        </div>
+
+        <!-- Showgirl -->
+        <img id="girl" src="sprites/b1.png" alt="Showgirl">
+
+        <!-- Navigation hotspots -->
         <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
-          <img id="bingoImg" src="hotspot/1.png" alt="Bingo">
+          <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
         </a>
 
         <a id="musicLink" class="hotspot" href="music.html" aria-label="Go to Music page" style="--rot:3deg">
           <img id="musicImg" src="hotspot/musichotspot/music1.png" alt="Music">
+        </a>
+
+        <a id="fashionLink" class="hotspot" href="fashion.html" aria-label="Go to Fashion page" style="--rot:-4deg">
+          <img id="fashionImg" src="hotspot/fashionhotspot/fashion1.png" alt="Fashion">
+        </a>
+
+        <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
+          <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
+        </a>
+
+        <!-- TICKETS CTA as hotspot images (you said you have these now) -->
+        <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
+          <img id="ticketsImg" src="hotspot/ticketshotspot/tickets1.png" alt="Tickets">
         </a>
 
       </div>
@@ -210,33 +324,42 @@
   </div>
 
   <script>
-    /* VIDEO: force play; click-to-unlock fallback */
+    /* Force-play videos; click-to-unlock fallback */
     (function(){
-      const v = document.getElementById('bgVideo');
-      if (!v) return;
-      v.muted = true;
-      const tryPlay = () => v.play().catch(() => {});
-      document.addEventListener('click', tryPlay, { once: true });
-      tryPlay();
+      const vids = [document.getElementById('bgVideo'), document.getElementById('logoVideo')].filter(Boolean);
+      const tryPlayAll = () => vids.forEach(v => v.play().catch(() => {}));
+      vids.forEach(v => v.muted = true);
+      document.addEventListener('click', tryPlayAll, { once: true });
+      tryPlayAll();
     })();
 
-    /* GIRL CYCLE (include your new sprites like 3a/5a/8a/10a) */
+    /* Logo fallback if webm fails (use png already set; optionally switch to webp if you prefer) */
+    (function(){
+      const v = document.getElementById('logoVideo');
+      const img = document.getElementById('logoImg');
+      if (!v || !img) return;
+
+      const enableFallback = () => {
+        v.style.display = "none";
+        img.style.display = "block";
+      };
+
+      v.addEventListener("error", enableFallback);
+      v.addEventListener("stalled", enableFallback);
+
+      // If browser says it can't play webm at all, use fallback immediately
+      const canWebm = !!v.canPlayType && v.canPlayType("video/webm; codecs=vp9").replace(/no/i,'');
+      if (!canWebm) enableFallback();
+    })();
+
+    /* ========= GIRL CYCLE ========= */
     const girl = document.getElementById("girl");
     const girlFrames = [
-      "sprites/1.png",
-      "sprites/2.png",
-      "sprites/3.png",
-      "sprites/3a.png",
-      "sprites/4.png",
-      "sprites/5.png",
-      "sprites/5a.png",
-      "sprites/6.png",
-      "sprites/7.png",
-      "sprites/8.png",
-      "sprites/8a.png",
-      "sprites/9.png",
-      "sprites/10.png",
-      "sprites/10a.png"
+      "sprites/b1.png","sprites/p1.png","sprites/g1.png",
+      "sprites/b2.png","sprites/p2.png","sprites/g2.png",
+      "sprites/b3.png","sprites/p3.png","sprites/g3.png",
+      "sprites/b4.png","sprites/p4.png","sprites/g4.png",
+      "sprites/b5.png","sprites/p5.png","sprites/g5.png"
     ];
     girlFrames.forEach(src => { const im = new Image(); im.src = src; });
 
@@ -253,40 +376,65 @@
       girl.style.opacity = (Math.random() < 0.08) ? "0.85" : "1";
     }, 120);
 
-    /* MUSIC HOTSPOT CYCLE (single location; cycles music1..music5 fast) */
-    const musicImg = document.getElementById("musicImg");
-    const musicFrames = [
+    /* ========= HOTSPOT CYCLERS ========= */
+    function startCycler(imgId, frames, ms){
+      const el = document.getElementById(imgId);
+      if (!el) return;
+      frames.forEach(src => { const im = new Image(); im.src = src; });
+      let idx = 0;
+      setInterval(() => {
+        idx = (idx + 1) % frames.length;
+        el.src = frames[idx];
+      }, ms);
+    }
+
+    startCycler("musicImg", [
       "hotspot/musichotspot/music1.png",
       "hotspot/musichotspot/music2.png",
       "hotspot/musichotspot/music3.png",
       "hotspot/musichotspot/music4.png",
       "hotspot/musichotspot/music5.png"
-    ];
-    musicFrames.forEach(src => { const im = new Image(); im.src = src; });
+    ], 140);
 
-    let musicIdx = 0;
-    setInterval(() => {
-      if (!musicImg) return;
-      musicIdx = (musicIdx + 1) % musicFrames.length;
-      musicImg.src = musicFrames[musicIdx];
-    }, 140);
+    startCycler("fashionImg", [
+      "hotspot/fashionhotspot/fashion1.png",
+      "hotspot/fashionhotspot/fashion2.png",
+      "hotspot/fashionhotspot/fashion3.png",
+      "hotspot/fashionhotspot/fashion4.png"
+    ], 140);
 
-    /* BINGO HOTSPOT CYCLE (your hotspot/1..4) */
-    const bingoImg = document.getElementById("bingoImg");
-    const bingoFrames = [
-      "hotspot/1.png",
-      "hotspot/2.png",
-      "hotspot/3.png",
-      "hotspot/4.png"
-    ];
-    bingoFrames.forEach(src => { const im = new Image(); im.src = src; });
+    startCycler("dancingImg", [
+      "hotspot/dancinghotspot/dancing1.png",
+      "hotspot/dancinghotspot/dancing2.png",
+      "hotspot/dancinghotspot/dancing3.png",
+      "hotspot/dancinghotspot/dancing4.png"
+    ], 140);
 
-    let bingoIdx = 0;
-    setInterval(() => {
-      if (!bingoImg) return;
-      bingoIdx = (bingoIdx + 1 + Math.floor(Math.random()*2)) % bingoFrames.length;
-      bingoImg.src = bingoFrames[bingoIdx];
-    }, 200);
+    // Tickets (EDIT ONLY THIS LIST if your filenames differ)
+    startCycler("ticketsImg", [
+      "hotspot/ticketshotspot/tickets1.png",
+      "hotspot/ticketshotspot/tickets2.png",
+      "hotspot/ticketshotspot/tickets3.png",
+      "hotspot/ticketshotspot/tickets4.png"
+    ], 140);
+
+    // Bingo (slightly chaotic)
+    (function(){
+      const el = document.getElementById("bingoImg");
+      if (!el) return;
+      const frames = [
+        "hotspot/bingohotspot/bingo1.png",
+        "hotspot/bingohotspot/bingo2.png",
+        "hotspot/bingohotspot/bingo3.png",
+        "hotspot/bingohotspot/bingo4.png"
+      ];
+      frames.forEach(src => { const im = new Image(); im.src = src; });
+      let idx = 0;
+      setInterval(() => {
+        idx = (idx + 1 + Math.floor(Math.random()*2)) % frames.length;
+        el.src = frames[idx];
+      }, 200);
+    })();
   </script>
 </body>
 </html>
