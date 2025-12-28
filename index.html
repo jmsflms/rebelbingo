@@ -11,10 +11,10 @@
       --headerTop: 14px;
       --logoW: min(360px, 72vw);
 
-      /* Push scene down so header has space */
+      /* Scene */
       --girlsTop: 18vh;
 
-      /* Hotspot positions (tweak these) */
+      /* Hotspot positions */
       --bingoX: 64%;  --bingoY: 40%;
       --musicX: 30%;  --musicY: 72%;
       --fashionX: 76%; --fashionY: 70%;
@@ -56,6 +56,17 @@
       filter: brightness(0.85) contrast(1.1) saturate(1.05);
     }
 
+    /* fallback background if video fails */
+    #bgFallback{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background: radial-gradient(circle at 50% 45%, #300 0%, #000 55%, #000 100%);
+      opacity:0;
+      transition: opacity 400ms ease;
+      pointer-events:none;
+    }
+
     /* slight shade so assets read */
     #shade{
       position:absolute;
@@ -88,7 +99,7 @@
       flex-direction: column;
       align-items:center;
       gap: 10px;
-      pointer-events:none; /* header never blocks clicks */
+      pointer-events:none;
       text-align:center;
     }
 
@@ -108,11 +119,11 @@
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
     }
 
-    /* Fallback logo (png / webp) */
+    /* Fallback logo (png) */
     #logoImg{
       width:100%;
       height:auto;
-      display:none; /* JS will enable if video fails */
+      display:none;
       pointer-events:none;
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
     }
@@ -172,42 +183,37 @@
       mix-blend-mode: screen;
     }
 
-    /* Place hotspots around the girl */
+    /* Place hotspots */
     #bingoLink{
-      left: var(--bingoX);
-      top:  var(--bingoY);
+      left: var(--bingoX); top: var(--bingoY);
       width: var(--bingoW);
       transform: translate(-50%, -50%) rotate(-2deg);
       animation-duration: 1.9s;
     }
     #musicLink{
-      left: var(--musicX);
-      top:  var(--musicY);
+      left: var(--musicX); top: var(--musicY);
       width: var(--musicW);
       transform: translate(-50%, -50%) rotate(3deg);
       animation-duration: 2.6s;
     }
     #fashionLink{
-      left: var(--fashionX);
-      top:  var(--fashionY);
+      left: var(--fashionX); top: var(--fashionY);
       width: var(--fashionW);
       transform: translate(-50%, -50%) rotate(-4deg);
       animation-duration: 2.3s;
     }
     #dancingLink{
-      left: var(--dancingX);
-      top:  var(--dancingY);
+      left: var(--dancingX); top: var(--dancingY);
       width: var(--dancingW);
       transform: translate(-50%, -50%) rotate(5deg);
       animation-duration: 2.0s;
     }
     #ticketsLink{
-      left: var(--ticketsX);
-      top:  var(--ticketsY);
+      left: var(--ticketsX); top: var(--ticketsY);
       width: var(--ticketsW);
       transform: translate(-50%, -50%) rotate(-1deg);
       animation-duration: 1.7s;
-      z-index: 7; /* CTA on top */
+      z-index: 7;
     }
 
     /* Hover: stronger glow */
@@ -246,10 +252,12 @@
       100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
     }
 
+    /* MOBILE */
     @media (max-width: 520px){
       :root{
         --headerTop: 10px;
         --logoW: min(320px, 82vw);
+
         --girlsTop: 19vh;
 
         --bingoX: 66%;  --bingoY: 42%;
@@ -264,30 +272,39 @@
         --dancingW: min(280px, 78vw);
         --ticketsW: min(420px, 92vw);
       }
+
       #girl{ height:min(70vh, 620px); }
       #strap{ letter-spacing: 0.06em; }
+
+      /* keep hotspots from becoming absurdly huge on phones */
+      .hotspot{ max-width: 92vw; }
     }
   </style>
 </head>
 
 <body>
   <div id="stage">
-    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+    <!-- fallback background if video doesn't load -->
+    <div id="bgFallback"></div>
+
+    <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
+      <!-- Prefer webm if you create it -->
+      <source src="video/spiral.webm" type="video/webm" />
+      <!-- MP4 fallback -->
       <source src="video/spiral.mp4" type="video/mp4" />
     </video>
+
     <div id="shade"></div>
 
     <div id="fg">
       <div id="scene">
 
-        <!-- HEADER: logo + strapline -->
+        <!-- HEADER -->
         <div id="header" aria-hidden="true">
           <div id="logoWrap">
             <video id="logoVideo" autoplay muted loop playsinline preload="auto">
-              <source src="logo/logo.webm" type="video/webm" />
+              <source src="logos/logo.webm" type="video/webm" />
             </video>
-
-            <!-- Fallback image (png/webp). JS will switch this on if video fails. -->
             <img id="logoImg" src="logos/rebelbingologolong.png" alt="Rebel Bingo Logo">
           </div>
 
@@ -297,7 +314,7 @@
         <!-- Showgirl -->
         <img id="girl" src="sprites/b1.png" alt="Showgirl">
 
-        <!-- Navigation hotspots -->
+        <!-- Hotspots -->
         <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
           <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
         </a>
@@ -314,7 +331,6 @@
           <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
         </a>
 
-        <!-- TICKETS CTA as hotspot images (you said you have these now) -->
         <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
           <img id="ticketsImg" src="hotspot/ticketshotspot/tickets1.png" alt="Tickets">
         </a>
@@ -324,16 +340,32 @@
   </div>
 
   <script>
-    /* Force-play videos; click-to-unlock fallback */
+    /* Try to play videos; click-to-unlock fallback */
     (function(){
-      const vids = [document.getElementById('bgVideo'), document.getElementById('logoVideo')].filter(Boolean);
-      const tryPlayAll = () => vids.forEach(v => v.play().catch(() => {}));
+      const bg = document.getElementById('bgVideo');
+      const logo = document.getElementById('logoVideo');
+      const fallback = document.getElementById('bgFallback');
+
+      const vids = [bg, logo].filter(Boolean);
       vids.forEach(v => v.muted = true);
+
+      const tryPlayAll = () => vids.forEach(v => v.play().catch(() => {}));
       document.addEventListener('click', tryPlayAll, { once: true });
       tryPlayAll();
+
+      // If bg video errors/stalls, show fallback background
+      if (bg && fallback){
+        const showFallback = () => { fallback.style.opacity = "1"; };
+        bg.addEventListener("error", showFallback);
+        bg.addEventListener("stalled", showFallback);
+        // If it never becomes ready, show fallback after a short delay
+        setTimeout(() => {
+          if (bg.readyState < 2) showFallback();
+        }, 2500);
+      }
     })();
 
-    /* Logo fallback if webm fails (use png already set; optionally switch to webp if you prefer) */
+    /* Logo fallback if webm fails */
     (function(){
       const v = document.getElementById('logoVideo');
       const img = document.getElementById('logoImg');
@@ -347,7 +379,6 @@
       v.addEventListener("error", enableFallback);
       v.addEventListener("stalled", enableFallback);
 
-      // If browser says it can't play webm at all, use fallback immediately
       const canWebm = !!v.canPlayType && v.canPlayType("video/webm; codecs=vp9").replace(/no/i,'');
       if (!canWebm) enableFallback();
     })();
@@ -410,7 +441,6 @@
       "hotspot/dancinghotspot/dancing4.png"
     ], 140);
 
-    // Tickets (EDIT ONLY THIS LIST if your filenames differ)
     startCycler("ticketsImg", [
       "hotspot/ticketshotspot/tickets1.png",
       "hotspot/ticketshotspot/tickets2.png",
