@@ -11,7 +11,10 @@
       --headerTop: 14px;
       --logoW: min(360px, 72vw);
 
-      /* Desktop scene */
+      /* HERO (sprite area) height */
+      --heroMinH: 100vh;
+
+      /* Sprite placement */
       --girlsTop: 18vh;
 
       /* Desktop hotspot positions */
@@ -28,82 +31,80 @@
       --dancingW: min(320px, 48vw);
       --ticketsW: min(380px, 70vw);
 
-      /* Mobile menu layout */
-      --menuTop: 58vh;             /* where the vertical stack starts */
-      --menuGap: 10px;             /* spacing between items */
-      --menuItemW: min(330px, 86vw);
-      --menuTicketsW: min(420px, 92vw);
+      /* Mobile overlay menu */
+      --menuTop: 54vh;       /* start higher */
+      --menuStep: 7.2vh;     /* tighter stack */
+      --menuItemW: min(260px, 74vw);
+      --menuTicketsW: min(320px, 86vw);
     }
 
+    /* IMPORTANT: allow scrolling */
     html, body{
       margin:0; padding:0;
-      width:100%; height:100%;
-      overflow:hidden;
+      width:100%;
       background:#000;
       font-family: serif;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
 
-    #stage{
-      position:relative;
-      width:100vw; height:100vh;
+    /* Fixed background video behind the whole page */
+    #bgWrap{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
       overflow:hidden;
       background:#000;
     }
 
-    /* BACKGROUND VIDEO */
     #bgVideo{
-      position:absolute;
-      inset:0;
       width:100%;
       height:100%;
       object-fit:cover;
-      z-index:0;
-      pointer-events:none;
       filter: brightness(0.85) contrast(1.1) saturate(1.05);
     }
 
     #bgFallback{
       position:absolute;
       inset:0;
-      z-index:0;
       background: radial-gradient(circle at 50% 45%, #300 0%, #000 55%, #000 100%);
       opacity:0;
       transition: opacity 400ms ease;
-      pointer-events:none;
     }
 
+    /* shade over background so assets pop */
     #shade{
-      position:absolute;
+      position:fixed;
       inset:0;
-      background: rgba(0,0,0,0.15);
-      z-index:1;
+      z-index:-1;
       pointer-events:none;
+      background: rgba(0,0,0,0.18);
     }
 
-    #fg{
-      position:absolute;
-      inset:0;
-      z-index:2;
-    }
-    #scene{
-      position:absolute;
-      inset:0;
+    /* HERO section: sprite + hotspots live here */
+    #hero{
+      position:relative;
+      min-height: var(--heroMinH);
+      width:100%;
     }
 
-    /* ======= HEADER ======= */
+    /* Header */
     #header{
-      position:absolute;
-      top: var(--headerTop);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      width: min(760px, 96vw);
+      position:sticky;             /* stays at top while scrolling */
+      top:0;
+      z-index:50;
+      width:100%;
+      padding-top: var(--headerTop);
+      padding-bottom: 10px;
       display:flex;
-      flex-direction: column;
+      flex-direction:column;
       align-items:center;
-      gap: 10px;
-      pointer-events:none;
+      gap:10px;
       text-align:center;
+      pointer-events:none;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.0));
+      backdrop-filter: blur(2px);
     }
 
     #logoWrap{
@@ -116,17 +117,17 @@
       width:100%;
       height:auto;
       display:block;
-      pointer-events:none;
       background: transparent;
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
+      pointer-events:none;
     }
 
     #logoImg{
       width:100%;
       height:auto;
       display:none;
-      pointer-events:none;
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
+      pointer-events:none;
     }
 
     #strap{
@@ -142,7 +143,7 @@
       pointer-events:none;
     }
 
-    /* SHOWGIRL */
+    /* Sprite */
     #girl{
       position:absolute;
       left:50%;
@@ -150,17 +151,18 @@
       transform:translateX(-50%);
       height:min(74vh, 720px);
       width:auto;
-      z-index:3;
+      z-index:10;
       user-select:none;
       -webkit-user-drag:none;
       filter: drop-shadow(0 18px 34px rgba(0,0,0,0.55));
       will-change: transform, opacity;
+      pointer-events:none;
     }
 
-    /* ===== HOTSPOTS (desktop defaults) ===== */
+    /* HOTSPOTS */
     .hotspot{
       position:absolute;
-      z-index:10;
+      z-index:20;
       cursor:pointer;
       user-select:none;
       -webkit-user-drag:none;
@@ -169,6 +171,7 @@
       animation: floaty 2.2s ease-in-out infinite;
       filter: drop-shadow(0 12px 22px rgba(0,0,0,0.6));
       text-decoration:none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .hotspot img{
@@ -184,37 +187,12 @@
       mix-blend-mode: screen;
     }
 
-    #bingoLink{
-      left: var(--bingoX); top: var(--bingoY);
-      width: var(--bingoW);
-      transform: translate(-50%, -50%) rotate(-2deg);
-      animation-duration: 1.9s;
-    }
-    #musicLink{
-      left: var(--musicX); top: var(--musicY);
-      width: var(--musicW);
-      transform: translate(-50%, -50%) rotate(3deg);
-      animation-duration: 2.6s;
-    }
-    #fashionLink{
-      left: var(--fashionX); top: var(--fashionY);
-      width: var(--fashionW);
-      transform: translate(-50%, -50%) rotate(-4deg);
-      animation-duration: 2.3s;
-    }
-    #dancingLink{
-      left: var(--dancingX); top: var(--dancingY);
-      width: var(--dancingW);
-      transform: translate(-50%, -50%) rotate(5deg);
-      animation-duration: 2.0s;
-    }
-    #ticketsLink{
-      left: var(--ticketsX); top: var(--ticketsY);
-      width: var(--ticketsW);
-      transform: translate(-50%, -50%) rotate(-1deg);
-      animation-duration: 1.7s;
-      z-index: 30;
-    }
+    /* Desktop placements */
+    #bingoLink   { left: var(--bingoX);   top: var(--bingoY);   width: var(--bingoW);   transform: translate(-50%, -50%) rotate(-2deg); animation-duration: 1.9s; }
+    #musicLink   { left: var(--musicX);   top: var(--musicY);   width: var(--musicW);   transform: translate(-50%, -50%) rotate(3deg);  animation-duration: 2.6s; }
+    #fashionLink { left: var(--fashionX); top: var(--fashionY); width: var(--fashionW); transform: translate(-50%, -50%) rotate(-4deg); animation-duration: 2.3s; }
+    #dancingLink { left: var(--dancingX); top: var(--dancingY); width: var(--dancingW); transform: translate(-50%, -50%) rotate(5deg);  animation-duration: 2.0s; }
+    #ticketsLink { left: var(--ticketsX); top: var(--ticketsY); width: var(--ticketsW); transform: translate(-50%, -50%) rotate(-1deg); animation-duration: 1.7s; z-index:30; }
 
     .hotspot:hover{ transform: translate(-50%, -50%) scale(1.06) rotate(var(--rot, 0deg)); }
     .hotspot:hover img{
@@ -228,7 +206,7 @@
 
     @keyframes floaty{
       0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-      50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-12px) scale(1.02); }
+      50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-10px) scale(1.02); }
       100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
     }
 
@@ -251,115 +229,147 @@
       100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
     }
 
-    /* =========================
-       MOBILE FIX: VERTICAL STACK
-       ========================= */
+    /* CONTENT BELOW HERO (this is what makes scrolling exist) */
+    #below{
+      position:relative;
+      width:min(920px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 50px;
+      z-index: 5;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .panel{
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 18px 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(3px);
+      margin-bottom: 14px;
+    }
+
+    .panel h2{
+      margin: 0 0 10px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .panel p{
+      margin: 0 0 10px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.86);
+      font-size: 14px;
+    }
+
+    /* MOBILE: smaller, start higher, overlay sprite (cover is allowed) */
     @media (max-width: 520px){
       :root{
         --headerTop: 10px;
         --logoW: min(320px, 86vw);
 
-        /* Keep girl higher and smaller so she reads */
-        --girlsTop: 18vh;
-
-        /* Stack starts below mid */
-        --menuTop: 56vh;
-        --menuGap: 10px;
-        --menuItemW: min(320px, 86vw);
-        --menuTicketsW: min(420px, 92vw);
+        --girlsTop: 20vh;        /* keep sprite visible under header */
+        --menuTop: 50vh;         /* start higher */
+        --menuStep: 6.3vh;
+        --menuItemW: min(240px, 70vw);
+        --menuTicketsW: min(320px, 86vw);
       }
 
       #girl{
-        height: min(52vh, 520px);
+        height: min(56vh, 560px);
       }
 
-      /* Make all hotspots share a single centered X */
+      /* vertical overlay stack centered */
       .hotspot{
         left: 50% !important;
         transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) !important;
       }
 
-      /* Vertical positions + smaller widths */
-      #bingoLink   { top: calc(var(--menuTop) + (0 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
-      #dancingLink { top: calc(var(--menuTop) + (1 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
-      #musicLink   { top: calc(var(--menuTop) + (2 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
-      #fashionLink { top: calc(var(--menuTop) + (3 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
+      #bingoLink   { top: calc(var(--menuTop) + (0 * var(--menuStep))); width: var(--menuItemW); }
+      #dancingLink { top: calc(var(--menuTop) + (1 * var(--menuStep))); width: var(--menuItemW); }
+      #musicLink   { top: calc(var(--menuTop) + (2 * var(--menuStep))); width: var(--menuItemW); }
+      #fashionLink { top: calc(var(--menuTop) + (3 * var(--menuStep))); width: var(--menuItemW); }
+      #ticketsLink { top: calc(var(--menuTop) + (4.25 * var(--menuStep))); width: var(--menuTicketsW); }
 
-      /* Tickets: bigger and near bottom */
-      #ticketsLink {
-        top: 92vh;
-        width: var(--menuTicketsW);
-        z-index: 40;
-      }
-
-      /* reduce float amplitude on mobile so it doesn't collide */
+      /* reduce float on mobile to avoid collisions */
       @keyframes floaty{
         0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-        50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-6px) scale(1.01); }
+        50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-5px) scale(1.01); }
         100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
       }
-
-      #strap{ letter-spacing: 0.06em; }
     }
   </style>
 </head>
 
 <body>
-  <div id="stage">
+  <!-- Fixed background -->
+  <div id="bgWrap">
     <div id="bgFallback"></div>
-
     <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
       <source src="video/Spiral.webm" type="video/webm" />
       <source src="video/Spiral.mp4" type="video/mp4" />
     </video>
-
-    <div id="shade"></div>
-
-    <div id="fg">
-      <div id="scene">
-
-        <div id="header" aria-hidden="true">
-          <div id="logoWrap">
-            <video id="logoVideo" autoplay muted loop playsinline preload="auto">
-              <source src="logo/logo.webm" type="video/webm" />
-            </video>
-            <img id="logoImg" src="logo/rebelbingologolong.png" alt="Rebel Bingo Logo">
-          </div>
-          <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
-        </div>
-
-        <img id="girl" src="sprites/b1.png" alt="Showgirl">
-
-        <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
-          <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
-        </a>
-
-        <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
-          <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
-        </a>
-
-        <a id="musicLink" class="hotspot" href="music.html" aria-label="Go to Music page" style="--rot:3deg">
-          <img id="musicImg" src="hotspot/musichotspot/music1.png" alt="Music">
-        </a>
-
-        <a id="fashionLink" class="hotspot" href="fashion.html" aria-label="Go to Fashion page" style="--rot:-4deg">
-          <img id="fashionImg" src="hotspot/fashionhotspot/fashion1.png" alt="Fashion">
-        </a>
-
-        <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
-          <img id="ticketsImg" src="hotspot/ticketshotspot/tickets1.png" alt="Tickets">
-        </a>
-
-      </div>
-    </div>
   </div>
+  <div id="shade"></div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div id="header" aria-hidden="true">
+      <div id="logoWrap">
+        <video id="logoVideo" autoplay muted loop playsinline preload="auto">
+          <source src="logo/logo.webm" type="video/webm" />
+        </video>
+        <img id="logoImg" src="logo/rebelbingologolong.png" alt="Rebel Bingo Logo">
+      </div>
+      <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
+    </div>
+
+    <img id="girl" src="sprites/b1.png" alt="Showgirl">
+
+    <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
+      <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
+    </a>
+
+    <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
+      <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
+    </a>
+
+    <a id="musicLink" class="hotspot" href="music.html" aria-label="Go to Music page" style="--rot:3deg">
+      <img id="musicImg" src="hotspot/musichotspot/music1.png" alt="Music">
+    </a>
+
+    <a id="fashionLink" class="hotspot" href="fashion.html" aria-label="Go to Fashion page" style="--rot:-4deg">
+      <img id="fashionImg" src="hotspot/fashionhotspot/fashion1.png" alt="Fashion">
+    </a>
+
+    <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
+      <img id="ticketsImg" src="hotspot/ticketshotspot/tickets1.png" alt="Tickets">
+    </a>
+  </section>
+
+  <!-- BELOW HERO: this is where your email capture + footer go -->
+  <section id="below">
+    <div class="panel">
+      <h2>Get updates</h2>
+      <p>This is a placeholder area to prove scrolling works. Replace this panel with your email capture form.</p>
+      <p>Tip: keep the form inside a panel like this so it stays readable over the spiral.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Footer</h2>
+      <p>Placeholder footer content. Add your links, socials, and contact details here.</p>
+    </div>
+  </section>
 
   <script>
     /* Force-play videos; click-to-unlock fallback */
     (function(){
       const bg = document.getElementById('bgVideo');
       const logo = document.getElementById('logoVideo');
-      const fallback = document.getElementById('bgFallback');
+      const bgFallback = document.getElementById('bgFallback');
 
       const vids = [bg, logo].filter(Boolean);
       vids.forEach(v => v.muted = true);
@@ -368,8 +378,8 @@
       document.addEventListener('click', tryPlayAll, { once: true });
       tryPlayAll();
 
-      if (bg && fallback){
-        const showFallback = () => { fallback.style.opacity = "1"; };
+      if (bg && bgFallback){
+        const showFallback = () => { bgFallback.style.opacity = "1"; };
         bg.addEventListener("error", showFallback);
         bg.addEventListener("stalled", showFallback);
         setTimeout(() => { if (bg.readyState < 2) showFallback(); }, 2500);
@@ -459,7 +469,6 @@
       "hotspot/ticketshotspot/tickets4.png"
     ], 140);
 
-    // Bingo chaotic
     (function(){
       const el = document.getElementById("bingoImg");
       if (!el) return;
@@ -479,5 +488,3 @@
   </script>
 </body>
 </html>
-
-
