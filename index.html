@@ -11,7 +11,7 @@
       --headerTop: 14px;
       --logoW: min(360px, 72vw);
 
-      /* Scene */
+      /* Push scene down so header has space */
       --girlsTop: 18vh;
 
       /* Hotspot positions */
@@ -93,8 +93,8 @@
       top: var(--headerTop);
       left: 50%;
       transform: translateX(-50%);
-      z-index: 6;
-      width: min(720px, 94vw);
+      z-index: 20;
+      width: min(760px, 96vw);
       display:flex;
       flex-direction: column;
       align-items:center;
@@ -114,12 +114,12 @@
       width:100%;
       height:auto;
       display:block;
-      background: transparent;
       pointer-events:none;
+      background: transparent;
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
     }
 
-    /* Fallback logo (png) */
+    /* Fallback logo (png/webp) */
     #logoImg{
       width:100%;
       height:auto;
@@ -159,7 +159,7 @@
     /* ========== HOTSPOTS ========== */
     .hotspot{
       position:absolute;
-      z-index:5;
+      z-index:10;
       cursor:pointer;
       user-select:none;
       -webkit-user-drag:none;
@@ -213,10 +213,9 @@
       width: var(--ticketsW);
       transform: translate(-50%, -50%) rotate(-1deg);
       animation-duration: 1.7s;
-      z-index: 7;
+      z-index: 30;
     }
 
-    /* Hover: stronger glow */
     .hotspot:hover{ transform: translate(-50%, -50%) scale(1.06) rotate(var(--rot, 0deg)); }
     .hotspot:hover img{
       filter:
@@ -252,12 +251,10 @@
       100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
     }
 
-    /* MOBILE */
     @media (max-width: 520px){
       :root{
         --headerTop: 10px;
         --logoW: min(320px, 82vw);
-
         --girlsTop: 19vh;
 
         --bingoX: 66%;  --bingoY: 42%;
@@ -275,22 +272,16 @@
 
       #girl{ height:min(70vh, 620px); }
       #strap{ letter-spacing: 0.06em; }
-
-      /* keep hotspots from becoming absurdly huge on phones */
-      .hotspot{ max-width: 92vw; }
     }
   </style>
 </head>
 
 <body>
   <div id="stage">
-    <!-- fallback background if video doesn't load -->
     <div id="bgFallback"></div>
 
     <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
-      <!-- Prefer webm if you create it -->
       <source src="video/Spiral.webm" type="video/webm" />
-      <!-- MP4 fallback -->
       <source src="video/Spiral.mp4" type="video/mp4" />
     </video>
 
@@ -299,22 +290,22 @@
     <div id="fg">
       <div id="scene">
 
-        <!-- HEADER -->
         <div id="header" aria-hidden="true">
           <div id="logoWrap">
+            <!-- ✅ this is the webm logo -->
             <video id="logoVideo" autoplay muted loop playsinline preload="auto">
-              <source src="logos/logo.webm" type="video/webm" />
+              <source src="logo/logo.webm" type="video/webm" />
             </video>
-            <img id="logoImg" src="logos/rebelbingologolong.png" alt="Rebel Bingo Logo">
+
+            <!-- fallback png -->
+            <img id="logoImg" src="logo/rebelbingologolong.png" alt="Rebel Bingo Logo">
           </div>
 
           <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
         </div>
 
-        <!-- Showgirl -->
         <img id="girl" src="sprites/b1.png" alt="Showgirl">
 
-        <!-- Hotspots -->
         <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
           <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
         </a>
@@ -340,7 +331,7 @@
   </div>
 
   <script>
-    /* Try to play videos; click-to-unlock fallback */
+    /* Force-play videos; click-to-unlock fallback */
     (function(){
       const bg = document.getElementById('bgVideo');
       const logo = document.getElementById('logoVideo');
@@ -353,15 +344,11 @@
       document.addEventListener('click', tryPlayAll, { once: true });
       tryPlayAll();
 
-      // If bg video errors/stalls, show fallback background
       if (bg && fallback){
         const showFallback = () => { fallback.style.opacity = "1"; };
         bg.addEventListener("error", showFallback);
         bg.addEventListener("stalled", showFallback);
-        // If it never becomes ready, show fallback after a short delay
-        setTimeout(() => {
-          if (bg.readyState < 2) showFallback();
-        }, 2500);
+        setTimeout(() => { if (bg.readyState < 2) showFallback(); }, 2500);
       }
     })();
 
@@ -448,7 +435,7 @@
       "hotspot/ticketshotspot/tickets4.png"
     ], 140);
 
-    // Bingo (slightly chaotic)
+    // Bingo chaotic
     (function(){
       const el = document.getElementById("bingoImg");
       if (!el) return;
@@ -468,4 +455,3 @@
   </script>
 </body>
 </html>
-
