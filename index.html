@@ -11,22 +11,28 @@
       --headerTop: 14px;
       --logoW: min(360px, 72vw);
 
-      /* Push scene down so header has space */
+      /* Desktop scene */
       --girlsTop: 18vh;
 
-      /* Hotspot positions */
+      /* Desktop hotspot positions */
       --bingoX: 64%;  --bingoY: 40%;
       --musicX: 30%;  --musicY: 72%;
       --fashionX: 76%; --fashionY: 70%;
       --dancingX: 24%; --dancingY: 46%;
       --ticketsX: 50%; --ticketsY: 88%;
 
-      /* Sizes */
+      /* Desktop sizes */
       --bingoW: min(520px, 70vw);
       --musicW: min(320px, 48vw);
       --fashionW: min(320px, 48vw);
       --dancingW: min(320px, 48vw);
       --ticketsW: min(380px, 70vw);
+
+      /* Mobile menu layout */
+      --menuTop: 58vh;             /* where the vertical stack starts */
+      --menuGap: 10px;             /* spacing between items */
+      --menuItemW: min(330px, 86vw);
+      --menuTicketsW: min(420px, 92vw);
     }
 
     html, body{
@@ -56,7 +62,6 @@
       filter: brightness(0.85) contrast(1.1) saturate(1.05);
     }
 
-    /* fallback background if video fails */
     #bgFallback{
       position:absolute;
       inset:0;
@@ -67,7 +72,6 @@
       pointer-events:none;
     }
 
-    /* slight shade so assets read */
     #shade{
       position:absolute;
       inset:0;
@@ -76,7 +80,6 @@
       pointer-events:none;
     }
 
-    /* FOREGROUND */
     #fg{
       position:absolute;
       inset:0;
@@ -87,7 +90,7 @@
       inset:0;
     }
 
-    /* ======= HEADER (logo + strapline) ======= */
+    /* ======= HEADER ======= */
     #header{
       position:absolute;
       top: var(--headerTop);
@@ -109,7 +112,6 @@
       pointer-events:none;
     }
 
-    /* Animated logo (webm) */
     #logoVideo{
       width:100%;
       height:auto;
@@ -119,7 +121,6 @@
       filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
     }
 
-    /* Fallback logo (png/webp) */
     #logoImg{
       width:100%;
       height:auto;
@@ -156,7 +157,7 @@
       will-change: transform, opacity;
     }
 
-    /* ========== HOTSPOTS ========== */
+    /* ===== HOTSPOTS (desktop defaults) ===== */
     .hotspot{
       position:absolute;
       z-index:10;
@@ -183,7 +184,6 @@
       mix-blend-mode: screen;
     }
 
-    /* Place hotspots */
     #bingoLink{
       left: var(--bingoX); top: var(--bingoY);
       width: var(--bingoW);
@@ -251,26 +251,54 @@
       100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
     }
 
+    /* =========================
+       MOBILE FIX: VERTICAL STACK
+       ========================= */
     @media (max-width: 520px){
       :root{
         --headerTop: 10px;
-        --logoW: min(320px, 82vw);
-        --girlsTop: 19vh;
+        --logoW: min(320px, 86vw);
 
-        --bingoX: 66%;  --bingoY: 42%;
-        --musicX: 30%;  --musicY: 75%;
-        --fashionX: 74%; --fashionY: 70%;
-        --dancingX: 26%; --dancingY: 48%;
-        --ticketsX: 50%; --ticketsY: 90%;
+        /* Keep girl higher and smaller so she reads */
+        --girlsTop: 18vh;
 
-        --bingoW: min(460px, 92vw);
-        --musicW: min(280px, 78vw);
-        --fashionW: min(280px, 78vw);
-        --dancingW: min(280px, 78vw);
-        --ticketsW: min(420px, 92vw);
+        /* Stack starts below mid */
+        --menuTop: 56vh;
+        --menuGap: 10px;
+        --menuItemW: min(320px, 86vw);
+        --menuTicketsW: min(420px, 92vw);
       }
 
-      #girl{ height:min(70vh, 620px); }
+      #girl{
+        height: min(52vh, 520px);
+      }
+
+      /* Make all hotspots share a single centered X */
+      .hotspot{
+        left: 50% !important;
+        transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) !important;
+      }
+
+      /* Vertical positions + smaller widths */
+      #bingoLink   { top: calc(var(--menuTop) + (0 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
+      #dancingLink { top: calc(var(--menuTop) + (1 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
+      #musicLink   { top: calc(var(--menuTop) + (2 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
+      #fashionLink { top: calc(var(--menuTop) + (3 * (var(--menuGap) + 7vh))); width: var(--menuItemW); }
+
+      /* Tickets: bigger and near bottom */
+      #ticketsLink {
+        top: 92vh;
+        width: var(--menuTicketsW);
+        z-index: 40;
+      }
+
+      /* reduce float amplitude on mobile so it doesn't collide */
+      @keyframes floaty{
+        0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
+        50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-6px) scale(1.01); }
+        100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
+      }
+
       #strap{ letter-spacing: 0.06em; }
     }
   </style>
@@ -281,8 +309,8 @@
     <div id="bgFallback"></div>
 
     <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
-      <source src="video/Spiral.webm" type="video/webm" />
-      <source src="video/Spiral.mp4" type="video/mp4" />
+      <source src="video/spiral.webm" type="video/webm" />
+      <source src="video/spiral.mp4" type="video/mp4" />
     </video>
 
     <div id="shade"></div>
@@ -292,15 +320,11 @@
 
         <div id="header" aria-hidden="true">
           <div id="logoWrap">
-            <!-- ✅ this is the webm logo -->
             <video id="logoVideo" autoplay muted loop playsinline preload="auto">
               <source src="logo/logo.webm" type="video/webm" />
             </video>
-
-            <!-- fallback png -->
-            <img id="logoImg" src="logo/rebelbingologolong.png" alt="Rebel Bingo Logo">
+            <img id="logoImg" src="logos/rebelbingologolong.png" alt="Rebel Bingo Logo">
           </div>
-
           <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
         </div>
 
@@ -310,16 +334,16 @@
           <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
         </a>
 
+        <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
+          <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
+        </a>
+
         <a id="musicLink" class="hotspot" href="music.html" aria-label="Go to Music page" style="--rot:3deg">
           <img id="musicImg" src="hotspot/musichotspot/music1.png" alt="Music">
         </a>
 
         <a id="fashionLink" class="hotspot" href="fashion.html" aria-label="Go to Fashion page" style="--rot:-4deg">
           <img id="fashionImg" src="hotspot/fashionhotspot/fashion1.png" alt="Fashion">
-        </a>
-
-        <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
-          <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
         </a>
 
         <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
