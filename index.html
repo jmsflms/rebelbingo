@@ -585,6 +585,48 @@
         el.src = frames[idx];
       }, 200);
     })();
+    /* ===== Randomize hotspot flicker + floaty timing (drop-in) ===== */
+(function () {
+  const hotspotImgs = document.querySelectorAll('.hotspot img');
+  const hotspotLinks = document.querySelectorAll('.hotspot');
+
+  // Randomize the color/glitch flicker for each hotspot IMG
+  function randomizeFlicker(imgEl) {
+    // Negative delays start each animation "mid-cycle" so they are instantly out of sync
+    const neonDelay = -(Math.random() * 1.2);     // neonRGB is ~1.2s in your CSS
+    const glitchDelay = -(Math.random() * 0.35);  // glitch is ~0.35s in your CSS
+
+    // Small duration variance so they do NOT drift back into sync over time
+    const neonDur = 1.0 + Math.random() * 0.9;      // 1.0s–1.9s
+    const glitchDur = 0.25 + Math.random() * 0.35;  // 0.25s–0.60s
+
+    // Two animations are defined in your CSS, so we set TWO delays and TWO durations
+    imgEl.style.animationDelay = `${glitchDelay}s, ${neonDelay}s`;
+    imgEl.style.animationDuration = `${glitchDur}s, ${neonDur}s`;
+  }
+
+  // Randomize the floaty motion for each hotspot LINK (the container)
+  function randomizeFloaty(linkEl) {
+    const floatDelay = -(Math.random() * 3.0);        // phase offset
+    const floatDur = 1.6 + Math.random() * 1.8;       // 1.6s–3.4s
+
+    // Your .hotspot has one animation: floaty
+    linkEl.style.animationDelay = `${floatDelay}s`;
+    linkEl.style.animationDuration = `${floatDur}s`;
+  }
+
+  // Apply once on load
+  hotspotImgs.forEach(randomizeFlicker);
+  hotspotLinks.forEach(randomizeFloaty);
+
+  // Re-randomize occasionally so it stays “alive” and never re-syncs
+  setInterval(() => {
+    hotspotImgs.forEach(randomizeFlicker);
+    hotspotLinks.forEach(randomizeFloaty);
+  }, 4000);
+})();
+
   </script>
 </body>
 </html>
+
