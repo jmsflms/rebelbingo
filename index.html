@@ -52,7 +52,7 @@
     #bgWrap{
       position:fixed;
       inset:0;
-      z-index:0;                /* <-- critical */
+      z-index:0;
       pointer-events:none;
       overflow:hidden;
       background:#000;
@@ -80,7 +80,7 @@
     #shade{
       position:fixed;
       inset:0;
-      z-index:1;                /* above bgWrap */
+      z-index:1;
       pointer-events:none;
       background: rgba(0,0,0,0.18);
     }
@@ -271,6 +271,54 @@
       font-size: 14px;
     }
 
+    /* EMAIL FORM (matches your panel styling) */
+    .emailForm{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .emailInput{
+      flex:1 1 220px;
+      min-width: 180px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.92);
+      padding: 12px 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .emailBtn{
+      flex:0 0 auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 12px 16px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(210, 20, 40, 0.95);
+      color: #fff;
+      cursor:pointer;
+      transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+    }
+    .emailBtn:hover{ transform: translateY(-1px); filter: brightness(1.08); }
+    .emailBtn:disabled{ opacity:0.55; cursor: not-allowed; transform:none; }
+
+    .emailNote{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .emailStatus{
+      margin-top: 10px;
+      font-size: 13px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
     /* MOBILE */
     @media (max-width: 520px){
       :root{
@@ -357,8 +405,17 @@
   <section id="below">
     <div class="panel">
       <h2>Get updates</h2>
-      <p>This is a placeholder area to prove scrolling works. Replace this panel with your email capture form.</p>
-      <p>Tip: keep the form inside a panel like this so it stays readable over the spiral.</p>
+      <p>Drop your email and we’ll send updates. No spam.</p>
+
+      <form id="emailForm" class="emailForm"
+            action="https://script.google.com/macros/s/AKfycbzUfRw-L2U8wxV3fv8GDRic8JNwtxKEBsJhbrQtwNNiqe9CoJOTlq-DROinO-jVAARM3w/exec"
+            method="POST">
+        <input class="emailInput" type="email" name="email" required placeholder="Enter email to receive updates">
+        <button class="emailBtn" type="submit">Submit ▶</button>
+      </form>
+
+      <div id="emailStatus" class="emailStatus" aria-live="polite"></div>
+      <div class="emailNote">By submitting, you consent to being contacted about Rebel Bingo updates.</div>
     </div>
 
     <div class="panel">
@@ -385,8 +442,6 @@
         const showFallback = () => { bgFallback.style.opacity = "1"; };
         bg.addEventListener("error", showFallback);
         bg.addEventListener("stalled", showFallback);
-
-        /* make this less trigger-happy than 2.5s */
         setTimeout(() => { if (bg.readyState < 2) showFallback(); }, 8000);
       }
     })();
@@ -407,6 +462,46 @@
 
       const canWebm = !!v.canPlayType && v.canPlayType("video/webm; codecs=vp9").replace(/no/i,'');
       if (!canWebm) enableFallback();
+    })();
+
+    /* ========= EMAIL FORM (Google Sheet via Apps Script) ========= */
+    (function(){
+      const form = document.getElementById('emailForm');
+      const statusEl = document.getElementById('emailStatus');
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = (form.email?.value || "").trim();
+        const btn = form.querySelector('button[type="submit"]');
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          if (statusEl) statusEl.textContent = "Please enter a valid email address.";
+          form.email?.focus();
+          return;
+        }
+
+        if (btn) btn.disabled = true;
+        if (statusEl) statusEl.textContent = "Sending...";
+
+        try {
+          await fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ email })
+          });
+
+          // With no-cors we can't read the response reliably; assume success if no exception
+          if (statusEl) statusEl.textContent = "Thanks — you’re on the list.";
+          form.reset();
+        } catch {
+          if (statusEl) statusEl.textContent = "Sorry, something went wrong. Please try again.";
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      });
     })();
 
     /* ========= GIRL CYCLE ========= */
