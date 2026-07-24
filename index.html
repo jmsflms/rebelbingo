@@ -1,650 +1,96 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Rebel Bingo Experience</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rebel Bingo | Camden Town 2026</title>
+  <meta name="description" content="Rebel Bingo is opening its first club in Camden Town in 2026.">
   <style>
-    :root{
-      /* Header */
-      --headerTop: 14px;
-      --logoW: min(360px, 72vw);
-
-      /* HERO (sprite area) height */
-      --heroMinH: 100vh;
-
-      /* Sprite placement */
-      --girlsTop: 18vh;
-
-      /* Desktop hotspot positions */
-      --bingoX: 64%;  --bingoY: 40%;
-      --musicX: 30%;  --musicY: 72%;
-      --fashionX: 76%; --fashionY: 70%;
-      --dancingX: 24%; --dancingY: 46%;
-      --ticketsX: 50%; --ticketsY: 88%;
-
-      /* Desktop sizes */
-      --bingoW: min(520px, 70vw);
-      --musicW: min(320px, 48vw);
-      --fashionW: min(320px, 48vw);
-      --dancingW: min(320px, 48vw);
-      --ticketsW: min(380px, 70vw);
-
-      /* Mobile overlay menu */
-      --menuTop: 50vh;
-      --menuStep: 7.2vh;
-      --menuItemW: min(260px, 74vw);
-      --menuTicketsW: min(320px, 86vw);
+    :root{--black:#000;--cream:#f5efe4;--pink:#ff2b92;--yellow:#fff200;--red:#ed1c24}
+    *{box-sizing:border-box}
+    body{margin:0;background:#000;color:var(--cream);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+    a{color:inherit}
+    .page{min-height:100vh;background:#000;overflow:hidden}
+    header,.hero,.signup,footer{width:min(1240px,calc(100% - 48px));margin:auto}
+    header{height:112px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #f5efe440}
+    .mini-logo{width:86px;height:86px;object-fit:contain;filter:drop-shadow(0 0 9px #ff2b92bf)}
+    .contact{font-size:.78rem;font-weight:900;letter-spacing:.18em;text-underline-offset:6px}
+    .hero{min-height:640px;padding:42px 0 30px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(480px,1.1fr);gap:12px;align-items:center}
+    .eyebrow,.signup-kicker{margin:0 0 18px;color:var(--yellow);font-size:.78rem;font-weight:1000;letter-spacing:.23em}
+    h1{margin:0;font-family:Impact,"Arial Black",sans-serif;font-size:clamp(4.3rem,8.3vw,8.8rem);font-weight:900;line-height:.81;letter-spacing:-.045em;text-transform:uppercase}
+    h1 span{display:inline-block;color:#ff61b1;transform:rotate(-1.4deg);text-shadow:2px 2px 0 #3a1234,0 0 16px #ff2b928c}
+    .place{display:inline-block;margin:34px 0 0;padding:9px 12px 7px;background:var(--yellow);color:#000;font-weight:1000;letter-spacing:.13em;transform:rotate(.7deg)}
+    .logo-stage{min-height:560px;display:grid;grid-template-rows:1fr auto;place-items:center}
+    .hero-logo{width:min(58vw,760px);max-width:none;height:auto;object-fit:contain;filter:drop-shadow(0 0 24px #ff2b92b3)}
+    .party{display:inline-flex;min-height:76px;margin-top:-28px;padding:0 46px;align-items:center;justify-content:center;border:3px solid var(--cream);background:var(--red);color:#fff;box-shadow:6px 6px 0 var(--yellow);font-size:clamp(1rem,1.35vw,1.3rem);font-weight:1000;letter-spacing:.08em;text-decoration:none;transform:rotate(-.7deg)}
+    .ticker{width:100%;margin:0 0 52px;overflow:hidden;background:var(--pink);color:#000}
+    .ticker-track{display:flex;width:max-content;padding:18px 0 14px;font-size:clamp(1.35rem,2.5vw,2.5rem);font-weight:1000;letter-spacing:.035em;text-transform:uppercase;white-space:nowrap;animation:scroll 32s linear infinite}
+    .ticker-track span{padding-right:1.2em}
+    .signup{display:grid;grid-template-columns:.8fr 1.2fr;gap:54px;align-items:center;padding:42px;border:2px solid var(--cream);background:var(--cream);color:#000;box-shadow:12px 12px 0 var(--pink)}
+    .signup h2{margin:0;font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.1rem,4vw,4rem);line-height:.92;text-transform:uppercase}
+    .signup-kicker{color:var(--red)}
+    .form-row{display:grid;grid-template-columns:1fr auto}
+    input,button{height:62px;border:3px solid #000;border-radius:0;font:inherit}
+    input{min-width:0;padding:0 18px;border-right:0;font-weight:800}
+    button{padding:0 24px;background:var(--red);color:#fff;font-size:.86rem;font-weight:1000;letter-spacing:.08em;cursor:pointer}
+    .note,.status{margin:10px 0 0;font-size:.74rem;line-height:1.35}.status{min-height:1.1em;color:#b4003e;font-weight:900}
+    footer{min-height:104px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;font-weight:900;letter-spacing:.12em}
+    footer a{color:var(--yellow)}
+    @keyframes scroll{to{transform:translateX(-50%)}}
+    @media(max-width:760px){
+      header,.hero,.signup,footer{width:min(100% - 28px,620px)}
+      header{height:82px}.mini-logo{width:62px;height:62px}
+      .hero{min-height:auto;grid-template-columns:1fr;gap:12px;padding:44px 0 40px}
+      h1{font-size:clamp(3.7rem,18vw,6.4rem)}
+      .logo-stage{min-height:400px}.hero-logo{width:min(112vw,560px)}
+      .party{min-height:68px;width:min(92vw,430px);margin:-34px 0 24px;padding:0 22px;text-align:center}
+      .ticker{margin-bottom:34px}.ticker-track{padding:15px 0 12px;font-size:1.45rem}
+      .signup{grid-template-columns:1fr;gap:26px;padding:28px 20px;box-shadow:7px 7px 0 var(--pink)}
+      .form-row{grid-template-columns:1fr;gap:8px}.form-row input{border-right:3px solid #000}
+      footer{min-height:128px;flex-direction:column;justify-content:center;gap:16px;text-align:center}
     }
-
-    html, body{
-      margin:0; padding:0;
-      width:100%;
-      background:#000;
-      font-family: serif;
-      overflow-x:hidden;
-      overflow-y:auto;
-    }
-
-    /* ===== Background layers (NO negative z-index) ===== */
-    #bgWrap{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      overflow:hidden;
-      background:#000;
-    }
-
-    #bgVideo{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      filter: brightness(0.85) contrast(1.1) saturate(1.05);
-    }
-
-    #bgFallback{
-      position:absolute;
-      inset:0;
-      background: radial-gradient(circle at 50% 45%, #300 0%, #000 55%, #000 100%);
-      opacity:0;
-      transition: opacity 400ms ease;
-      z-index:1;
-    }
-
-    #shade{
-      position:fixed;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-      background: rgba(0,0,0,0.18);
-    }
-
-    #hero, #below, #siteFooter{
-      position:relative;
-      z-index:2;
-    }
-
-    #hero{
-      min-height: var(--heroMinH);
-      width:100%;
-    }
-
-    #header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      width:100%;
-      padding-top: var(--headerTop);
-      padding-bottom: 10px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-      text-align:center;
-      pointer-events:none;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.0));
-      backdrop-filter: blur(2px);
-    }
-
-    #logoWrap{
-      width: var(--logoW);
-      max-width: 94vw;
-      pointer-events:none;
-    }
-
-    #logoVideo{
-      width:100%;
-      height:auto;
-      display:block;
-      background: transparent;
-      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
-      pointer-events:none;
-    }
-
-    #logoImg{
-      width:100%;
-      height:auto;
-      display:none;
-      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.65));
-      pointer-events:none;
-    }
-
-    #strap{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: clamp(11px, 1.6vw, 14px);
-      line-height: 1.25;
-      color: rgba(255,255,255,0.92);
-      text-shadow: 0 2px 12px rgba(0,0,0,0.7);
-      max-width: 92vw;
-      pointer-events:none;
-    }
-
-    #girl{
-      position:absolute;
-      left:50%;
-      top:var(--girlsTop);
-      transform:translateX(-50%);
-      height:min(74vh, 720px);
-      width:auto;
-      z-index:10;
-      user-select:none;
-      -webkit-user-drag:none;
-      filter: drop-shadow(0 18px 34px rgba(0,0,0,0.55));
-      will-change: transform, opacity;
-      pointer-events:none;
-    }
-
-    .hotspot{
-      position:absolute;
-      z-index:20;
-      cursor:pointer;
-      user-select:none;
-      -webkit-user-drag:none;
-      transform-origin:center;
-      will-change: transform;
-      animation: floaty 2.2s ease-in-out infinite;
-      filter: drop-shadow(0 12px 22px rgba(0,0,0,0.6));
-      text-decoration:none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .hotspot img{
-      display:block;
-      width:100%;
-      height:auto;
-      pointer-events:none;
-      opacity:0.96;
-      will-change: transform, filter, opacity;
-      animation:
-        glitch 0.35s steps(2,end) infinite,
-        neonRGB 1.2s linear infinite;
-      mix-blend-mode: screen;
-    }
-
-    #bingoLink   { left: var(--bingoX);   top: var(--bingoY);   width: var(--bingoW);   transform: translate(-50%, -50%) rotate(-2deg); animation-duration: 1.9s; }
-    #musicLink   { left: var(--musicX);   top: var(--musicY);   width: var(--musicW);   transform: translate(-50%, -50%) rotate(3deg);  animation-duration: 2.6s; }
-    #fashionLink { left: var(--fashionX); top: var(--fashionY); width: var(--fashionW); transform: translate(-50%, -50%) rotate(-4deg); animation-duration: 2.3s; }
-    #dancingLink { left: var(--dancingX); top: var(--dancingY); width: var(--dancingW); transform: translate(-50%, -50%) rotate(5deg);  animation-duration: 2.0s; }
-    #ticketsLink { left: var(--ticketsX); top: var(--ticketsY); width: var(--ticketsW); transform: translate(-50%, -50%) rotate(-1deg); animation-duration: 1.7s; z-index:30; }
-
-    .hotspot:hover{ transform: translate(-50%, -50%) scale(1.06) rotate(var(--rot, 0deg)); }
-    .hotspot:hover img{
-      filter:
-        brightness(1.7) contrast(1.25)
-        sepia(1) saturate(18) hue-rotate(0deg)
-        drop-shadow(0 0 14px rgba(255, 80, 255, 0.95))
-        drop-shadow(0 0 28px rgba(80, 255, 255, 0.75));
-      opacity: 1;
-    }
-
-    @keyframes floaty{
-      0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-      50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-10px) scale(1.02); }
-      100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-    }
-
-    @keyframes glitch{
-      0%   { transform: translate(0,0); opacity: 0.95; }
-      12%  { transform: translate(2px,-1px); opacity: 0.85; }
-      24%  { transform: translate(-2px,1px); opacity: 0.96; }
-      36%  { transform: translate(3px,0); opacity: 0.78; }
-      48%  { transform: translate(-3px,0); opacity: 0.98; }
-      60%  { transform: translate(1px,2px); opacity: 0.88; }
-      72%  { transform: translate(-1px,-2px); opacity: 0.98; }
-      84%  { transform: translate(2px,1px); opacity: 0.84; }
-      100% { transform: translate(0,0); opacity: 0.95; }
-    }
-
-    @keyframes neonRGB{
-      0%   { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(0deg); }
-      33%  { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(120deg); }
-      66%  { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(240deg); }
-      100% { filter: brightness(1.3) contrast(1.2) sepia(1) saturate(16) hue-rotate(360deg); }
-    }
-
-    #below{
-      width:min(920px, 92vw);
-      margin: 0 auto;
-      padding: 28px 0 8px;
-      color: rgba(255,255,255,0.92);
-    }
-
-    .panel{
-      background: rgba(0,0,0,0.55);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 18px 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
-      backdrop-filter: blur(3px);
-      margin-bottom: 14px;
-    }
-
-    .panel h2{
-      margin: 0 0 10px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .panel p{
-      margin: 0 0 10px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height: 1.4;
-      color: rgba(255,255,255,0.86);
-      font-size: 14px;
-    }
-
-    .emailForm{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top: 10px;
-    }
-    .emailInput{
-      flex:1 1 220px;
-      min-width: 180px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.92);
-      padding: 12px 14px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size: 14px;
-      outline: none;
-    }
-    .emailBtn{
-      flex:0 0 auto;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.18);
-      padding: 12px 16px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      background: rgba(210, 20, 40, 0.95);
-      color: #fff;
-      cursor:pointer;
-      transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
-    }
-    .emailBtn:hover{ transform: translateY(-1px); filter: brightness(1.08); }
-    .emailBtn:disabled{ opacity:0.55; cursor: not-allowed; transform:none; }
-
-    .emailNote{
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.72);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-    .emailNote a{
-      color: rgba(255,255,255,0.92);
-      text-decoration: underline;
-      text-decoration-color: rgba(255,255,255,0.55);
-    }
-    .emailNote a:hover{
-      text-decoration-color: rgba(255,255,255,0.9);
-    }
-
-    .emailStatus{
-      margin-top: 10px;
-      font-size: 13px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-    .emailStatus a{
-      color: rgba(255,255,255,0.95);
-      text-decoration: underline;
-    }
-
-    /* FOOTER (clearly visible) */
-    #siteFooter{
-      width:min(920px, 92vw);
-      margin: 0 auto;
-      padding: 14px 0 28px;
-      text-align:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-    }
-    #siteFooter a{
-      color: rgba(255,255,255,0.75);
-      text-decoration: underline;
-      text-decoration-color: rgba(255,255,255,0.35);
-      margin-left: 10px;
-    }
-    #siteFooter a:hover{
-      text-decoration-color: rgba(255,255,255,0.8);
-    }
-
-    @media (max-width: 520px){
-      :root{
-        --headerTop: 10px;
-        --logoW: min(320px, 86vw);
-
-        --girlsTop: 20vh;
-        --menuTop: 30vh;
-        --menuStep: 12vh;
-        --menuItemW: min(240px, 70vw);
-        --menuTicketsW: min(320px, 86vw);
-      }
-
-      #girl{
-        height: min(56vh, 560px);
-      }
-
-      .hotspot{
-        left: 50% !important;
-        transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) !important;
-      }
-
-      #bingoLink   { top: calc(var(--menuTop) + (0 * var(--menuStep))); width: var(--menuItemW); }
-      #dancingLink { top: calc(var(--menuTop) + (1 * var(--menuStep))); width: var(--menuItemW); }
-      #musicLink   { top: calc(var(--menuTop) + (2 * var(--menuStep))); width: var(--menuItemW); }
-      #fashionLink { top: calc(var(--menuTop) + (3 * var(--menuStep))); width: var(--menuItemW); }
-      #ticketsLink { top: calc(var(--menuTop) + (4.25 * var(--menuStep))); width: var(--menuTicketsW); }
-
-      @keyframes floaty{
-        0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-        50%  { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-5px) scale(1.01); }
-        100% { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(0px) scale(1); }
-      }
-    }
+    @media(prefers-reduced-motion:reduce){.ticker-track{animation-play-state:paused}}
   </style>
 </head>
-
 <body>
-  <div id="bgWrap">
-    <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
-      <source src="video/Spiral.mp4" type="video/mp4" />
-    </video>
-    <div id="bgFallback"></div>
-  </div>
-  <div id="shade"></div>
-
-  <section id="hero">
-    <div id="header" aria-hidden="true">
-      <div id="logoWrap">
-        <video id="logoVideo" autoplay muted loop playsinline preload="auto">
-          <source src="logo/logo.webm" type="video/webm" />
-        </video>
-        <img id="logoImg" src="logo/rebelbingologolong.png" alt="Rebel Bingo Logo">
+  <main class="page">
+    <header>
+      <a href="#top"><img class="mini-logo" src="rebelbingodraft.png" alt="Rebel Bingo"></a>
+      <a class="contact" href="mailto:rebels@rebelbingo.com">CONTACT</a>
+    </header>
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">AN ANNOUNCEMENT</p>
+        <h1>We are opening<br>our first <span>Club.</span></h1>
+        <p class="place">CAMDEN TOWN · 2026</p>
       </div>
-      <div id="strap">UNIQUE NIGHTLIFE EXPERIENCE FOR VENUES, PRIVATE PARTIES, FESTIVALS AND EVENTS</div>
-    </div>
-
-    <img id="girl" src="sprites/b1.png" alt="Showgirl">
-
-    <a id="bingoLink" class="hotspot" href="bingo.html" aria-label="Go to Bingo page" style="--rot:-2deg">
-      <img id="bingoImg" src="hotspot/bingohotspot/bingo1.png" alt="Bingo">
-    </a>
-
-    <a id="dancingLink" class="hotspot" href="dancing.html" aria-label="Go to Dancing page" style="--rot:5deg">
-      <img id="dancingImg" src="hotspot/dancinghotspot/dancing1.png" alt="Dancing">
-    </a>
-
-    <a id="musicLink" class="hotspot" href="music.html" aria-label="Go to Music page" style="--rot:3deg">
-      <img id="musicImg" src="hotspot/musichotspot/music1.png" alt="Music">
-    </a>
-
-    <a id="fashionLink" class="hotspot" href="fashion.html" aria-label="Go to Fashion page" style="--rot:-4deg">
-      <img id="fashionImg" src="hotspot/fashionhotspot/fashion1.png" alt="Fashion">
-    </a>
-
-    <a id="ticketsLink" class="hotspot" href="tickets.html" aria-label="Tickets" style="--rot:-1deg">
-      <img id="ticketsImg" src="hotspot/ticketshotspot/tickets1.png" alt="Tickets">
-    </a>
-  </section>
-
-  <section id="below">
-    <div class="panel">
-      <h2>Get updates</h2>
-      <p>Drop your email and we’ll send updates. No spam.</p>
-
-      <form id="emailForm" class="emailForm"
-            action="https://script.google.com/macros/s/AKfycbzUfRw-L2U8wxV3fv8GDRic8JNwtxKEBsJhbrQtwNNiqe9CoJOTlq-DROinO-jVAARM3w/exec"
-            method="POST">
-        <input class="emailInput" type="email" name="email" required placeholder="Enter email to receive updates">
-        <button class="emailBtn" type="submit">Submit ▶</button>
+      <div class="logo-stage">
+        <img class="hero-logo" src="rebelbingodraft.png" alt="Rebel Bingo">
+        <a class="party" href="mailto:rebels@rebelbingo.com?subject=Christmas%20party%20at%20Rebel%20Bingo">BOOK YOUR CHRISTMAS PARTY</a>
+      </div>
+    </section>
+    <div class="ticker" aria-label="Club features"><div class="ticker-track">
+      <span>Fashion ✦ Cocktails ✦ Stripper Poles ✦ Surround Sound ✦ DJs ✦ 1000sqft of LED screens ✦ Massive Woofers ✦ Flashing Lights ✦ 3am License ✦ Lasers ✦ More Lasers ✦ Enormous Bathroom Facilities ✦ 0% Artificial Intelligence ✦ 1000% Organic Stupidity ✦</span>
+      <span aria-hidden="true">Fashion ✦ Cocktails ✦ Stripper Poles ✦ Surround Sound ✦ DJs ✦ 1000sqft of LED screens ✦ Massive Woofers ✦ Flashing Lights ✦ 3am License ✦ Lasers ✦ More Lasers ✦ Enormous Bathroom Facilities ✦ 0% Artificial Intelligence ✦ 1000% Organic Stupidity ✦</span>
+    </div></div>
+    <section class="signup">
+      <div><p class="signup-kicker">BE FIRST TO KNOW</p><h2>We’ll tell you when the doors open.</h2></div>
+      <form id="signup">
+        <div class="form-row"><input name="email" type="email" placeholder="YOUR EMAIL ADDRESS" autocomplete="email" required><button type="submit">TELL ME FIRST</button></div>
+        <p class="note">By signing up, you agree to receive Rebel Bingo news. Unsubscribe at any time.</p>
+        <p class="status" aria-live="polite"></p>
       </form>
-
-      <div id="emailStatus" class="emailStatus" aria-live="polite"></div>
-
-      <div class="emailNote">
-        By submitting your email, you agree to receive updates from Rebel Bingo. You can unsubscribe at any time.
-        View our <a href="/privacy">Privacy Policy</a>.
-      </div>
-    </div>
-  </section>
-
-  <div id="siteFooter">
-    © Rebel Bingo 2026 <a href="/privacy">Privacy</a>
-  </div>
-
+    </section>
+    <footer><span>REBEL BINGO · CAMDEN TOWN</span><a href="mailto:rebels@rebelbingo.com">REBELS@REBELBINGO.COM</a></footer>
+  </main>
   <script>
-    /* Force-play videos; click-to-unlock fallback */
-    (function(){
-      const bg = document.getElementById('bgVideo');
-      const logo = document.getElementById('logoVideo');
-      const bgFallback = document.getElementById('bgFallback');
-
-      const vids = [bg, logo].filter(Boolean);
-      vids.forEach(v => v.muted = true);
-
-      const tryPlayAll = () => vids.forEach(v => v.play().catch(() => {}));
-      document.addEventListener('click', tryPlayAll, { once: true });
-      tryPlayAll();
-
-      if (bg && bgFallback){
-        const showFallback = () => { bgFallback.style.opacity = "1"; };
-        bg.addEventListener("error", showFallback);
-        bg.addEventListener("stalled", showFallback);
-        setTimeout(() => { if (bg.readyState < 2) showFallback(); }, 8000);
-      }
-    })();
-
-    /* Logo fallback if webm fails */
-    (function(){
-      const v = document.getElementById('logoVideo');
-      const img = document.getElementById('logoImg');
-      if (!v || !img) return;
-
-      const enableFallback = () => {
-        v.style.display = "none";
-        img.style.display = "block";
-      };
-
-      v.addEventListener("error", enableFallback);
-      v.addEventListener("stalled", enableFallback);
-
-      const canWebm = !!v.canPlayType && v.canPlayType("video/webm; codecs=vp9").replace(/no/i,'');
-      if (!canWebm) enableFallback();
-    })();
-
-    /* ========= EMAIL FORM (Google Sheet via Apps Script) ========= */
-    (function(){
-      const form = document.getElementById('emailForm');
-      const statusEl = document.getElementById('emailStatus');
-      if (!form) return;
-
-      const instaUrl = "https://www.instagram.com/rebel_bingo";
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = (form.email?.value || "").trim();
-        const btn = form.querySelector('button[type="submit"]');
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          if (statusEl) statusEl.textContent = "Please enter a valid email address.";
-          form.email?.focus();
-          return;
-        }
-
-        if (btn) btn.disabled = true;
-        if (statusEl) statusEl.textContent = "Sending...";
-
-        try {
-          await fetch(form.action, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ email })
-          });
-
-          if (statusEl) {
-            statusEl.innerHTML =
-              `Thanks - you're on the list - follow our Instagram ` +
-              `(<a href="${instaUrl}" target="_blank" rel="noopener noreferrer">@rebel_bingo</a>)`;
-          }
-          form.reset();
-        } catch {
-          if (statusEl) statusEl.textContent = "Sorry, something went wrong. Please try again.";
-        } finally {
-          if (btn) btn.disabled = false;
-        }
-      });
-    })();
-
-    /* ========= GIRL CYCLE ========= */
-    const girl = document.getElementById("girl");
-    const girlFrames = [
-      "sprites/b1.png","sprites/p1.png","sprites/g1.png",
-      "sprites/b2.png","sprites/p2.png","sprites/g2.png",
-      "sprites/b3.png","sprites/p3.png","sprites/g3.png",
-      "sprites/b4.png","sprites/p4.png","sprites/g4.png",
-      "sprites/b5.png","sprites/p5.png","sprites/g5.png"
-    ];
-    girlFrames.forEach(src => { const im = new Image(); im.src = src; });
-
-    let girlIdx = 0;
-    setInterval(() => {
-      if (!girl) return;
-      const skip = Math.random() < 0.22 ? 2 : 1;
-      girlIdx = (girlIdx + skip) % girlFrames.length;
-      girl.src = girlFrames[girlIdx];
-
-      const jx = (Math.random() * 6 - 3);
-      const jy = (Math.random() * 6 - 3);
-      girl.style.transform = `translateX(-50%) translate(${jx}px, ${jy}px)`;
-      girl.style.opacity = (Math.random() < 0.08) ? "0.85" : "1";
-    }, 120);
-
-    /* ========= HOTSPOT CYCLERS ========= */
-    function startCycler(imgId, frames, ms){
-      const el = document.getElementById(imgId);
-      if (!el) return;
-      frames.forEach(src => { const im = new Image(); im.src = src; });
-      let idx = 0;
-      setInterval(() => {
-        idx = (idx + 1) % frames.length;
-        el.src = frames[idx];
-      }, ms);
-    }
-
-    startCycler("musicImg", [
-      "hotspot/musichotspot/music1.png",
-      "hotspot/musichotspot/music2.png",
-      "hotspot/musichotspot/music3.png",
-      "hotspot/musichotspot/music4.png",
-      "hotspot/musichotspot/music5.png"
-    ], 140);
-
-    startCycler("fashionImg", [
-      "hotspot/fashionhotspot/fashion1.png",
-      "hotspot/fashionhotspot/fashion2.png",
-      "hotspot/fashionhotspot/fashion3.png",
-      "hotspot/fashionhotspot/fashion4.png"
-    ], 140);
-
-    startCycler("dancingImg", [
-      "hotspot/dancinghotspot/dancing1.png",
-      "hotspot/dancinghotspot/dancing2.png",
-      "hotspot/dancinghotspot/dancing3.png",
-      "hotspot/dancinghotspot/dancing4.png"
-    ], 140);
-
-    startCycler("ticketsImg", [
-      "hotspot/ticketshotspot/tickets1.png",
-      "hotspot/ticketshotspot/tickets2.png",
-      "hotspot/ticketshotspot/tickets3.png",
-      "hotspot/ticketshotspot/tickets4.png"
-    ], 140);
-
-    (function(){
-      const el = document.getElementById("bingoImg");
-      if (!el) return;
-      const frames = [
-        "hotspot/bingohotspot/bingo1.png",
-        "hotspot/bingohotspot/bingo2.png",
-        "hotspot/bingohotspot/bingo3.png",
-        "hotspot/bingohotspot/bingo4.png"
-      ];
-      frames.forEach(src => { const im = new Image(); im.src = src; });
-      let idx = 0;
-      setInterval(() => {
-        idx = (idx + 1 + Math.floor(Math.random()*2)) % frames.length;
-        el.src = frames[idx];
-      }, 200);
-    })();
-
-    /* ===== Randomize hotspot flicker + floaty timing ===== */
-    (function () {
-      const hotspotImgs = document.querySelectorAll('.hotspot img');
-      const hotspotLinks = document.querySelectorAll('.hotspot');
-
-      function randomizeFlicker(imgEl) {
-        const neonDelay = -(Math.random() * 1.2);
-        const glitchDelay = -(Math.random() * 0.35);
-
-        const neonDur = 1.0 + Math.random() * 0.9;
-        const glitchDur = 0.25 + Math.random() * 0.35;
-
-        imgEl.style.animationDelay = `${glitchDelay}s, ${neonDelay}s`;
-        imgEl.style.animationDuration = `${glitchDur}s, ${neonDur}s`;
-      }
-
-      function randomizeFloaty(linkEl) {
-        const floatDelay = -(Math.random() * 3.0);
-        const floatDur = 1.6 + Math.random() * 1.8;
-
-        linkEl.style.animationDelay = `${floatDelay}s`;
-        linkEl.style.animationDuration = `${floatDur}s`;
-      }
-
-      hotspotImgs.forEach(randomizeFlicker);
-      hotspotLinks.forEach(randomizeFloaty);
-
-      setInterval(() => {
-        hotspotImgs.forEach(randomizeFlicker);
-        hotspotLinks.forEach(randomizeFloaty);
-      }, 4000);
-    })();
+    const API="https://script.google.com/macros/s/AKfycbxNawMmEhahRcxid5ii09EFDbEe7QfXpF_ATkzyorO7Z5Vxx36zmg_sgB0FqtJFf_CY/exec";
+    document.querySelector("#signup").addEventListener("submit",async e=>{
+      e.preventDefault();const form=e.currentTarget,button=form.querySelector("button"),status=form.querySelector(".status"),email=form.email.value.trim();
+      button.disabled=true;status.textContent="Saving…";
+      try{const response=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"saveRebelLead",email,source:"rebelbingo.com announcement"}),redirect:"follow"});const result=await response.json();if(!result.success)throw new Error();status.textContent="You’re on the list.";button.textContent="SIGNED UP";form.email.disabled=true}
+      catch{status.textContent="That didn’t work. Please try again.";button.disabled=false}
+    });
   </script>
 </body>
 </html>
