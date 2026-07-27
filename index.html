@@ -25,7 +25,7 @@
     .signup label{display:block;margin:0 0 10px;font-size:clamp(.8rem,1.15vw,.95rem)}
     .form-row{display:grid;grid-template-columns:1fr auto;width:100%}
     input,.signup button{height:38px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem}
-    input{min-width:0;padding:0 10px;border-right:0;outline:none}
+    input{min-width:0;padding:0 10px;border-right:0;outline:none;text-align:center}
     .signup button{padding:0 13px;background:transparent;color:#111;cursor:pointer;text-transform:lowercase}
     button:disabled{cursor:default;opacity:.72}
     .legal,.status,.official{font-size:.64rem;line-height:1.5}
@@ -62,7 +62,7 @@
           <form class="signup" id="signup">
             <label for="email">Get more info about the venue</label>
             <div class="form-row">
-              <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required>
+              <input id="email" name="email" type="email" placeholder="type email here for more info" autocomplete="email" required>
               <button type="submit">sign up</button>
             </div>
             <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
