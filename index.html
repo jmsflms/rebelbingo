@@ -13,28 +13,32 @@
     a{color:inherit;text-underline-offset:3px}
     .frame{position:relative;min-height:100vh;overflow:hidden;background:#a5ff9b}
     .backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .content{position:relative;z-index:2;min-height:inherit;width:min(100%,1100px);padding:clamp(48px,8vh,90px) 32px 44px 13vw;display:flex;flex-direction:column;align-items:flex-start}
+    .sound{position:absolute;z-index:4;top:28px;right:30px;height:38px;padding:0 13px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem;text-transform:uppercase;cursor:pointer}
+    .content{position:relative;z-index:2;min-height:inherit;width:100%;padding:clamp(48px,8vh,90px) 7vw 44px 13vw}
     h1{max-width:420px;margin:0;font-size:clamp(2rem,4.5vw,4.35rem);font-weight:400;line-height:1.18;letter-spacing:0}
-    .details{margin:clamp(38px,7vh,78px) 0 0;font-size:clamp(.75rem,1.25vw,1rem);line-height:1.55}
-    .spacer{flex:1;min-height:70px}
+    .lower{display:grid;grid-template-columns:minmax(260px,32vw) minmax(340px,460px);gap:clamp(50px,9vw,150px);align-items:start;margin-top:clamp(38px,7vh,78px)}
+    .details{margin:0;font-size:clamp(.75rem,1.25vw,1rem);line-height:1.55}
+    .secondary{min-width:0}
     .contact,.instagram{margin:0 0 18px;font-size:clamp(.72rem,1.1vw,.9rem);line-height:1.5}
     .email{white-space:nowrap}
-    .signup{width:min(460px,100%);margin:18px 0 0}
+    .signup{width:100%;margin:18px 0 0}
     .signup label{display:block;margin:0 0 10px;font-size:clamp(.8rem,1.15vw,.95rem)}
     .form-row{display:grid;grid-template-columns:1fr auto;width:100%}
-    input,button{height:38px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem}
+    input,.signup button{height:38px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem}
     input{min-width:0;padding:0 10px;border-right:0;outline:none}
-    button{padding:0 13px;background:transparent;color:#111;cursor:pointer;text-transform:lowercase}
+    .signup button{padding:0 13px;background:transparent;color:#111;cursor:pointer;text-transform:lowercase}
     button:disabled{cursor:default;opacity:.72}
     .legal,.status,.official{font-size:.64rem;line-height:1.5}
     .legal{margin:9px 0 0}.status{min-height:1em;margin:8px 0 0}
     .official{margin:28px 0 0}
     .official a{margin-left:12px}
-    @media(max-width:640px){
+    @media(max-width:760px){
+      .sound{position:fixed;top:18px;right:18px;background:rgba(244,240,231,.7)}
       body{padding:0}.frame{min-height:100vh}
-      .content{padding:38px 24px 34px 12vw}.backdrop{object-position:center}
-      .form-row{grid-template-columns:1fr}.form-row input{border-right:2px solid #111;border-bottom:0}
-      button{height:38px}.email{white-space:normal}
+      .content{padding:70px 24px 34px 12vw}.backdrop{object-position:center}
+      .lower{grid-template-columns:1fr;gap:clamp(70px,12vh,120px);margin-top:clamp(38px,7vh,78px)}
+      .form-row{grid-template-columns:1fr}.form-row input{border-right:1px solid #111;border-bottom:0}
+      .signup button{height:38px}.email{white-space:normal}
     }
     @media(prefers-reduced-motion:reduce){.backdrop{display:none}}
   </style>
@@ -44,32 +48,43 @@
     <video class="backdrop" autoplay muted loop playsinline aria-hidden="true">
       <source src="video/Rebelbingo1.mp4" type="video/mp4">
     </video>
+    <button class="sound" id="sound" type="button">SOUND ON</button>
 
     <section class="content">
       <h1>The<br>Underground<br>Rebel<br>Bingo<br>Club</h1>
 
-      <p class="details">Venue 1<br>Opening Autumn 2026<br>3am License<br>Camden Town, London</p>
+      <div class="lower">
+        <p class="details">Venue 1<br>Opening Autumn 2026<br>3am License<br>Camden Town, London</p>
 
-      <div class="spacer"></div>
+        <div class="secondary">
+          <p class="contact">Private hires / Xmas parties:<br><span class="email">rebels@rebelbingo.com</span></p>
+          <p class="instagram"><a href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a></p>
 
-      <p class="contact">Private hires / Xmas parties:<br><span class="email">rebels@rebelbingo.com</span></p>
-      <p class="instagram"><a href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a></p>
+          <form class="signup" id="signup">
+            <label for="email">Get more info about the venue</label>
+            <div class="form-row">
+              <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required>
+              <button type="submit">sign up</button>
+            </div>
+            <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
+            <p class="status" aria-live="polite"></p>
+          </form>
 
-      <form class="signup" id="signup">
-        <label for="email">Get more info about the venue</label>
-        <div class="form-row">
-          <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required>
-          <button type="submit">Sign up</button>
+          <p class="official">© 2026 Rebel Bingo. All rights reserved.<a href="privacy.html">Privacy Policy</a></p>
         </div>
-        <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
-        <p class="status" aria-live="polite"></p>
-      </form>
-
-      <p class="official">© 2026 Rebel Bingo. All rights reserved.<a href="privacy.html">Privacy Policy</a></p>
+      </div>
     </section>
   </main>
 
   <script>
+    const video=document.querySelector(".backdrop");
+    const sound=document.querySelector("#sound");
+    sound.addEventListener("click",()=>{
+      video.muted=!video.muted;
+      sound.textContent=video.muted?"SOUND ON":"SOUND OFF";
+      if(video.paused)video.play();
+    });
+
     const API="https://script.google.com/macros/s/AKfycbxNawMmEhahRcxid5ii09EFDbEe7QfXpF_ATkzyorO7Z5Vxx36zmg_sgB0FqtJFf_CY/exec";
     document.querySelector("#signup").addEventListener("submit",async event=>{
       event.preventDefault();
