@@ -6,128 +6,46 @@
   <title>Rebel Bingo Announcements</title>
   <meta name="description" content="Rebel Bingo announcements, oldest first.">
   <style>
-    :root{
-      --ink:#111;
-      --paper:#f6f1e8;
-      --pink:#ff3b92;
-      --yellow:#fff200;
-      --red:#e4002b;
-      --muted:#6b665e;
-    }
+    :root{--ink:#111;--cream:#f4f0e7;--yellow:#eeff00;--orange:#ff862b;--pink:#ff4fa3;--blue:#54a8ff;--red:#ff2d24}
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      background:var(--paper);
-      color:var(--ink);
-      font-family:Arial,Helvetica,sans-serif;
-    }
+    body{margin:0;background:#111;color:var(--ink);font-family:"Lucida Console",Monaco,monospace}
     a{color:inherit;text-underline-offset:3px}
-    .page-header{
-      position:sticky;
-      top:0;
-      z-index:10;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      padding:15px clamp(18px,4vw,48px);
-      border-bottom:3px solid var(--ink);
-      background:var(--yellow);
-    }
-    .page-header strong{
-      font-size:clamp(1rem,2.4vw,1.35rem);
-      letter-spacing:-.03em;
-    }
+    button{border:1px solid currentColor;border-radius:0;padding:11px 14px;background:transparent;color:inherit;font:inherit;font-size:.72rem;text-transform:uppercase;cursor:pointer}
+    button[aria-pressed="true"]{background:#111;color:var(--cream)}
+    .page-header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 4vw;background:var(--cream);border-bottom:1px solid #111}
+    .page-header strong{font-size:clamp(.78rem,1.5vw,1rem);font-weight:400;text-transform:uppercase}
     .filters{display:flex;gap:8px;flex-wrap:wrap}
-    button{
-      border:2px solid var(--ink);
-      border-radius:0;
-      padding:9px 12px;
-      background:#fff;
-      color:var(--ink);
-      font:700 .78rem/1 Arial,Helvetica,sans-serif;
-      cursor:pointer;
-    }
-    button[aria-pressed="true"]{background:var(--ink);color:#fff}
-    main{
-      width:min(760px,calc(100% - 32px));
-      margin:0 auto;
-      padding:52px 0 90px;
-    }
-    .intro{
-      margin:0 0 52px;
-      font-size:clamp(1.2rem,3vw,1.65rem);
-      line-height:1.35;
-    }
-    .announcement{
-      margin:0 0 52px;
-      border:3px solid var(--ink);
-      background:#fff;
-      box-shadow:9px 9px 0 var(--ink);
-    }
+    main{width:100%;margin:0;padding:0}
+    .intro{min-height:42vh;margin:0;padding:clamp(60px,10vh,120px) 13vw;background:var(--orange);font-size:clamp(1.8rem,4.5vw,4.35rem);line-height:1.18}
+    .announcement{min-height:100vh;margin:0;background:var(--yellow);border:0}
+    .announcement:nth-of-type(2){background:var(--orange)}
+    .announcement:nth-of-type(3){background:var(--pink)}
+    .announcement:nth-of-type(4){background:var(--blue)}
     .announcement[hidden]{display:none}
-    .announcement-meta{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      padding:10px 14px;
-      border-bottom:3px solid var(--ink);
-      background:var(--pink);
-      font-size:.78rem;
-      font-weight:900;
-      text-transform:uppercase;
-    }
-    .announcement[data-status="public"] .announcement-meta{background:var(--yellow)}
-    .email-content{padding:clamp(24px,6vw,52px)}
-    h2{
-      margin:0 0 30px;
-      font-size:clamp(2.6rem,9vw,5.4rem);
-      line-height:.88;
-      letter-spacing:-.065em;
-    }
-    h3{
-      margin:38px 0 16px;
-      font-size:clamp(1.8rem,5vw,3rem);
-      line-height:.95;
-    }
-    p,li{font-size:1.08rem;line-height:1.55}
-    p{margin:0 0 19px}
-    ul{margin:0 0 24px;padding-left:24px}
-    .missing{
-      margin:28px 0;
-      padding:22px;
-      border:3px dashed var(--ink);
-      background:var(--yellow);
-    }
-    .button-link{
-      display:inline-block;
-      margin:8px 0 22px;
-      padding:15px 20px;
-      background:var(--red);
-      color:#fff;
-      font-weight:900;
-      text-decoration:none;
-    }
-    .announcement-tools{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      padding:14px;
-      border-top:3px solid var(--ink);
-      background:#eee9df;
-    }
-    .copy-status{min-height:1em;color:var(--muted);font-size:.78rem}
-    .site-footer{
-      padding:30px 16px;
-      border-top:3px solid var(--ink);
-      text-align:center;
-      font-size:.75rem;
-    }
-    @media(max-width:620px){
+    .announcement-meta{display:flex;justify-content:space-between;gap:12px;padding:14px 4vw;border-bottom:1px solid #111;font-size:.72rem;font-weight:400;text-transform:uppercase}
+    .email-content{width:min(980px,74vw);padding:clamp(60px,9vh,105px) 0 clamp(70px,10vh,120px);margin:0 auto}
+    h2{max-width:850px;margin:0 0 45px;font-size:clamp(2.5rem,6vw,5.8rem);font-weight:400;line-height:1.04;letter-spacing:0}
+    h3{margin:60px 0 20px;font-size:clamp(2rem,4vw,4rem);font-weight:400;line-height:1.05}
+    p,li{font-size:clamp(.9rem,1.25vw,1.08rem);line-height:1.65}
+    p{max-width:720px;margin:0 0 22px}
+    ul{margin:10px 0 0;padding-left:22px}
+    .spritz-reader{margin:0 0 clamp(55px,8vh,90px);padding:22px 0 28px;border-top:1px solid #111;border-bottom:1px solid #111}
+    .spritz-label{display:flex;justify-content:space-between;gap:20px;margin:0 0 20px;font-size:.68rem;text-transform:uppercase}
+    .spritz-word{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;min-height:1.2em;font-size:clamp(2.2rem,6vw,5.7rem);line-height:1;white-space:nowrap;overflow:hidden}
+    .spritz-before{text-align:right}.spritz-focus{color:var(--red)}.spritz-after{text-align:left}
+    .spritz-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px}
+    .spritz-speed{font-size:.7rem;text-transform:uppercase}
+    .missing{max-width:720px;margin:38px 0;padding:22px 0;border-top:1px dashed #111;border-bottom:1px dashed #111;background:transparent}
+    .button-link{display:inline-block;margin:12px 0 28px;padding:15px 20px;border:1px solid #111;background:#111;color:var(--cream);font-weight:400;text-decoration:none}
+    .announcement-tools{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 4vw;border-top:1px solid #111;background:rgba(244,240,231,.22)}
+    .copy-status{min-height:1em;font-size:.72rem}
+    .site-footer{padding:35px 4vw;background:#111;color:var(--cream);font-size:.7rem}
+    @media(max-width:700px){
       .page-header{position:static;align-items:flex-start;flex-direction:column}
-      .announcement{box-shadow:6px 6px 0 var(--ink)}
+      .intro{padding-left:8vw;padding-right:8vw}
+      .email-content{width:84vw}
+      .spritz-word{font-size:clamp(2rem,11vw,4rem)}
       .announcement-tools{align-items:flex-start;flex-direction:column}
     }
   </style>
@@ -263,15 +181,94 @@
   </footer>
 
   <script>
+    const spritzState=new Map();
+
+    function spritzWordParts(word){
+      const clean=word.replace(/[^A-Za-z0-9'’-]/g,"");
+      const focusIndex=Math.max(0,Math.min(clean.length-1,Math.floor((clean.length-1)*.35)));
+      return {
+        before:clean.slice(0,focusIndex),
+        focus:clean.charAt(focusIndex)||" ",
+        after:clean.slice(focusIndex+1)
+      };
+    }
+
+    function readerWords(article){
+      const copy=article.querySelector(".email-content").cloneNode(true);
+      copy.querySelectorAll(".spritz-reader").forEach(el=>el.remove());
+      copy.querySelectorAll(".missing,.button-link,.spritz-reader").forEach(el=>el.remove());
+      return copy.textContent.trim().split(/\s+/).filter(Boolean);
+    }
+
+    function renderSpritz(reader,word){
+      const parts=spritzWordParts(word);
+      reader.querySelector(".spritz-before").textContent=parts.before;
+      reader.querySelector(".spritz-focus").textContent=parts.focus;
+      reader.querySelector(".spritz-after").textContent=parts.after;
+    }
+
+    document.querySelectorAll(".announcement").forEach(article=>{
+      const words=readerWords(article);
+      const reader=document.createElement("section");
+      reader.className="spritz-reader";
+      reader.setAttribute("aria-label","Speed reader");
+      reader.innerHTML=`
+        <div class="spritz-label"><span>Read this fast</span><span class="spritz-progress">1 / ${words.length}</span></div>
+        <div class="spritz-word" aria-live="polite"><span class="spritz-before"></span><span class="spritz-focus"></span><span class="spritz-after"></span></div>
+        <div class="spritz-controls">
+          <button type="button" data-reader-action="play">Play</button>
+          <button type="button" data-reader-action="restart">Restart</button>
+          <button type="button" data-reader-action="slower">Slower</button>
+          <button type="button" data-reader-action="faster">Faster</button>
+          <span class="spritz-speed">300 words/min</span>
+        </div>`;
+      article.querySelector(".email-content").prepend(reader);
+      spritzState.set(reader,{words,index:0,wpm:300,timer:null});
+      renderSpritz(reader,words[0]||"");
+    });
+
+    function stopReader(reader){
+      const state=spritzState.get(reader);
+      clearInterval(state.timer);
+      state.timer=null;
+      reader.querySelector('[data-reader-action="play"]').textContent="Play";
+    }
+
+    function startReader(reader){
+      const state=spritzState.get(reader);
+      stopReader(reader);
+      reader.querySelector('[data-reader-action="play"]').textContent="Pause";
+      state.timer=setInterval(()=>{
+        state.index=(state.index+1)%state.words.length;
+        renderSpritz(reader,state.words[state.index]);
+        reader.querySelector(".spritz-progress").textContent=`${state.index+1} / ${state.words.length}`;
+      },60000/state.wpm);
+    }
+
+    document.addEventListener("click",event=>{
+      const button=event.target.closest("[data-reader-action]");
+      if(!button)return;
+      const reader=button.closest(".spritz-reader");
+      const state=spritzState.get(reader);
+      const action=button.dataset.readerAction;
+      if(action==="play"){state.timer?stopReader(reader):startReader(reader)}
+      if(action==="restart"){stopReader(reader);state.index=0;renderSpritz(reader,state.words[0]||"");reader.querySelector(".spritz-progress").textContent=`1 / ${state.words.length}`}
+      if(action==="slower"||action==="faster"){
+        state.wpm=Math.max(100,Math.min(700,state.wpm+(action==="faster"?50:-50)));
+        reader.querySelector(".spritz-speed").textContent=`${state.wpm} words/min`;
+        if(state.timer)startReader(reader);
+      }
+    });
+
     const EMAIL_HEADER = number => `
-<p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:12px;text-align:center;">
+<p style="margin:0 0 24px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:12px;text-align:center;">
   <a href="https://rebelbingo.com/announcements.html#email-${number}">View this announcement online</a>
   &nbsp;·&nbsp;
   <a href="*|ARCHIVE|*">View Mailchimp’s copy</a>
 </p>`;
 
     const EMAIL_FOOTER = `
-<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;text-align:center;">
+<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:12px;line-height:1.6;text-align:center;">
   <em>Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|*. All rights reserved.</em><br>
   *|IFNOT:ARCHIVE_PAGE|**|LIST:DESCRIPTION|**|END:IF|*<br><br>
   Our mailing address is:<br>
@@ -283,19 +280,19 @@
 
     function emailSafeContent(article){
       const copy=article.querySelector(".email-content").cloneNode(true);
-      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:Arial,Helvetica,sans-serif;font-size:38px;line-height:1;font-weight:900;"));
-      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:28px;line-height:1;font-weight:900;"));
-      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.5;"));
-      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;"));
-      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:Arial,Helvetica,sans-serif;"));
-      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#e4002b;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:900;text-decoration:none;"));
+      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:42px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:30px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:18px;line-height:1.5;"));
+      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:16px;line-height:1.5;"));
+      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:&quot;Lucida Console&quot;,Monaco,monospace;"));
+      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#111;color:#f4f0e7;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:17px;font-weight:400;text-decoration:none;"));
       return copy.innerHTML;
     }
 
     function mailchimpHtml(article){
       const number=article.dataset.emailNumber;
       return `
-<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#eeff00;">
   <tr>
     <td align="center">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;">
