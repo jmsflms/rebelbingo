@@ -166,12 +166,12 @@
     const spritzState=new Map();
 
     function spritzWordParts(word){
-      const clean=word.replace(/[^A-Za-z0-9'’-]/g,"");
-      const focusIndex=Math.max(0,Math.min(clean.length-1,Math.floor((clean.length-1)*.35)));
+      const letterPositions=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
+      const focusIndex=letterPositions[Math.floor((letterPositions.length-1)*.35)]??0;
       return {
-        before:clean.slice(0,focusIndex),
-        focus:clean.charAt(focusIndex)||" ",
-        after:clean.slice(focusIndex+1)
+        before:word.slice(0,focusIndex),
+        focus:word.charAt(focusIndex)||" ",
+        after:word.slice(focusIndex+1)
       };
     }
 
