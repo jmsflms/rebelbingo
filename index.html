@@ -49,7 +49,7 @@
       <source src="video/Rebelbingo1.mp4" type="video/mp4">
     </video>
     <section class="content">
-      <h1>The<br>Underground<br>Rebel<br>Bingo<br>Club</h1>
+      <h1>The<br>Underground<br>Rebel<br><span id="changing-word">Bingo</span><br>Club</h1>
 
       <div class="lower">
         <p class="details">Venue 1<br>Opening Autumn 2026<br>3am License<br><a href="https://maps.app.goo.gl/NevSjaJQXdpViCkWA" target="_blank" rel="noopener">Camden Town, London</a></p>
@@ -76,6 +76,14 @@
   </main>
 
   <script>
+    const words=["Bingo","Party","Fashion","Disco","Dancing","Hyper","London","Shanghai","LA","Monster","Love","Singles","Rave","Xmas","Album","Bowie"];
+    const changingWord=document.querySelector("#changing-word");
+    let wordIndex=0;
+    setInterval(()=>{
+      wordIndex=(wordIndex+1)%words.length;
+      changingWord.textContent=words[wordIndex];
+    },500);
+
     const video=document.querySelector(".backdrop");
     const sound=document.querySelector("#sound");
     sound.addEventListener("click",()=>{
