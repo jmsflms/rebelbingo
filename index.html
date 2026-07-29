@@ -15,8 +15,9 @@
     .backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .sound{position:static;z-index:4;height:38px;margin:0 0 30px;padding:0 13px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem;text-transform:uppercase;cursor:pointer}
     .content{position:relative;z-index:2;min-height:inherit;width:100%;padding:clamp(48px,8vh,90px) 7vw 44px 13vw}
-    h1{max-width:420px;margin:0;font-size:clamp(2rem,4.5vw,4.35rem);font-weight:400;line-height:1.18;letter-spacing:0}
-    #changing-word{display:inline;height:auto;font:inherit;line-height:inherit;white-space:nowrap;transform:none!important}
+    h1{display:flex;flex-direction:column;align-items:flex-start;gap:0;max-width:420px;margin:0;font-size:clamp(2rem,4.5vw,4.35rem);font-weight:400;line-height:1.18;letter-spacing:0}
+    .headline-line{display:block;margin:0;padding:0;font:inherit;line-height:inherit;white-space:nowrap}
+    #changing-word{transform:none!important}
     .lower{display:grid;grid-template-columns:minmax(260px,32vw) minmax(340px,460px);gap:clamp(50px,9vw,150px);align-items:start;margin-top:clamp(38px,7vh,78px)}
     .details{margin:0;font-size:clamp(.75rem,1.25vw,1rem);line-height:1.55}
     .secondary{min-width:0}
@@ -50,7 +51,7 @@
       <source src="video/Rebelbingo1.mp4" type="video/mp4">
     </video>
     <section class="content">
-      <h1>The<br>Underground<br>Rebel<br><span id="changing-word">Bingo</span><br>Club</h1>
+      <h1><span class="headline-line">The</span><span class="headline-line">Underground</span><span class="headline-line">Rebel</span><span class="headline-line" id="changing-word">Bingo</span><span class="headline-line">Club</span></h1>
 
       <div class="lower">
         <p class="details">Venue 1<br>Opening Autumn 2026<br>3am License<br><a href="https://maps.app.goo.gl/NevSjaJQXdpViCkWA" target="_blank" rel="noopener">Camden Town, London</a></p>
