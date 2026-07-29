@@ -261,14 +261,14 @@
     });
 
     const EMAIL_HEADER = number => `
-<p style="margin:0 0 24px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:12px;text-align:center;">
+<p style="margin:0 0 24px;font-family:'Lucida Console',Monaco,monospace;font-size:12px;text-align:center;">
   <a href="https://rebelbingo.com/announcements.html#email-${number}">View this announcement online</a>
   &nbsp;·&nbsp;
   <a href="*|ARCHIVE|*">View Mailchimp’s copy</a>
 </p>`;
 
     const EMAIL_FOOTER = `
-<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:12px;line-height:1.6;text-align:center;">
+<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:'Lucida Console',Monaco,monospace;font-size:12px;line-height:1.6;text-align:center;">
   <em>Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|*. All rights reserved.</em><br>
   *|IFNOT:ARCHIVE_PAGE|**|LIST:DESCRIPTION|**|END:IF|*<br><br>
   Our mailing address is:<br>
@@ -280,12 +280,13 @@
 
     function emailSafeContent(article){
       const copy=article.querySelector(".email-content").cloneNode(true);
-      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:42px;line-height:1.08;font-weight:400;"));
-      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:30px;line-height:1.08;font-weight:400;"));
-      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:18px;line-height:1.5;"));
-      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:16px;line-height:1.5;"));
-      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:&quot;Lucida Console&quot;,Monaco,monospace;"));
-      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#111;color:#f4f0e7;font-family:&quot;Lucida Console&quot;,Monaco,monospace;font-size:17px;font-weight:400;text-decoration:none;"));
+      copy.querySelectorAll(".spritz-reader").forEach(el=>el.remove());
+      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:'Lucida Console',Monaco,monospace;font-size:42px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:'Lucida Console',Monaco,monospace;font-size:30px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:'Lucida Console',Monaco,monospace;font-size:18px;line-height:1.5;"));
+      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:'Lucida Console',Monaco,monospace;font-size:16px;line-height:1.5;"));
+      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:'Lucida Console',Monaco,monospace;"));
+      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#111;color:#f4f0e7;font-family:'Lucida Console',Monaco,monospace;font-size:17px;font-weight:400;text-decoration:none;"));
       return copy.innerHTML;
     }
 
