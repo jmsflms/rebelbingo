@@ -231,20 +231,31 @@
 
     function stopReader(reader){
       const state=spritzState.get(reader);
-      clearInterval(state.timer);
+      clearTimeout(state.timer);
       state.timer=null;
       reader.querySelector('[data-reader-action="play"]').textContent="Play";
+    }
+
+    function spritzDelay(word,wpm){
+      const base=60000/wpm;
+      if(/[.!?][\"'’)]*$/.test(word))return base*2;
+      if(/,[\"'’)]*$/.test(word))return base*1.5;
+      return base;
     }
 
     function startReader(reader){
       const state=spritzState.get(reader);
       stopReader(reader);
       reader.querySelector('[data-reader-action="play"]').textContent="Pause";
-      state.timer=setInterval(()=>{
+
+      function showNext(){
         state.index=(state.index+1)%state.words.length;
         renderSpritz(reader,state.words[state.index]);
         reader.querySelector(".spritz-progress").textContent=`${state.index+1} / ${state.words.length}`;
-      },60000/state.wpm);
+        state.timer=setTimeout(showNext,spritzDelay(state.words[state.index],state.wpm));
+      }
+
+      state.timer=setTimeout(showNext,spritzDelay(state.words[state.index],state.wpm));
     }
 
     const readerObserver=new IntersectionObserver(entries=>{
