@@ -18,6 +18,7 @@
     h1{display:flex;flex-direction:column;align-items:flex-start;gap:0;max-width:420px;margin:0;font-size:clamp(2rem,4.5vw,4.35rem);font-weight:400;line-height:1.18;letter-spacing:0}
     .headline-line{display:block;margin:0;padding:0;font:inherit;line-height:inherit;white-space:nowrap}
     #changing-word{transform:none!important}
+    .word-focus{color:#ff2d24}
     .lower{display:grid;grid-template-columns:minmax(260px,32vw) minmax(340px,460px);gap:clamp(50px,9vw,150px);align-items:start;margin-top:clamp(38px,7vh,78px)}
     .details{margin:0;font-size:clamp(.75rem,1.25vw,1rem);line-height:1.55}
     .secondary{min-width:0}
@@ -80,11 +81,22 @@
   <script>
     const words=["Madonna","Jungle","Botox","Tokyo","Kylie","Psychedelic","Cans","Midnight","Take That","Latex","Margate","Therapy","Cowgirl","80s","Electric","Friends","Britney","Crocs","Ibiza","Hallucination","Cocktails","Cowboy","Romance","DNB","Halloween","Lovers","Eurovision","Leopard","Tuesday","Aperol","Fashion","End of the World","Glitter","Future","Karaoke","Kink"];
     const changingWord=document.querySelector("#changing-word");
+
+    function showFocusedWord(word){
+      const letterPositions=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
+      const focusPosition=letterPositions[Math.floor((letterPositions.length-1)*.35)]??0;
+      changingWord.replaceChildren(
+        document.createTextNode(word.slice(0,focusPosition)),
+        Object.assign(document.createElement("span"),{className:"word-focus",textContent:word.charAt(focusPosition)}),
+        document.createTextNode(word.slice(focusPosition+1))
+      );
+    }
+
     let wordIndex=0;
-    changingWord.textContent=words[wordIndex];
+    showFocusedWord(words[wordIndex]);
     setInterval(()=>{
       wordIndex=(wordIndex+1)%words.length;
-      changingWord.textContent=words[wordIndex];
+      showFocusedWord(words[wordIndex]);
     },500);
 
     const video=document.querySelector(".backdrop");
