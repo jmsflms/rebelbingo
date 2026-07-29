@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rebel Bingo Announcements</title>
+  <meta name="description" content="Rebel Bingo announcements, oldest first.">
+  <style>
+    :root{
+      --ink:#111;
+      --paper:#f6f1e8;
+      --pink:#ff3b92;
+      --yellow:#fff200;
+      --red:#e4002b;
+      --muted:#6b665e;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    a{color:inherit;text-underline-offset:3px}
+    .page-header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      padding:15px clamp(18px,4vw,48px);
+      border-bottom:3px solid var(--ink);
+      background:var(--yellow);
+    }
+    .page-header strong{
+      font-size:clamp(1rem,2.4vw,1.35rem);
+      letter-spacing:-.03em;
+    }
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    button{
+      border:2px solid var(--ink);
+      border-radius:0;
+      padding:9px 12px;
+      background:#fff;
+      color:var(--ink);
+      font:700 .78rem/1 Arial,Helvetica,sans-serif;
+      cursor:pointer;
+    }
+    button[aria-pressed="true"]{background:var(--ink);color:#fff}
+    main{
+      width:min(760px,calc(100% - 32px));
+      margin:0 auto;
+      padding:52px 0 90px;
+    }
+    .intro{
+      margin:0 0 52px;
+      font-size:clamp(1.2rem,3vw,1.65rem);
+      line-height:1.35;
+    }
+    .announcement{
+      margin:0 0 52px;
+      border:3px solid var(--ink);
+      background:#fff;
+      box-shadow:9px 9px 0 var(--ink);
+    }
+    .announcement[hidden]{display:none}
+    .announcement-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      border-bottom:3px solid var(--ink);
+      background:var(--pink);
+      font-size:.78rem;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .announcement[data-status="public"] .announcement-meta{background:var(--yellow)}
+    .email-content{padding:clamp(24px,6vw,52px)}
+    h2{
+      margin:0 0 30px;
+      font-size:clamp(2.6rem,9vw,5.4rem);
+      line-height:.88;
+      letter-spacing:-.065em;
+    }
+    h3{
+      margin:38px 0 16px;
+      font-size:clamp(1.8rem,5vw,3rem);
+      line-height:.95;
+    }
+    p,li{font-size:1.08rem;line-height:1.55}
+    p{margin:0 0 19px}
+    ul{margin:0 0 24px;padding-left:24px}
+    .missing{
+      margin:28px 0;
+      padding:22px;
+      border:3px dashed var(--ink);
+      background:var(--yellow);
+    }
+    .button-link{
+      display:inline-block;
+      margin:8px 0 22px;
+      padding:15px 20px;
+      background:var(--red);
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+    }
+    .announcement-tools{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      padding:14px;
+      border-top:3px solid var(--ink);
+      background:#eee9df;
+    }
+    .copy-status{min-height:1em;color:var(--muted);font-size:.78rem}
+    .site-footer{
+      padding:30px 16px;
+      border-top:3px solid var(--ink);
+      text-align:center;
+      font-size:.75rem;
+    }
+    @media(max-width:620px){
+      .page-header{position:static;align-items:flex-start;flex-direction:column}
+      .announcement{box-shadow:6px 6px 0 var(--ink)}
+      .announcement-tools{align-items:flex-start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <strong>REBEL BINGO / ANNOUNCEMENTS</strong>
+    <div class="filters" aria-label="Announcement visibility">
+      <button type="button" data-filter="all" aria-pressed="true">Show all drafts</button>
+      <button type="button" data-filter="public" aria-pressed="false">Public only</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="intro">
+      Four emails in seven days. This working page shows the journey from the first announcement to the final reveal, oldest first.
+    </p>
+
+    <article class="announcement" id="email-1" data-status="draft" data-email-number="1">
+      <div class="announcement-meta">
+        <span>Email 1</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>Four emails.<br>Seven days.</h2>
+        <p>Hello.</p>
+        <p>I’m going to send you four emails over the next seven days. This is the first one.</p>
+        <p>Email two will introduce <strong>House of Deceit</strong>. Email three will reveal the new <strong>Rebel Bingo club in Camden Town</strong>.</p>
+        <p>Along the way there will be hidden parts of the websites, an interactive model of the club and a murder to solve.</p>
+        <p>I signed up to Runners Need once. They now email me constantly about shoes. This is dumb.</p>
+        <p>I don’t want to email people who don’t want these emails. If this sounds unbearable, please unsubscribe. No hard feelings.</p>
+        <h3>DEATH WHO?</h3>
+        <p>Someone in this photograph is dead.</p>
+        <p>You have one minute to work out who—and what happened.</p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>Death Who image</li>
+            <li>Game rules</li>
+            <li>Online game page</li>
+            <li>Scoring and leaderboard</li>
+            <li>Final link</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://houseofdeceit.com">PLAY DEATH WHO</a>
+        <p>Forward this email to someone who would be annoyingly good at this.</p>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-2" data-status="draft" data-email-number="2">
+      <div class="announcement-meta">
+        <span>Email 2</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>Are you trapped in a house with killers?</h2>
+        <p>Or are innocent people trapped in a house with <strong>YOU?</strong></p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>House of Deceit introduction</li>
+            <li>New information promised in Email 1</li>
+            <li>Hero image or short video still</li>
+            <li>Booking link and clear action</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://houseofdeceit.com">ENTER THE HOUSE</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-3" data-status="draft" data-email-number="3">
+      <div class="announcement-meta">
+        <span>Email 3</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>Camden Town.<br>We’re opening.</h2>
+        <p>The Underground Rebel Bingo Club is coming to Camden Town.</p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>Club announcement copy</li>
+            <li>Website screenshots or video</li>
+            <li>Interactive 3D club model</li>
+            <li>Subscriber-only or early information</li>
+            <li>Connection back to House of Deceit</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://rebelbingo.com">SEE THE CLUB</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-4" data-status="draft" data-email-number="4">
+      <div class="announcement-meta">
+        <span>Email 4</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>The reveal.</h2>
+        <p>The fourth and final email.</p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>Death Who answer</li>
+            <li>Leaderboard result</li>
+            <li>Special announcement</li>
+            <li>One final House of Deceit action</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://houseofdeceit.com">BOOK HOUSE OF DECEIT</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 Rebel Bingo. Working announcements archive.
+  </footer>
+
+  <script>
+    const EMAIL_HEADER = number => `
+<p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:12px;text-align:center;">
+  <a href="https://rebelbingo.com/announcements.html#email-${number}">View this announcement online</a>
+  &nbsp;·&nbsp;
+  <a href="*|ARCHIVE|*">View Mailchimp’s copy</a>
+</p>`;
+
+    const EMAIL_FOOTER = `
+<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;text-align:center;">
+  <em>Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|*. All rights reserved.</em><br>
+  *|IFNOT:ARCHIVE_PAGE|**|LIST:DESCRIPTION|**|END:IF|*<br><br>
+  Our mailing address is:<br>
+  *|IFNOT:ARCHIVE_PAGE|**|HTML:LIST_ADDRESS|**|END:IF|*<br><br>
+  Want to change how you receive these emails?<br>
+  You can <a href="*|UPDATE_PROFILE|*">update your preferences</a> or
+  <a href="*|UNSUB|*">unsubscribe</a>.
+</p>`;
+
+    function emailSafeContent(article){
+      const copy=article.querySelector(".email-content").cloneNode(true);
+      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:Arial,Helvetica,sans-serif;font-size:38px;line-height:1;font-weight:900;"));
+      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:28px;line-height:1;font-weight:900;"));
+      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.5;"));
+      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;"));
+      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:Arial,Helvetica,sans-serif;"));
+      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#e4002b;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:900;text-decoration:none;"));
+      return copy.innerHTML;
+    }
+
+    function mailchimpHtml(article){
+      const number=article.dataset.emailNumber;
+      return `
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;">
+        <tr>
+          <td style="padding:28px 24px;color:#111;">
+            ${EMAIL_HEADER(number)}
+            ${emailSafeContent(article)}
+            ${EMAIL_FOOTER}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`.trim();
+    }
+
+    document.querySelectorAll(".copy-email").forEach(button=>{
+      button.addEventListener("click",async()=>{
+        const article=button.closest(".announcement");
+        const status=article.querySelector(".copy-status");
+        try{
+          await navigator.clipboard.writeText(mailchimpHtml(article));
+          status.textContent="Copied. Paste this into one Mailchimp Code block.";
+        }catch{
+          status.textContent="Copy was blocked by the browser. Try again after the page is live.";
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-filter]").forEach(button=>{
+      button.addEventListener("click",()=>{
+        const filter=button.dataset.filter;
+        document.querySelectorAll("[data-filter]").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));
+        document.querySelectorAll(".announcement").forEach(article=>{
+          article.hidden=filter==="public" && article.dataset.status!=="public";
+        });
+      });
+    });
+  </script>
+</body>
+</html>
