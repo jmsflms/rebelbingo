@@ -245,6 +245,22 @@
       },60000/state.wpm);
     }
 
+    const readerObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const reader=entry.target;
+        if(entry.isIntersecting){
+          document.querySelectorAll(".spritz-reader").forEach(other=>{
+            if(other!==reader)stopReader(other);
+          });
+          if(!spritzState.get(reader).timer)startReader(reader);
+        }else{
+          stopReader(reader);
+        }
+      });
+    },{threshold:.55});
+
+    document.querySelectorAll(".spritz-reader").forEach(reader=>readerObserver.observe(reader));
+
     document.addEventListener("click",event=>{
       const button=event.target.closest("[data-reader-action]");
       if(!button)return;
