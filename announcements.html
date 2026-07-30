@@ -42,7 +42,7 @@
     ul{margin:10px 0 0;padding-left:22px}
     .spritz-reader{margin:0 0 clamp(55px,8vh,90px);padding:22px 0 28px;border-top:1px solid #111;border-bottom:1px solid #111}
     .spritz-label{display:flex;justify-content:space-between;gap:20px;margin:0 0 20px;font-size:.68rem;text-transform:uppercase}
-    .announcement[data-email-number="2"] .spritz-label span:first-child{max-width:460px;font-size:.56rem;line-height:1.35}
+    .announcement:is([data-email-number="1"],[data-email-number="2"]) .spritz-label span:first-child{max-width:460px;font-size:.56rem;line-height:1.35}
     .spritz-word{--eye-point:42%;position:relative;display:grid;grid-template-columns:calc(var(--eye-point) - .55ch) auto 1fr;align-items:baseline;min-height:1.2em;padding:24px 0;border-top:1px solid #111;border-bottom:1px solid #111;font-size:clamp(2rem,5vw,4.6rem);line-height:1;white-space:nowrap;overflow:hidden}
     .spritz-word::before,.spritz-word::after{content:"";position:absolute;left:var(--eye-point);width:1px;height:12px;background:#111;transform:translateX(-50%)}
     .spritz-word::before{top:0}.spritz-word::after{bottom:0}
@@ -86,7 +86,38 @@
         <span class="status-label">Draft</span>
       </div>
       <div class="email-content">
-        <div class="email-copy">This is an invitation. It's a very exclusive invitation. Firstly you have to be on my very small mailing list. You are, you have passed the first test. Secondly you have to be able to read this. If you're reading this, then you are passing the second test. Over the next 10 days you will receive four electronic mail messages. Each electronic message will contain slightly different information. This email is designed for you to include your friends, use the button below to forward this to them. If they don't understand it, they are not invited.</div>
+        <div class="pre-reader">
+          <h2>MAJOR ANNOUNCEMENTS - 2</h2>
+        </div>
+        <div class="email-copy">The announcements we are going to announce are so major that we feel it necessary to give you a pre-announcement. A pre-warning, before a warning.
+
+The first announcement is major.
+
+But it’s just a warm up.
+
+Because the second announcement is even more major.
+
+Both announcements will affect you personally.
+
+They will increase your social status amongst your friends. Because you will have heard the announcement first - even before the announcement.
+
+The first announcement will be about:
+
+<strong class="copy-heading">THE HOUSE OF DECEIT.</strong>
+A new, 2 day party for just YOU and your friends.
+
+It has five star reviews.
+
+We will be announcing the only remaining dates in 2026.
+
+We will do this on Tuesday at 12pm so you can organise your friends.
+
+The second announcement:
+
+<strong class="copy-heading">THE UNDERGROUND REBEL BINGO CLUB.</strong>
+If we were going to build our own bingo club, it would have to be unique from anything else that you have ever seen before in your life. It would have to be something that would completely change the whole way that people experience entertainment.
+
+It would have to be jaw dropping.</div>
       </div>
       <div class="announcement-tools">
         <button class="copy-email" type="button">Copy Mailchimp HTML</button>
@@ -251,8 +282,8 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
 
     document.querySelectorAll(".announcement").forEach(article=>{
       const words=readerWords(article);
-      const readerLabel=article.dataset.emailNumber==="2"
-        ?"The entire email text is contained in this speed-reading technology.<br>Can you get to 700 words a minute?"
+      const readerLabel=["1","2"].includes(article.dataset.emailNumber)
+        ?"All email text is contained in this speed-reading technology.<br>Can you get to 700 words a minute?"
         :"Read this fast";
       const reader=document.createElement("section");
       reader.className="spritz-reader";
