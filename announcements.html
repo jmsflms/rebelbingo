@@ -39,6 +39,12 @@
     .copy-heading{display:block;margin:38px 0 14px;font-size:1.08em}
     .announcement[data-email-number="1"] .copy-heading{margin:8px 0 5px}
     .announcement-break{display:block;margin-top:48px}
+    .brand-block{display:block;margin:18px 0}
+    .brand-heading{display:block;color:inherit;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:1.05;text-decoration:none}
+    .brand-url{display:inline-block;margin-top:8px;color:inherit;font-size:.84rem}
+    .rebel-logo{width:max-content;max-width:100%;color:inherit;font-size:clamp(1.8rem,4.2vw,3rem);line-height:1.02;text-decoration:none}
+    .rebel-logo>span{display:block}
+    .mini-focus{color:var(--red)}
     .feature-link{color:inherit;text-decoration:underline;text-underline-offset:3px}
     .placeholder-link{text-decoration-style:dashed}
     ul{margin:10px 0 0;padding-left:22px}
@@ -89,32 +95,42 @@
       </div>
       <div class="email-content">
         <div class="pre-reader">
-          <h2>MAJOR ANNOUNCEMENTS - 2</h2>
+          <h2>MAJOR ANNOUNCEMENTS</h2>
         </div>
         <div class="email-copy">The announcements we are going to announce are so major that we feel it necessary to give you a pre-announcement. A pre-warning, before a warning.
 
-The first announcement is major.
+The first announcement is major, it's about a 2-day long party for you and your friends.
 
-But it’s just a warm up.
+But that’s just a warm up.
 
-Because the second announcement is even more major.
+The second announcement is even more major.
 
-Both announcements will affect you personally.
+Both announcements may affect you, they can increase your social status.
 
-They will increase your social status amongst your friends. Because you will have heard the announcement first - even before the announcement.
-
-The first announcement will be about:
-<strong class="copy-heading">THE HOUSE OF DECEIT.</strong>
-A new, 2 day party for just YOU and your friends.
+The first announcement will be about:</div>
+        <div class="brand-block">
+          <a class="brand-heading" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">THE HOUSE OF DECEIT.</a>
+          <a class="brand-url" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">www.houseofdeceit.com</a>
+        </div>
+        <div class="email-copy">A new, 2 day party for just YOU and your friends.
 
 It has five star reviews.
 
 We will be announcing the only remaining dates in 2026.
 
-We will do this on Tuesday at 12pm so you can organise your friends.
-<span class="announcement-break">The second announcement:</span>
-<strong class="copy-heading">THE UNDERGROUND REBEL BINGO CLUB.</strong>
-If we were going to build our own bingo club, it would have to be unique from anything else that you have ever seen before in your life. It would have to be something that would completely change the whole way that people experience entertainment.
+<a class="feature-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=House%20of%20Deceit%202026%20dates%20announcement&amp;dates=20260804T120000%2F20260804T123000&amp;ctz=Europe%2FLondon&amp;details=Remaining%202026%20dates%20will%20be%20announced.%20https%3A%2F%2Fwww.houseofdeceit.com" target="_blank" rel="noopener">This announcement is scheduled for 12:00pm Tuesday 4th August, 2026.</a>
+
+You can use the time to get your friends organised and pick your date.
+
+<span class="announcement-break">The second announcement:</span></div>
+        <a class="brand-block rebel-logo" href="https://rebelbingo.com" target="_blank" rel="noopener" aria-label="The Underground Rebel Bingo Club">
+          <span>The</span>
+          <span>Underground</span>
+          <span>Rebel</span>
+          <span class="mini-changing-word">Bingo</span>
+          <span>Club</span>
+        </a>
+        <div class="email-copy">If we were going to build our own bingo club, it would have to be unique from anything else that you have ever seen before in your life. It would have to be something that would completely change the whole way that people experience entertainment.
 
 It would have to be jaw dropping.</div>
       </div>
@@ -333,6 +349,23 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
       state.timer=setTimeout(showNext,spritzDelay(state.words[state.index],state.wpm));
     }
 
+    const miniWords=["Madonna","Jungle","Botox","Tokyo","Kylie","Psychedelic","Cans","Midnight","Take That","Latex","Margate","Therapy","Cowgirl","80s","Electric","Friends","Britney","Crocs","Ibiza","Hallucination","Cocktails","Cowboy","Romance","DNB","Halloween","Lovers","Eurovision","Leopard","Tuesday","Aperol","Fashion","End of the World","Glitter","Future","Karaoke","Kink"];
+
+    document.querySelectorAll(".mini-changing-word").forEach(element=>{
+      let index=0;
+      function showMiniWord(word){
+        const positions=[...word].map((character,position)=>/[A-Za-z0-9]/.test(character)?position:-1).filter(position=>position>=0);
+        const focus=positions[Math.floor((positions.length-1)*.35)]??0;
+        element.replaceChildren(
+          document.createTextNode(word.slice(0,focus)),
+          Object.assign(document.createElement("span"),{className:"mini-focus",textContent:word.charAt(focus)}),
+          document.createTextNode(word.slice(focus+1))
+        );
+      }
+      showMiniWord(miniWords[index]);
+      setInterval(()=>{index=(index+1)%miniWords.length;showMiniWord(miniWords[index]);},500);
+    });
+
     const readerObserver=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
         const reader=entry.target;
@@ -397,6 +430,12 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
       copy.querySelectorAll(".announcement-break").forEach(el=>el.setAttribute("style","display:block;margin-top:42px;"));
       if(article.dataset.emailNumber==="1")copy.querySelectorAll(".copy-heading").forEach(el=>el.setAttribute("style","display:block;margin:8px 0 5px;font-family:'Lucida Console',Monaco,monospace;font-size:19px;line-height:1.4;font-weight:bold;"));
       copy.querySelectorAll(".feature-link").forEach(el=>el.setAttribute("style","color:#111;text-decoration:underline;"));
+      copy.querySelectorAll(".brand-block").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;"));
+      copy.querySelectorAll(".brand-heading").forEach(el=>el.setAttribute("style","display:block;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:34px;line-height:1.08;text-decoration:none;"));
+      copy.querySelectorAll(".brand-url").forEach(el=>el.setAttribute("style","display:inline-block;margin-top:8px;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:14px;"));
+      copy.querySelectorAll(".mini-changing-word").forEach(el=>el.textContent="Bingo");
+      copy.querySelectorAll(".rebel-logo").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:30px;line-height:1.05;text-decoration:none;"));
+      copy.querySelectorAll(".rebel-logo>span").forEach(el=>el.setAttribute("style","display:block;"));
       copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:'Lucida Console',Monaco,monospace;font-size:16px;line-height:1.5;"));
       copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:'Lucida Console',Monaco,monospace;"));
       copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#111;color:#f4f0e7;font-family:'Lucida Console',Monaco,monospace;font-size:17px;font-weight:400;text-decoration:none;"));
