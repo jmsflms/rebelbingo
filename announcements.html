@@ -37,6 +37,8 @@
     .text-link{display:block;width:max-content;max-width:100%;margin:22px 0;color:inherit}
     .email-image{display:block;width:100%;height:auto;margin:0 0 34px;border:1px solid #111}
     .copy-heading{display:block;margin:38px 0 14px;font-size:1.08em}
+    .announcement[data-email-number="1"] .copy-heading{margin:8px 0 5px}
+    .announcement-break{display:block;margin-top:48px}
     .feature-link{color:inherit;text-decoration:underline;text-underline-offset:3px}
     .placeholder-link{text-decoration-style:dashed}
     ul{margin:10px 0 0;padding-left:22px}
@@ -102,7 +104,6 @@ Both announcements will affect you personally.
 They will increase your social status amongst your friends. Because you will have heard the announcement first - even before the announcement.
 
 The first announcement will be about:
-
 <strong class="copy-heading">THE HOUSE OF DECEIT.</strong>
 A new, 2 day party for just YOU and your friends.
 
@@ -111,9 +112,7 @@ It has five star reviews.
 We will be announcing the only remaining dates in 2026.
 
 We will do this on Tuesday at 12pm so you can organise your friends.
-
-The second announcement:
-
+<span class="announcement-break">The second announcement:</span>
 <strong class="copy-heading">THE UNDERGROUND REBEL BINGO CLUB.</strong>
 If we were going to build our own bingo club, it would have to be unique from anything else that you have ever seen before in your life. It would have to be something that would completely change the whole way that people experience entertainment.
 
@@ -395,6 +394,8 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
       copy.querySelectorAll(".text-link").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:18px;"));
       copy.querySelectorAll(".email-image").forEach(el=>el.setAttribute("style","display:block;width:100%;height:auto;margin:0 0 28px;border:1px solid #111;"));
       copy.querySelectorAll(".copy-heading").forEach(el=>el.setAttribute("style","display:block;margin:32px 0 14px;font-family:'Lucida Console',Monaco,monospace;font-size:19px;line-height:1.4;font-weight:bold;"));
+      copy.querySelectorAll(".announcement-break").forEach(el=>el.setAttribute("style","display:block;margin-top:42px;"));
+      if(article.dataset.emailNumber==="1")copy.querySelectorAll(".copy-heading").forEach(el=>el.setAttribute("style","display:block;margin:8px 0 5px;font-family:'Lucida Console',Monaco,monospace;font-size:19px;line-height:1.4;font-weight:bold;"));
       copy.querySelectorAll(".feature-link").forEach(el=>el.setAttribute("style","color:#111;text-decoration:underline;"));
       copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:'Lucida Console',Monaco,monospace;font-size:16px;line-height:1.5;"));
       copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:'Lucida Console',Monaco,monospace;"));
