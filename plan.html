@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Plan | Rebel Bingo</title><style>
+    :root{--ink:#111;--cream:#f4f0e7;--yellow:#eeff00;--orange:#ff862b;--cyan:#52e5ff;--pink:#ff4fa3;--red:#ff6045;--blue:#9baeff}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#111;color:var(--ink);font-family:"Lucida Console",Monaco,monospace}
+    .tab-strip{position:relative;z-index:30;display:flex;align-items:stretch;min-height:52px;overflow-x:auto;background:var(--cream);border-bottom:1px solid #111}
+    .tab-strip a{display:flex;align-items:center;padding:14px 18px;border-right:1px solid #111;color:#111;font-size:.72rem;text-decoration:none;white-space:nowrap}
+    .tab-strip a:hover,.tab-strip a:focus{filter:brightness(.92)}
+    .tab-strip .active{box-shadow:inset 0 -5px #111;font-weight:700}
+    .tab-home{background:var(--orange)}.tab-announcements{background:var(--yellow)}.tab-venue{background:var(--cyan)}.tab-partnerships{background:var(--pink)}.tab-party{background:var(--red)}.tab-about{background:var(--cream)}.tab-plan{background:var(--blue)}.tab-instagram{background:#ffb52e}
+    .page{position:relative;min-height:calc(100vh - 52px);padding:clamp(24px,5vw,56px);overflow:hidden}
+    .backdrop{position:fixed;inset:52px 0 0;width:100%;height:calc(100% - 52px);object-fit:cover}
+    .content{position:relative;z-index:2;width:min(760px,100%);margin:0 auto}
+    .panel{padding:clamp(28px,6vw,56px);border:1px solid #111;background:var(--panel,var(--orange))}
+    h1{margin:0 0 28px;font-size:clamp(2.4rem,7vw,5.4rem);font-weight:400;line-height:1}
+    .copy{white-space:pre-line;font-size:clamp(.9rem,2vw,1.08rem);line-height:1.7}
+    .signup{margin-top:34px}
+    .signup label{display:block;margin:0 0 10px;font-size:.82rem}
+    .form-row{display:grid;grid-template-columns:1fr auto}
+    input,.signup button{height:42px;border:1px solid #111;border-radius:0;background:var(--cream);color:#111;font:inherit;font-size:.72rem}
+    input{min-width:0;padding:0 10px;border-right:0;text-align:center}
+    .signup button{padding:0 16px;background:#111;color:var(--cream);cursor:pointer}
+    .legal,.status{font-size:.63rem;line-height:1.55}
+    .legal{margin:10px 0 0}.status{min-height:1em;margin:8px 0 0}
+    @media(max-width:700px){
+      .tab-strip a{padding:13px 14px;font-size:.66rem}
+      .page{padding:18px}
+      .form-row{grid-template-columns:1fr}
+      input{border-right:1px solid #111;border-bottom:0}
+    }
+    @media(prefers-reduced-motion:reduce){.backdrop{display:none}}
+    .panel{--panel:var(--blue)}
+    
+</style></head><body>
+<nav class="tab-strip" aria-label="Rebel Bingo sections">
+    <a class="tab-home" href="index.html">Home</a>
+    <a class="tab-announcements" href="announcements.html">Announcements</a>
+    <a class="tab-venue" href="venue.html">Detailed Venue Info</a>
+    <a class="tab-partnerships" href="partnerships.html">Festivals &amp; Partnerships</a>
+    <a class="tab-party" href="party-schedule.html">Party Schedule</a>
+    <a class="tab-about" href="about.html">About</a>
+    <a class="tab-plan active" aria-current="page href="plan.html">The Plan</a>
+    <a class="tab-instagram" href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+<main class="page"><video class="backdrop" autoplay muted loop playsinline aria-hidden="true"><source src="video/Rebelbingo1.mp4" type="video/mp4"></video>
+<div class="content"><section class="panel"><h1>THE PLAN</h1>
+<div class="copy">More information will appear here.</div>
+<form class="signup">
+        <label>Receive scheduled information:</label>
+        <div class="form-row">
+          <input name="email" type="email" placeholder="type email here for more info" autocomplete="email" required>
+          <button type="submit">sign up</button>
+        </div>
+        <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time. See the <a href="announcements.html">announcements page</a> for the communications schedule.</p>
+        <p class="status" aria-live="polite"></p>
+      </form></section></div></main>
+<script>const API="https://script.google.com/macros/s/AKfycbxNawMmEhahRcxid5ii09EFDbEe7QfXpF_ATkzyorO7Z5Vxx36zmg_sgB0FqtJFf_CY/exec";
+    document.querySelectorAll(".signup").forEach(form=>form.addEventListener("submit",async event=>{
+      event.preventDefault();const button=form.querySelector("button");const status=form.querySelector(".status");const email=form.email.value.trim();
+      button.disabled=true;status.textContent="Saving…";
+      try{const response=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"saveRebelLead",email,source:"plan"}),redirect:"follow"});const result=await response.json();if(!result.success)throw new Error();status.textContent="You’re on the list.";button.textContent="Signed up";form.email.disabled=true}
+      catch{status.textContent="That didn’t work. Please try again.";button.disabled=false}
+    }));</script></body></html>
