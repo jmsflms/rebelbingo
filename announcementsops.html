@@ -321,7 +321,7 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
     document.querySelectorAll(".announcement").forEach(article=>{
       const words=readerWords(article);
       const readerLabel=["1","2"].includes(article.dataset.emailNumber)
-        ?"<strong>Speed Reader for busy people</strong><br>All email text is contained in this speed-reading technology.<br>Can you get to 700 words a minute?"
+        ?"Speed Reader for busy people"
         :"Read this fast";
       const reader=document.createElement("section");
       reader.className="spritz-reader";
@@ -334,12 +334,12 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
           <button type="button" data-reader-action="restart">Restart</button>
           <button type="button" data-reader-action="slower">Slower</button>
           <button type="button" data-reader-action="faster">Faster</button>
-          <span class="spritz-speed">45 words/min</span>
+          <span class="spritz-speed">450 words/min</span>
         </div>`;
       const preReader=article.querySelector(".pre-reader");
       if(preReader)preReader.insertAdjacentElement("afterend",reader);
       else article.querySelector(".email-content").prepend(reader);
-      spritzState.set(reader,{words,index:0,wpm:45,timer:null});
+      spritzState.set(reader,{words,index:0,wpm:450,timer:null});
       renderSpritz(reader,words[0]||"");
     });
 
@@ -414,7 +414,7 @@ Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseo
       if(action==="play"){state.timer?stopReader(reader):startReader(reader)}
       if(action==="restart"){stopReader(reader);state.index=0;renderSpritz(reader,state.words[0]||"");reader.querySelector(".spritz-progress").textContent=`1 / ${state.words.length}`}
       if(action==="slower"||action==="faster"){
-        state.wpm=Math.max(45,Math.min(700,state.wpm+(action==="faster"?50:-50)));
+        state.wpm=Math.max(50,Math.min(700,state.wpm+(action==="faster"?50:-50)));
         reader.querySelector(".spritz-speed").textContent=`${state.wpm} words/min`;
         if(state.timer)startReader(reader);
       }
