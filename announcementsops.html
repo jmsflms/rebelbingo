@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rebel Bingo Announcement Operations</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Rebel Bingo announcements, oldest first.">
+  <style>
+    :root{--ink:#111;--cream:#f4f0e7;--yellow:#eeff00;--orange:#ff862b;--pink:#ff4fa3;--blue:#54a8ff;--red:#ff2d24}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#111;color:var(--ink);font-family:"Lucida Console",Monaco,monospace}
+    a{color:inherit;text-underline-offset:3px}
+    button{border:1px solid currentColor;border-radius:0;padding:11px 14px;background:transparent;color:inherit;font:inherit;font-size:.72rem;text-transform:uppercase;cursor:pointer}
+    button[aria-pressed="true"]{background:#111;color:var(--cream)}
+    .page-header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 4vw;background:var(--cream);border-bottom:1px solid #111}
+    .page-header strong{font-size:clamp(.78rem,1.5vw,1rem);font-weight:400;text-transform:uppercase}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    main{width:100%;margin:0;padding:0;background:#111}
+    .intro{width:min(100%,660px);min-height:0;margin:0 auto;padding:30px 36px;background:var(--orange);font-size:clamp(.78rem,1.1vw,1rem);line-height:1.5}
+    .announcement{width:min(100%,660px);min-height:100vh;margin:0 auto;background:var(--yellow);border:0}
+    .announcement:nth-of-type(2){background:var(--orange)}
+    .announcement:nth-of-type(3){background:var(--pink)}
+    .announcement:nth-of-type(4){background:var(--blue)}
+    .announcement[hidden]{display:none}
+    .announcement-meta{display:flex;justify-content:space-between;gap:12px;padding:14px 36px;border-bottom:1px solid #111;font-size:.72rem;font-weight:400;text-transform:uppercase}
+    .email-content{width:min(540px,calc(100% - 72px));padding:clamp(60px,9vh,105px) 0 clamp(70px,10vh,120px);margin:0 auto}
+    h2{max-width:850px;margin:0 0 45px;font-size:clamp(2.5rem,6vw,5.8rem);font-weight:400;line-height:1.04;letter-spacing:0}
+    h3{margin:60px 0 20px;font-size:clamp(2rem,4vw,4rem);font-weight:400;line-height:1.05}
+    p,li{font-size:clamp(.9rem,1.25vw,1.08rem);line-height:1.65}
+    p{max-width:720px;margin:0 0 22px}
+    .email-copy{max-width:720px;white-space:pre-wrap;font-size:clamp(.9rem,1.25vw,1.08rem);line-height:1.65}
+    .pre-reader{max-width:720px;margin:0 0 30px}
+    .pre-reader h2{margin:12px 0 6px;font-size:clamp(2.4rem,4vw,4.2rem)}
+    .producer,.strapline{margin:0;font-size:clamp(.78rem,1.1vw,.95rem);line-height:1.45}
+    .reader-note{max-width:680px;margin:34px auto 10px;text-align:center;font-size:clamp(.72rem,1vw,.88rem);line-height:1.5}
+    .text-link{display:block;width:max-content;max-width:100%;margin:22px 0;color:inherit}
+    .email-image{display:block;width:100%;height:auto;margin:0 0 34px;border:1px solid #111}
+    .copy-heading{display:block;margin:38px 0 14px;font-size:1.08em}
+    .announcement[data-email-number="1"] .copy-heading{margin:8px 0 5px}
+    .announcement-break{display:block;margin-top:48px}
+    .brand-block{display:block;margin:18px 0}
+    .brand-heading{display:block;color:inherit;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:1.05;text-decoration:none}
+    .colour-section{width:min(660px,100vw);margin-left:calc((100% - min(660px,100vw))/2);padding:clamp(34px,6vw,60px);box-sizing:border-box}
+    .house-section{margin-top:30px;background:var(--orange)}
+    .rebel-section{background:#52e5ff}
+    .house-section .brand-block{margin:18px 0 24px}
+    .rebel-section .announcement-break{margin-top:0}
+    .house-link{color:#0645ad;font-size:clamp(1.55rem,5vw,2.1rem);font-weight:700;text-align:center;text-decoration:underline;text-decoration-thickness:2px;white-space:nowrap}
+    .brand-url{display:inline-block;margin-top:8px;color:inherit;font-size:.84rem}
+    .rebel-logo{width:max-content;max-width:100%;color:inherit;font-size:clamp(1.8rem,4.2vw,3rem);line-height:1.02;text-decoration:none}
+    .rebel-logo>span{display:block}
+    .mini-focus{color:var(--red)}
+    .section-label{display:block;margin:0 0 18px;font-size:.72rem;text-transform:uppercase}
+    .feature-link{color:inherit;text-decoration:underline;text-underline-offset:3px}
+    .placeholder-link{text-decoration-style:dashed}
+    ul{margin:10px 0 0;padding-left:22px}
+    .spritz-reader{margin:0 0 clamp(55px,8vh,90px);padding:22px 0 28px;border-top:1px solid #111;border-bottom:1px solid #111}
+    .spritz-label{display:flex;justify-content:space-between;gap:20px;margin:0 0 20px;font-size:.68rem;text-transform:uppercase}
+    .announcement:is([data-email-number="1"],[data-email-number="2"]) .spritz-label span:first-child{max-width:460px;font-size:.56rem;line-height:1.35}
+    .spritz-word{--eye-point:42%;position:relative;display:grid;grid-template-columns:calc(var(--eye-point) - .55ch) auto 1fr;align-items:baseline;min-height:1.2em;padding:24px 0;border-top:1px solid #111;border-bottom:1px solid #111;font-size:clamp(2rem,5vw,4.6rem);line-height:1;white-space:nowrap;overflow:hidden}
+    .spritz-word::before,.spritz-word::after{content:"";position:absolute;left:var(--eye-point);width:1px;height:12px;background:#111;transform:translateX(-50%)}
+    .spritz-word::before{top:0}.spritz-word::after{bottom:0}
+    .spritz-before{text-align:right}.spritz-focus{color:var(--red)}.spritz-after{text-align:left}
+    .spritz-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px}
+    .spritz-speed{font-size:.7rem;text-transform:uppercase}
+    .missing{max-width:720px;margin:38px 0;padding:22px 0;border-top:1px dashed #111;border-bottom:1px dashed #111;background:transparent}
+    .button-link{display:inline-block;margin:12px 0 28px;padding:15px 20px;border:1px solid #111;background:#111;color:var(--cream);font-weight:400;text-decoration:none}
+    .announcement-tools{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 36px;border-top:1px solid #111;background:rgba(244,240,231,.22)}
+    .copy-status{min-height:1em;font-size:.72rem}
+    .site-footer{padding:35px 4vw;background:#111;color:var(--cream);font-size:.7rem}
+    @media(max-width:700px){
+      .page-header{position:static;align-items:flex-start;flex-direction:column}
+      .intro{width:100%;padding-left:8vw;padding-right:8vw}
+      .announcement{width:100%;min-height:100vh;aspect-ratio:auto}
+      .announcement-meta{padding-left:4vw;padding-right:4vw}
+      .email-content{width:84vw}
+      .announcement-tools{padding-left:4vw;padding-right:4vw}
+      .spritz-word{font-size:clamp(1.8rem,8vw,3.2rem)}
+      .announcement-tools{align-items:flex-start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <strong>REBEL BINGO / ANNOUNCEMENT OPS</strong>
+    <div class="filters" aria-label="Announcement visibility">
+      <button type="button" data-filter="all" aria-pressed="true">Show all drafts</button>
+      <button type="button" data-filter="public" aria-pressed="false">Public only</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="intro">
+      Private working page. Drafts and Mailchimp tools are shown here.
+    </p>
+
+    <article class="announcement" id="email-1" data-status="draft" data-email-number="1">
+      <div class="announcement-meta">
+        <span>Email 1</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <div class="pre-reader">
+          <h2>MAJOR ANNOUNCEMENTS</h2>
+        </div>
+
+        <div class="email-copy"><span class="section-label">Section A</span>In the coming days we are revealing two major innovations in entertainment.
+
+Announcement 1: Our private, 2-day long party, JUST for you and your friends: for you to send to people planning unique celebrations — birthdays, hen parties and others.
+
+Announcement 2: Our new central London venue, an entertainment and hospitality experience so jaw dropping it will change the entire concept of entertainment.</div>
+
+        <section class="colour-section house-section">
+          <div class="email-copy"><span class="section-label">Section B — Announcement 1</span></div>
+          <div class="brand-block">
+            <a class="brand-heading house-link" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">THE HOUSE OF DECEIT</a>
+            <a class="brand-url" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">www.houseofdeceit.com</a>
+          </div>
+          <div class="email-copy">Pilots have been running since January. They sold out until the end of August.
+
+Groups of 10–15 friends stay the night in a big house.
+
+Play a game of murder.
+
+100% five-star reviews.
+
+The announcement reveals that we have opened dates for Autumn 2026.
+
+You have a head start to organise your dates.</div>
+        </section>
+
+        <section class="colour-section rebel-section">
+          <div class="email-copy"><span class="section-label">Section C — Announcement 2</span></div>
+          <a class="brand-block rebel-logo" href="https://rebelbingo.com" target="_blank" rel="noopener" aria-label="The Underground Rebel Bingo Club">
+            <span>The</span>
+            <span>Underground</span>
+            <span>Rebel</span>
+            <span class="mini-changing-word">Bingo</span>
+            <span>Club</span>
+          </a>
+          <div class="email-copy">If we built a bingo club it would have to be unique, a new type of experience.
+
+We would not rely ONLY on massive flashing lights, 3D sound, vast screens or lasers.
+
+We focus on intense emotional experiences and the core humanity of groups.
+
+That’s our ambition.
+
+And that is what we are building.
+
+Book advance tours and previews of the site in Central London.
+
+We are already booking private parties and launches.
+
+This is something you should know about.</div>
+        </section>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-2" data-status="draft" data-email-number="2">
+      <div class="announcement-meta">
+        <span>Email 2</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <div class="pre-reader">
+          <p class="producer">Rebel Bingo Productions Presents:</p>
+          <h2>House of Deceit</h2>
+          <p class="strapline">1 house, 2 nights.<br>Your friends stay in a house &amp; take part in a crazy game.</p>
+        </div>
+        <div class="email-copy">people are loving our 2-night parties at our house in Whitstable
+
+<a class="feature-link" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">www.houseofdeceit.com</a>
+
+★★★★★ 5 STAR REVIEWS
+
+A structured format, layered on top of a friends’ weekend break.
+
+We've had birthdays, hens, running groups &amp; random reunions.
+
+Ensuite bathrooms, four-poster beds, a hot tub, a big garden, close to the sea &amp; big fridges.
+
+It’s a fun weekend anyway; the game makes this an unforgettable experience.
+
+<strong class="copy-heading">EMOTIONAL BONDING &amp; HYSTERICS</strong>
+Some or all of your friends will be keeping secrets &amp; telling lies.
+
+You won’t know who.
+
+It’s explosive, like being in a surreal reality show.
+
+<strong class="copy-heading">PRODUCED FOR MAXIMUM FUN</strong>
+The house is specially adapted with game technology.
+
+<a class="feature-link" href="https://www.houseofdeceit.com/countdown/" target="_blank" rel="noopener">Countdowns</a> signpost all activities.
+
+<a class="feature-link placeholder-link" href="https://www.houseofdeceit.com/leaderboards" target="_blank" rel="noopener">Leaderboards</a> shift to give clues.
+
+<a class="feature-link placeholder-link" href="https://www.houseofdeceit.com/messages" target="_blank" rel="noopener">Secret Messaging</a> broadcasts clues &amp; misinformation.
+
+<a class="feature-link placeholder-link" href="#video-confessionals-placeholder">Video confessionals</a>.
+
+Polaroids are marked off as your friends are murdered.
+
+It all builds to an intense finale at 9pm on night two.
+
+<strong class="copy-heading">HIGH DEMAND SUGGESTS THIS WILL SELL OUT</strong>
+In the autumn, the BBC will air a TV series that has similar gameplay.
+
+The whole nation will be talking about that TV show.
+
+I anticipate that House of Deceit will be sold out or booked up IF YOU DON’T TAKE ACTION NOW.
+
+<a class="feature-link" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">Book it here.</a>
+
+Email <a class="feature-link" href="mailto:house@houseofdeceit.com">house@houseofdeceit.com</a> with questions.</div>
+        <div class="missing" id="video-confessionals-placeholder">
+          <strong>PLACEHOLDER STILL NEEDED</strong>
+          <ul>
+            <li>Video confessionals page and looping 9:16 confessional-room video</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://www.houseofdeceit.com" target="_blank" rel="noopener">BOOK HOUSE OF DECEIT</a>
+        <a class="button-link" href="https://wa.me/?text=House%20of%20Deceit%20%E2%80%94%20one%20house%2C%20two%20nights.%20All%20of%20your%20friends%20stay%20in%20a%20house%20and%20take%20part%20in%20a%20crazy%20game.%20https%3A%2F%2Frebelbingo.com%2Fannouncements.html%23email-2" target="_blank" rel="noopener">SHARE ON WHATSAPP</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-3" data-status="draft" data-email-number="3">
+      <div class="announcement-meta">
+        <span>Email 3</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>Camden Town.<br>We’re opening.</h2>
+        <p>The Underground Rebel Bingo Club is coming to Camden Town.</p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>Club announcement copy</li>
+            <li>Website screenshots or video</li>
+            <li>Interactive 3D club model</li>
+            <li>Subscriber-only or early information</li>
+            <li>Connection back to House of Deceit</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://rebelbingo.com">SEE THE CLUB</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+
+    <article class="announcement" id="email-4" data-status="draft" data-email-number="4">
+      <div class="announcement-meta">
+        <span>Email 4</span>
+        <span class="status-label">Draft</span>
+      </div>
+      <div class="email-content">
+        <h2>The reveal.</h2>
+        <p>The fourth and final email.</p>
+        <div class="missing">
+          <strong>MISSING CONTENT</strong>
+          <ul>
+            <li>Death Who answer</li>
+            <li>Leaderboard result</li>
+            <li>Special announcement</li>
+            <li>One final House of Deceit action</li>
+          </ul>
+        </div>
+        <a class="button-link" href="https://houseofdeceit.com">BOOK HOUSE OF DECEIT</a>
+      </div>
+      <div class="announcement-tools">
+        <button class="copy-email" type="button">Copy Mailchimp HTML</button>
+        <span class="copy-status" aria-live="polite"></span>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 Rebel Bingo. Working announcements archive.
+  </footer>
+
+  <script>
+    const spritzState=new Map();
+
+    function spritzWordParts(word){
+      const letterPositions=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
+      const focusIndex=letterPositions[Math.floor((letterPositions.length-1)*.35)]??0;
+      return {
+        before:word.slice(0,focusIndex),
+        focus:word.charAt(focusIndex)||" ",
+        after:word.slice(focusIndex+1)
+      };
+    }
+
+    function readerWords(article){
+      const copy=article.querySelector(".email-content").cloneNode(true);
+      copy.querySelectorAll(".spritz-reader").forEach(el=>el.remove());
+      copy.querySelectorAll(".missing,.button-link,.spritz-reader").forEach(el=>el.remove());
+      return copy.textContent.trim().split(/\s+/).filter(Boolean);
+    }
+
+    function renderSpritz(reader,word){
+      const parts=spritzWordParts(word);
+      reader.querySelector(".spritz-before").textContent=parts.before;
+      reader.querySelector(".spritz-focus").textContent=parts.focus;
+      reader.querySelector(".spritz-after").textContent=parts.after;
+    }
+
+    document.querySelectorAll(".announcement").forEach(article=>{
+      const words=readerWords(article);
+      const readerLabel=["1","2"].includes(article.dataset.emailNumber)
+        ?"<strong>Speed Reader for busy people</strong><br>All email text is contained in this speed-reading technology.<br>Can you get to 700 words a minute?"
+        :"Read this fast";
+      const reader=document.createElement("section");
+      reader.className="spritz-reader";
+      reader.setAttribute("aria-label","Speed reader");
+      reader.innerHTML=`
+        <div class="spritz-label"><span>${readerLabel}</span><span class="spritz-progress">1 / ${words.length}</span></div>
+        <div class="spritz-word" aria-live="polite"><span class="spritz-before"></span><span class="spritz-focus"></span><span class="spritz-after"></span></div>
+        <div class="spritz-controls">
+          <button type="button" data-reader-action="play">Play</button>
+          <button type="button" data-reader-action="restart">Restart</button>
+          <button type="button" data-reader-action="slower">Slower</button>
+          <button type="button" data-reader-action="faster">Faster</button>
+          <span class="spritz-speed">45 words/min</span>
+        </div>`;
+      const preReader=article.querySelector(".pre-reader");
+      if(preReader)preReader.insertAdjacentElement("afterend",reader);
+      else article.querySelector(".email-content").prepend(reader);
+      spritzState.set(reader,{words,index:0,wpm:45,timer:null});
+      renderSpritz(reader,words[0]||"");
+    });
+
+    function stopReader(reader){
+      const state=spritzState.get(reader);
+      clearTimeout(state.timer);
+      state.timer=null;
+      reader.querySelector('[data-reader-action="play"]').textContent="Play";
+    }
+
+    function spritzDelay(word,wpm){
+      const base=60000/wpm;
+      if(/[.!?][\"'’)]*$/.test(word))return base*2;
+      if(/,[\"'’)]*$/.test(word))return base*1.5;
+      return base;
+    }
+
+    function startReader(reader){
+      const state=spritzState.get(reader);
+      stopReader(reader);
+      reader.querySelector('[data-reader-action="play"]').textContent="Pause";
+
+      function showNext(){
+        state.index=(state.index+1)%state.words.length;
+        renderSpritz(reader,state.words[state.index]);
+        reader.querySelector(".spritz-progress").textContent=`${state.index+1} / ${state.words.length}`;
+        state.timer=setTimeout(showNext,spritzDelay(state.words[state.index],state.wpm));
+      }
+
+      state.timer=setTimeout(showNext,spritzDelay(state.words[state.index],state.wpm));
+    }
+
+    const miniWords=["Madonna","Jungle","Botox","Tokyo","Kylie","Psychedelic","Cans","Midnight","Take That","Latex","Margate","Therapy","Cowgirl","80s","Electric","Friends","Britney","Crocs","Ibiza","Hallucination","Cocktails","Cowboy","Romance","DNB","Halloween","Lovers","Eurovision","Leopard","Tuesday","Aperol","Fashion","End of the World","Glitter","Future","Karaoke","Kink"];
+
+    document.querySelectorAll(".mini-changing-word").forEach(element=>{
+      let index=0;
+      function showMiniWord(word){
+        const positions=[...word].map((character,position)=>/[A-Za-z0-9]/.test(character)?position:-1).filter(position=>position>=0);
+        const focus=positions[Math.floor((positions.length-1)*.35)]??0;
+        element.replaceChildren(
+          document.createTextNode(word.slice(0,focus)),
+          Object.assign(document.createElement("span"),{className:"mini-focus",textContent:word.charAt(focus)}),
+          document.createTextNode(word.slice(focus+1))
+        );
+      }
+      showMiniWord(miniWords[index]);
+      setInterval(()=>{index=(index+1)%miniWords.length;showMiniWord(miniWords[index]);},500);
+    });
+
+    const readerObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const reader=entry.target;
+        if(entry.isIntersecting){
+          document.querySelectorAll(".spritz-reader").forEach(other=>{
+            if(other!==reader)stopReader(other);
+          });
+          if(!spritzState.get(reader).timer)startReader(reader);
+        }else{
+          stopReader(reader);
+        }
+      });
+    },{threshold:.55});
+
+    document.querySelectorAll(".spritz-reader").forEach(reader=>readerObserver.observe(reader));
+
+    document.addEventListener("click",event=>{
+      const button=event.target.closest("[data-reader-action]");
+      if(!button)return;
+      const reader=button.closest(".spritz-reader");
+      const state=spritzState.get(reader);
+      const action=button.dataset.readerAction;
+      if(action==="play"){state.timer?stopReader(reader):startReader(reader)}
+      if(action==="restart"){stopReader(reader);state.index=0;renderSpritz(reader,state.words[0]||"");reader.querySelector(".spritz-progress").textContent=`1 / ${state.words.length}`}
+      if(action==="slower"||action==="faster"){
+        state.wpm=Math.max(45,Math.min(700,state.wpm+(action==="faster"?50:-50)));
+        reader.querySelector(".spritz-speed").textContent=`${state.wpm} words/min`;
+        if(state.timer)startReader(reader);
+      }
+    });
+
+    const EMAIL_HEADER = number => `
+<p style="margin:0 0 24px;font-family:'Lucida Console',Monaco,monospace;font-size:12px;text-align:center;">
+  <a href="https://rebelbingo.com/announcements.html#email-${number}">View this announcement online</a>
+  &nbsp;·&nbsp;
+  <a href="*|ARCHIVE|*">View Mailchimp’s copy</a>
+</p>`;
+
+    const EMAIL_FOOTER = `
+<p style="margin:32px 0 0;padding-top:24px;border-top:1px solid #111;font-family:'Lucida Console',Monaco,monospace;font-size:12px;line-height:1.6;text-align:center;">
+  <em>Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|*. All rights reserved.</em><br>
+  *|IFNOT:ARCHIVE_PAGE|**|LIST:DESCRIPTION|**|END:IF|*<br><br>
+  Our mailing address is:<br>
+  *|IFNOT:ARCHIVE_PAGE|**|HTML:LIST_ADDRESS|**|END:IF|*<br><br>
+  Want to change how you receive these emails?<br>
+  You can <a href="*|UPDATE_PROFILE|*">update your preferences</a> or
+  <a href="*|UNSUB|*">unsubscribe</a>.
+</p>`;
+
+    function emailSafeContent(article){
+      const copy=article.querySelector(".email-content").cloneNode(true);
+      copy.querySelectorAll(".spritz-reader").forEach(el=>el.remove());
+      copy.querySelectorAll("h2").forEach(el=>el.setAttribute("style","margin:0 0 28px;font-family:'Lucida Console',Monaco,monospace;font-size:42px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("h3").forEach(el=>el.setAttribute("style","margin:34px 0 16px;font-family:'Lucida Console',Monaco,monospace;font-size:30px;line-height:1.08;font-weight:400;"));
+      copy.querySelectorAll("p").forEach(el=>el.setAttribute("style","margin:0 0 19px;font-family:'Lucida Console',Monaco,monospace;font-size:18px;line-height:1.5;"));
+      copy.querySelectorAll(".email-copy").forEach(el=>el.setAttribute("style","margin:0 0 19px;white-space:pre-wrap;font-family:'Lucida Console',Monaco,monospace;font-size:18px;line-height:1.5;"));
+      copy.querySelectorAll(".producer,.strapline,.reader-note").forEach(el=>el.setAttribute("style","margin:0 0 12px;font-family:'Lucida Console',Monaco,monospace;font-size:14px;line-height:1.5;"));
+      copy.querySelectorAll(".reader-note").forEach(el=>el.setAttribute("style","margin:26px 0 14px;font-family:'Lucida Console',Monaco,monospace;font-size:14px;line-height:1.5;text-align:center;"));
+      copy.querySelectorAll(".text-link").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:18px;"));
+      copy.querySelectorAll(".email-image").forEach(el=>el.setAttribute("style","display:block;width:100%;height:auto;margin:0 0 28px;border:1px solid #111;"));
+      copy.querySelectorAll(".copy-heading").forEach(el=>el.setAttribute("style","display:block;margin:32px 0 14px;font-family:'Lucida Console',Monaco,monospace;font-size:19px;line-height:1.4;font-weight:bold;"));
+      copy.querySelectorAll(".announcement-break").forEach(el=>el.setAttribute("style","display:block;margin-top:42px;"));
+      if(article.dataset.emailNumber==="1")copy.querySelectorAll(".copy-heading").forEach(el=>el.setAttribute("style","display:block;margin:8px 0 5px;font-family:'Lucida Console',Monaco,monospace;font-size:19px;line-height:1.4;font-weight:bold;"));
+      copy.querySelectorAll(".feature-link").forEach(el=>el.setAttribute("style","color:#111;text-decoration:underline;"));
+      copy.querySelectorAll(".brand-block").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;"));
+      copy.querySelectorAll(".brand-heading").forEach(el=>el.setAttribute("style","display:block;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:34px;line-height:1.08;text-decoration:none;"));
+      copy.querySelectorAll(".brand-url").forEach(el=>el.setAttribute("style","display:inline-block;margin-top:8px;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:14px;"));
+      copy.querySelectorAll(".mini-changing-word").forEach(el=>el.textContent="Bingo");
+      copy.querySelectorAll(".rebel-logo").forEach(el=>el.setAttribute("style","display:block;margin:18px 0;color:#111;font-family:'Lucida Console',Monaco,monospace;font-size:30px;line-height:1.05;text-decoration:none;"));
+      copy.querySelectorAll(".rebel-logo>span").forEach(el=>el.setAttribute("style","display:block;"));
+      copy.querySelectorAll("ul").forEach(el=>el.setAttribute("style","margin:12px 0 0;padding-left:22px;font-family:'Lucida Console',Monaco,monospace;font-size:16px;line-height:1.5;"));
+      copy.querySelectorAll(".missing").forEach(el=>el.setAttribute("style","margin:26px 0;padding:22px;border:3px dashed #111;background:#fff200;font-family:'Lucida Console',Monaco,monospace;"));
+      copy.querySelectorAll(".button-link").forEach(el=>el.setAttribute("style","display:inline-block;margin:8px 0 24px;padding:15px 20px;background:#111;color:#f4f0e7;font-family:'Lucida Console',Monaco,monospace;font-size:17px;font-weight:400;text-decoration:none;"));
+      return copy.innerHTML;
+    }
+
+    function mailchimpHtml(article){
+      const number=article.dataset.emailNumber;
+      return `
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#eeff00;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;">
+        <tr>
+          <td style="padding:28px 24px;color:#111;">
+            ${EMAIL_HEADER(number)}
+            ${emailSafeContent(article)}
+            ${EMAIL_FOOTER}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`.trim();
+    }
+
+    document.querySelectorAll(".copy-email").forEach(button=>{
+      button.addEventListener("click",async()=>{
+        const article=button.closest(".announcement");
+        const status=article.querySelector(".copy-status");
+        try{
+          await navigator.clipboard.writeText(mailchimpHtml(article));
+          status.textContent="Copied. Paste this into one Mailchimp Code block.";
+        }catch{
+          status.textContent="Copy was blocked by the browser. Try again after the page is live.";
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-filter]").forEach(button=>{
+      button.addEventListener("click",()=>{
+        const filter=button.dataset.filter;
+        document.querySelectorAll("[data-filter]").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));
+        document.querySelectorAll(".announcement").forEach(article=>{
+          article.hidden=filter==="public" && article.dataset.status!=="public";
+        });
+      });
+    });
+  </script>
+</body>
+</html>
