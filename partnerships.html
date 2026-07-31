@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Festivals & Partnerships | Rebel Bingo</title>
+  <meta name="description" content="Festivals & Partnerships information from Rebel Bingo.">
+  <style>
+    :root{--ink:#111;--cream:#f4f0e7;--orange:#ff862b;--yellow:#eeff00}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#111;color:var(--ink);font-family:"Lucida Console",Monaco,monospace}
+    .tab-strip{position:relative;z-index:20;display:flex;align-items:stretch;min-height:52px;overflow-x:auto;background:var(--orange);border-bottom:1px solid #111}
+    .tab-strip a{display:flex;align-items:center;padding:14px 18px;border-right:1px solid #111;color:#111;font-size:.72rem;text-decoration:none;white-space:nowrap}
+    .tab-strip a:hover,.tab-strip a:focus,.tab-strip .active{background:var(--yellow)}
+    .tab-strip .tab-brand{background:#111;color:var(--cream);font-weight:700}
+    .page{position:relative;display:grid;place-items:center;min-height:calc(100vh - 52px);padding:32px;overflow:hidden}
+    .backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .panel{position:relative;z-index:2;width:min(560px,100%);padding:clamp(28px,6vw,54px);background:var(--orange);border:1px solid #111}
+    h1{margin:0 0 34px;font-size:clamp(2rem,6vw,4rem);font-weight:400;line-height:1.05}
+    .signup label{display:block;margin:0 0 12px;font-size:.9rem}
+    .form-row{display:grid;grid-template-columns:1fr auto}
+    input,.signup button{height:44px;border:1px solid #111;border-radius:0;background:var(--cream);color:#111;font:inherit;font-size:.76rem}
+    input{min-width:0;padding:0 12px;border-right:0;text-align:center}
+    .signup button{padding:0 18px;background:#111;color:var(--cream);cursor:pointer}
+    .legal,.status{font-size:.67rem;line-height:1.55}
+    .legal{margin:12px 0 0}.status{min-height:1em;margin:9px 0 0}
+    .legal a{color:inherit}
+    @media(max-width:700px){
+      .tab-strip a{padding:13px 14px;font-size:.66rem}
+      .page{padding:18px}
+      .form-row{grid-template-columns:1fr}
+      input{border-right:1px solid #111;border-bottom:0}
+    }
+    @media(prefers-reduced-motion:reduce){.backdrop{display:none}}
+  </style>
+</head>
+<body>
+  <nav class="tab-strip" aria-label="Rebel Bingo sections">
+    <a class="tab-brand" href="index.html">REBEL BINGO</a>
+    <a href="venue.html">Detailed Venue Info</a>
+    <a class="active" aria-current="page" href="partnerships.html">Festivals &amp; Partnerships</a>
+    <a href="announcements.html">Announcements</a>
+  </nav>
+  <main class="page">
+    <video class="backdrop" autoplay muted loop playsinline aria-hidden="true">
+      <source src="video/Rebelbingo1.mp4" type="video/mp4">
+    </video>
+    <section class="panel">
+      <h1>Festivals & Partnerships</h1>
+      <form class="signup" id="signup">
+        <label for="email">Receive scheduled information:</label>
+        <div class="form-row">
+          <input id="email" name="email" type="email" placeholder="type email here for more info" autocomplete="email" required>
+          <button type="submit">sign up</button>
+        </div>
+        <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time. See the <a href="announcements.html">announcements page</a> for the communications schedule.</p>
+        <p class="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+  <script>
+    const API="https://script.google.com/macros/s/AKfycbxNawMmEhahRcxid5ii09EFDbEe7QfXpF_ATkzyorO7Z5Vxx36zmg_sgB0FqtJFf_CY/exec";
+    document.querySelector("#signup").addEventListener("submit",async event=>{
+      event.preventDefault();
+      const form=event.currentTarget;
+      const button=form.querySelector("button");
+      const status=form.querySelector(".status");
+      const email=form.email.value.trim();
+      button.disabled=true;
+      status.textContent="Saving…";
+      try{
+        const response=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"saveRebelLead",email,source:"rebelbingo.com partnerships"}),redirect:"follow"});
+        const result=await response.json();
+        if(!result.success)throw new Error();
+        status.textContent="You’re on the list.";
+        button.textContent="Signed up";
+        form.email.disabled=true;
+      }catch{
+        status.textContent="That didn’t work. Please try again.";
+        button.disabled=false;
+      }
+    });
+  </script>
+</body>
+</html>
