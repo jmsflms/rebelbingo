@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Underground Rebel Bingo Club — Capture Logo</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#fff}
+    body{display:grid;place-items:center;color:#000;font-family:"Lucida Console",Monaco,monospace}
+    .logo{width:min(76vw,1180px);font-size:clamp(4rem,9.6vw,11.5rem);font-weight:400;line-height:.86;letter-spacing:-.065em}
+    .line{display:block;white-space:nowrap}
+    .changing{display:block;height:.92em;white-space:nowrap}
+    .focus{color:#ff2d24}
+  </style>
+</head>
+<body>
+  <main class="logo" aria-label="The Underground Rebel Bingo Club">
+    <span class="line">The</span>
+    <span class="line">Underground</span>
+    <span class="line">Rebel</span>
+    <span class="changing" id="changing">Bingo</span>
+    <span class="line">Club</span>
+  </main>
+  <script>
+    const words=["Bingo","Madonna","Jungle","Botox","Tokyo","Kylie","Psychedelic","Cans","Midnight","Take That","Latex","Margate","Therapy","Cowgirl","80s","Electric","Friends","Britney","Crocs","Ibiza","Hallucination","Cocktails","Cowboy","Romance","DNB","Halloween","Lovers","Eurovision","Leopard","Tuesday","Aperol","Fashion","End of the World","Glitter","Future","Karaoke","Kink"];
+    const changing=document.getElementById("changing");
+    function parts(word){
+      const letters=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
+      const focusIndex=letters[Math.floor((letters.length-1)*.35)]??0;
+      return {before:word.slice(0,focusIndex),focus:word.charAt(focusIndex)||" ",after:word.slice(focusIndex+1)};
+    }
+    function show(word){
+      const value=parts(word);
+      const focus=document.createElement("span");
+      focus.className="focus";
+      focus.textContent=value.focus;
+      changing.replaceChildren(document.createTextNode(value.before),focus,document.createTextNode(value.after));
+    }
+    let index=0;
+    show(words[index]);
+    setInterval(()=>{index=(index+1)%words.length;show(words[index])},500);
+  </script>
+</body>
+</html>
