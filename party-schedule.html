@@ -39,6 +39,8 @@
     .month h2{margin:0;padding:13px;border-bottom:1px solid #111;font-size:.78rem;font-weight:400;text-transform:uppercase}
     .week,.days{display:grid;grid-template-columns:repeat(7,1fr)}
     .week span,.days span{display:grid;place-items:center;min-height:34px;border-right:1px solid #111;border-bottom:1px solid #111;font-size:.58rem}
+    .days span.teal{background:#12b8aa;color:#111}
+    .days span.orange{background:var(--orange);color:#111}
     .week span:nth-child(7n),.days span:nth-child(7n){border-right:0}
     .days span:nth-last-child(-n+7){border-bottom:0}
     @media(max-width:600px){.calendars{grid-template-columns:1fr}}
@@ -71,9 +73,12 @@
       try{const response=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"saveRebelLead",email,source:"party"}),redirect:"follow"});const result=await response.json();if(!result.success)throw new Error();status.textContent="You’re on the list.";button.textContent="Signed up";form.email.disabled=true}
       catch{status.textContent="That didn’t work. Please try again.";button.disabled=false}
     }));
-    const months=[[2026,7],[2026,8],[2026,9],[2026,10],[2026,11],[2027,0]];
+    const months=[];for(let year=2026,month=7;year<2027||month<=8;){months.push([year,month]);month++;if(month===12){month=0;year++}}
     const names=["January","February","March","April","May","June","July","August","September","October","November","December"];
     const weekdays=["M","T","W","T","F","S","S"];
+    const tealExceptions=new Set(["2026-08-30","2026-12-27","2026-12-28","2026-12-29","2026-12-30","2026-12-31","2027-03-25","2027-03-28","2027-05-02","2027-05-30","2027-08-29"]);
+    const uncoloured=new Set(["2026-12-24","2026-12-25","2026-12-26"]);
+    const dateKey=(year,month,date)=>`${year}-${String(month+1).padStart(2,"0")}-${String(date).padStart(2,"0")}`;
     const calendars=document.querySelector("#calendars");
     months.forEach(([year,month])=>{
       const box=document.createElement("section");box.className="month";
@@ -81,6 +86,17 @@
       const week=document.createElement("div");week.className="week";weekdays.forEach(day=>week.append(Object.assign(document.createElement("span"),{textContent:day})));box.append(week);
       const days=document.createElement("div");days.className="days";
       const first=(new Date(year,month,1).getDay()+6)%7;const total=new Date(year,month+1,0).getDate();
-      for(let i=0;i<42;i++){const cell=document.createElement("span");const date=i-first+1;cell.textContent=date>0&&date<=total?date:"";days.append(cell)}
+      for(let i=0;i<42;i++){
+        const cell=document.createElement("span");const date=i-first+1;
+        if(date>0&&date<=total){
+          cell.textContent=date;
+          const key=dateKey(year,month,date);const day=new Date(year,month,date).getDay();
+          if(!uncoloured.has(key)){
+            if(tealExceptions.has(key)||day===5||day===6)cell.className="teal";
+            else if(day===4)cell.className="orange";
+          }
+        }
+        days.append(cell);
+      }
       box.append(days);calendars.append(box);
     });</script></body></html>
