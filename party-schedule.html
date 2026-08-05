@@ -33,6 +33,13 @@
       input{border-right:1px solid #111;border-bottom:0}
     }
     @media(prefers-reduced-motion:reduce){.tab-strip a{animation:none}.backdrop{display:none}}
+    .destruct-warning{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:20px;margin:0 0 30px;padding:18px;background:#c0c0c0;border:3px solid;border-color:#fff #404040 #404040 #fff;box-shadow:1px 1px 0 #000;color:#000}
+    .destruct-warning p{margin:0;font-size:clamp(1.25rem,3.5vw,2.15rem);line-height:1.15}
+    .pixel-bomb{width:92px;height:92px;overflow:visible;image-rendering:pixelated;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.28));animation:bombNudge 2s steps(1,end) infinite}
+    .bomb-spark{transform-origin:74px 16px;animation:sparkFlash .5s steps(1,end) infinite}
+    @keyframes sparkFlash{0%,49%{opacity:1;transform:scale(1)}50%,100%{opacity:.25;transform:scale(.72)}}
+    @keyframes bombNudge{0%,84%,100%{transform:translate(0)}85%{transform:translate(-2px,1px)}90%{transform:translate(2px,-1px)}95%{transform:translate(-1px,-1px)}}
+    @media(max-width:600px){.destruct-warning{grid-template-columns:72px 1fr;gap:12px;padding:14px}.pixel-bomb{width:68px;height:68px}.destruct-warning p{font-size:1.2rem}}
     .panel{--panel:var(--red)}
     .calendars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
     .month{background:var(--cream);border:1px solid #111}
@@ -55,7 +62,25 @@
     <a class="tab-instagram" href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a>
   </nav>
 <main class="page"><video class="backdrop" autoplay muted loop playsinline aria-hidden="true"><source src="video/Rebelbingo1.mp4" type="video/mp4"></video>
-<div class="content"><section class="panel"><h1>PARTY SCHEDULE</h1>
+<div class="content"><section class="panel">
+<div class="destruct-warning">
+  <svg class="pixel-bomb" viewBox="0 0 96 96" role="img" aria-label="Animated pixel bomb">
+    <path d="M59 31H67V23H75V15" fill="none" stroke="#111" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+    <g class="bomb-spark" shape-rendering="crispEdges">
+      <rect x="72" y="4" width="6" height="9" fill="#ff2d24"/>
+      <rect x="82" y="12" width="9" height="6" fill="#ff862b"/>
+      <rect x="61" y="11" width="7" height="6" fill="#eeff00"/>
+      <rect x="78" y="22" width="6" height="7" fill="#ff2d24"/>
+    </g>
+    <rect x="48" y="27" width="16" height="12" fill="#404040" shape-rendering="crispEdges"/>
+    <circle cx="45" cy="57" r="30" fill="#111" shape-rendering="crispEdges"/>
+    <rect x="21" y="39" width="12" height="9" fill="#404040" shape-rendering="crispEdges"/>
+    <rect x="28" y="32" width="20" height="7" fill="#404040" shape-rendering="crispEdges"/>
+    <rect x="27" y="45" width="7" height="7" fill="#fff" shape-rendering="crispEdges"/>
+  </svg>
+  <p>This party venue self destructs after 130 parties,</p>
+</div>
+<h1>PARTY SCHEDULE</h1>
 <form class="signup">
         <label>Receive scheduled information:</label>
         <div class="form-row">
