@@ -85,9 +85,9 @@
     <rect x="28" y="32" width="20" height="7" fill="#404040" shape-rendering="crispEdges"/>
     <rect x="27" y="45" width="7" height="7" fill="#fff" shape-rendering="crispEdges"/>
   </svg>
-  <p>This party venue self destructs after 130 parties</p>
+  <p>This party venue self destructs after 108 parties</p>
 </div>
-<h1 class="countdown-heading"><span id="parties-left" class="countdown-number">130</span><span class="countdown-label">parties left until destruction</span></h1>
+<h1 class="countdown-heading"><span id="parties-left" class="countdown-number">108</span><span class="countdown-label">parties left until destruction</span></h1>
 <form class="signup">
         <label>Receive scheduled information:</label>
         <div class="form-row">
@@ -142,7 +142,7 @@
       const todayCell=document.querySelector(`[data-date="${today}"]`);
       if(todayCell)todayCell.classList.add("today");
       const completed=tealDates.filter(date=>date<today).length;
-      document.querySelector("#parties-left").textContent=Math.max(0,130-completed);
+      document.querySelector("#parties-left").textContent=Math.max(0,108-completed);
     }
     updateLiveCalendar();
     setInterval(updateLiveCalendar,60000);</script></body></html>
