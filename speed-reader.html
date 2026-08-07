@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Speed Reader — Capture Tool</title>
+  <style>
+    :root{--ink:#111;--paper:#fff;--red:#ff2d24;--grey:#dedede}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--grey);color:var(--ink);font-family:"Lucida Console",Monaco,monospace}
+    button,textarea,input{font:inherit}
+    .tool{width:min(1180px,100%);margin:0 auto;padding:24px}
+    .editor{margin-bottom:18px;padding:20px;border:1px solid #111;background:#f4f0e7}
+    .editor label{display:block;margin-bottom:10px;font-size:.78rem}
+    textarea{display:block;width:100%;min-height:150px;padding:14px;border:1px solid #111;border-radius:0;background:#fff;resize:vertical;font-size:1rem;line-height:1.5}
+    .editor-row,.reader-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+    .speed-field{display:flex;align-items:center;gap:8px;font-size:.72rem}
+    .speed-field input{width:80px;height:40px;padding:0 8px;border:1px solid #111;border-radius:0;background:#fff;text-align:center}
+    button{min-height:40px;padding:8px 13px;border:1px solid #111;border-radius:0;background:#fff;color:#111;cursor:pointer}
+    button:hover,button:focus{background:#eeff00}
+    .make{background:#111;color:#fff}
+    .capture{position:relative;display:grid;grid-template-rows:auto 1fr auto;width:100%;aspect-ratio:16/9;min-height:360px;padding:clamp(20px,4vw,52px);overflow:hidden;border:1px solid #111;background:var(--paper)}
+    .capture-meta{display:flex;justify-content:space-between;gap:20px;font-size:.68rem;text-transform:uppercase}
+    .word{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;min-width:0;font-size:clamp(3rem,10vw,8.5rem);line-height:1;letter-spacing:-.055em;white-space:nowrap;overflow:hidden}
+    .before{text-align:right}.after{text-align:left}.focus{color:var(--red)}
+    .reader-controls{margin:0}
+    .reader-controls button{font-size:.68rem;text-transform:uppercase;background:transparent}
+    .reader-controls button:hover,.reader-controls button:focus{background:#eeff00}
+    .wpm{font-size:.68rem}
+    .empty{opacity:.35}
+    body.recording{background:#fff}
+    body.recording .tool{width:100%;padding:0}
+    body.recording .editor,body.recording .capture-meta,body.recording .reader-controls{display:none}
+    body.recording .capture{width:100vw;height:100vh;min-height:100vh;aspect-ratio:auto;border:0;padding:0}
+    body.recording .word{font-size:clamp(4rem,12vw,11rem);padding:0 3vw}
+    .exit-note{display:none;position:fixed;right:12px;bottom:10px;z-index:5;color:#777;font-size:.58rem}
+    body.recording .exit-note{display:block}
+    @media(max-width:650px){
+      .tool{padding:12px}
+      .capture{aspect-ratio:auto;min-height:55vh;padding:18px}
+      .capture-meta{font-size:.58rem}
+      .word{font-size:clamp(2.6rem,14vw,5rem)}
+    }
+  </style>
+</head>
+<body>
+  <main class="tool">
+    <form class="editor" id="editor">
+      <label for="copy">Paste or type the paragraph:</label>
+      <textarea id="copy" required placeholder="Type the words you want to speed-read…"></textarea>
+      <div class="editor-row">
+        <label class="speed-field" for="starting-speed">Words/min
+          <input id="starting-speed" type="number" min="50" max="1000" step="50" value="450">
+        </label>
+        <button class="make" type="submit">Create speed reader</button>
+        <button type="button" id="record-mode">Clean recording view</button>
+      </div>
+    </form>
+
+    <section class="capture empty" id="capture" aria-label="Speed reader recording area">
+      <div class="capture-meta"><span>Speed Reader</span><span id="progress">0 / 0</span></div>
+      <div class="word" aria-live="polite">
+        <span class="before"></span><span class="focus"></span><span class="after"></span>
+      </div>
+      <div class="reader-controls">
+        <button type="button" data-action="play">Play</button>
+        <button type="button" data-action="restart">Restart</button>
+        <button type="button" data-action="slower">Slower</button>
+        <button type="button" data-action="faster">Faster</button>
+        <span class="wpm">450 words/min</span>
+      </div>
+    </section>
+  </main>
+  <span class="exit-note">Press Esc to exit recording view</span>
+
+  <script>
+    const editor=document.querySelector("#editor");
+    const textarea=document.querySelector("#copy");
+    const speedInput=document.querySelector("#starting-speed");
+    const capture=document.querySelector("#capture");
+    const progress=document.querySelector("#progress");
+    const playButton=document.querySelector('[data-action="play"]');
+    const state={words:[],index:0,wpm:450,timer:null};
+
+    function wordParts(word){
+      const letters=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
+      const focusIndex=letters[Math.floor((letters.length-1)*.35)]??0;
+      return{before:word.slice(0,focusIndex),focus:word.charAt(focusIndex)||" ",after:word.slice(focusIndex+1)};
+    }
+    function showWord(word){
+      const parts=wordParts(word||"");
+      capture.querySelector(".before").textContent=parts.before;
+      capture.querySelector(".focus").textContent=parts.focus;
+      capture.querySelector(".after").textContent=parts.after;
+      progress.textContent=state.words.length?`${state.index+1} / ${state.words.length}`:"0 / 0";
+    }
+    function delayFor(word){
+      const base=60000/state.wpm;
+      if(/[.!?][\"'’)]*$/.test(word))return base*2;
+      if(/,[\"'’)]*$/.test(word))return base*1.5;
+      return base;
+    }
+    function stop(){
+      clearTimeout(state.timer);
+      state.timer=null;
+      playButton.textContent="Play";
+    }
+    function play(){
+      if(!state.words.length)return;
+      stop();
+      playButton.textContent="Pause";
+      function next(){
+        state.index++;
+        if(state.index>=state.words.length){stop();return}
+        showWord(state.words[state.index]);
+        state.timer=setTimeout(next,delayFor(state.words[state.index]));
+      }
+      state.timer=setTimeout(next,delayFor(state.words[state.index]));
+    }
+    function restart(autoplay=false){
+      stop();
+      state.index=0;
+      showWord(state.words[0]||"");
+      if(autoplay)play();
+    }
+    function setSpeed(value){
+      state.wpm=Math.max(50,Math.min(1000,value));
+      speedInput.value=state.wpm;
+      document.querySelector(".wpm").textContent=`${state.wpm} words/min`;
+    }
+    editor.addEventListener("submit",event=>{
+      event.preventDefault();
+      state.words=textarea.value.trim().split(/\s+/).filter(Boolean);
+      setSpeed(Number(speedInput.value)||450);
+      capture.classList.toggle("empty",!state.words.length);
+      restart(true);
+    });
+    capture.addEventListener("click",event=>{
+      const button=event.target.closest("[data-action]");
+      if(!button)return;
+      const action=button.dataset.action;
+      if(action==="play")state.timer?stop():play();
+      if(action==="restart")restart(false);
+      if(action==="slower"||action==="faster"){
+        const wasPlaying=Boolean(state.timer);
+        setSpeed(state.wpm+(action==="faster"?50:-50));
+        if(wasPlaying)play();
+      }
+    });
+    document.querySelector("#record-mode").addEventListener("click",()=>{
+      if(!state.words.length)return textarea.focus();
+      document.body.classList.add("recording");
+      restart(true);
+    });
+    document.addEventListener("keydown",event=>{
+      if(event.key==="Escape")document.body.classList.remove("recording");
+    });
+  </script>
+</body>
+</html>
