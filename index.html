@@ -2,35 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Rebel Bingo | Camden Town 2026</title>
   <meta name="description" content="The Underground Rebel Bingo Club. Opening in Camden Town in 2026.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--ink:#171717;--paper:#f4f0e7}
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:#dedede;color:#111;font-family:"Lucida Console",Monaco,monospace}
-    body{padding:0}
-    .tab-strip{position:relative;z-index:30;display:flex;align-items:stretch;min-height:52px;overflow-x:auto;background:#f4f0e7;border-bottom:1px solid #111}
-    .tab-strip a{display:flex;align-items:center;padding:14px 18px;border-right:1px solid #111;color:#111;font-size:.72rem;text-decoration:none;white-space:nowrap}
-    .tab-strip a:hover,.tab-strip a:focus{filter:brightness(.92)}
-    .tab-strip .active{font-weight:700}
-    .tab-strip a{animation:tabCycle 8s steps(1,end) infinite}
-    .tab-strip a:nth-child(2){animation-delay:-1s}.tab-strip a:nth-child(3){animation-delay:-2s}.tab-strip a:nth-child(4){animation-delay:-3s}.tab-strip a:nth-child(5){animation-delay:-4s}.tab-strip a:nth-child(6){animation-delay:-5s}.tab-strip a:nth-child(7){animation-delay:-6s}.tab-strip a:nth-child(8){animation-delay:-7s}
-    @keyframes tabCycle{0%{background:#ff862b}12.5%{background:#eeff00}25%{background:#52e5ff}37.5%{background:#ff4fa3}50%{background:#ff6045}62.5%{background:#f4f0e7}75%{background:#9baeff}87.5%{background:#ffb52e}}
-    .tab-home{background:#ff862b}.tab-announcements{background:#eeff00}.tab-venue{background:#52e5ff}.tab-partnerships{background:#ff4fa3}.tab-party{background:#ff6045}.tab-about{background:#f4f0e7}.tab-plan{background:#9baeff}.tab-instagram{background:#ffb52e}
+    html,body{margin:0;min-height:100%;background:#dedede;color:#111;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    body{padding:52px 0 0}
+    .tab-strip{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:stretch;height:52px;overflow-x:auto;background:#000;border:0}
+    .tab-strip a{display:flex;align-items:center;padding:14px 18px;border:0;background:#000;color:#ff2d24;font-size:.875rem;font-weight:600;text-decoration:none;white-space:nowrap}
+    .tab-strip a:hover,.tab-strip a:focus-visible{color:#fff}
+    .tab-strip .active{font-weight:800}
         a{color:inherit;text-underline-offset:3px}
     .frame{position:relative;min-height:calc(100vh - 52px);overflow:hidden;background:#171717}
     .backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .video-play{position:absolute;z-index:5;top:12px;right:5vw;padding:10px 14px;border:1px solid #fff;background:rgba(0,0,0,.8);color:#fff;font:inherit;font-size:.8rem;cursor:pointer}
+    .video-play[hidden]{display:none}
     .sound{position:static;z-index:4;height:38px;margin:0 0 30px;padding:0 13px;border:1px solid #111;border-radius:0;background:rgba(244,240,231,.22);color:#111;font:inherit;font-size:.72rem;text-transform:uppercase;cursor:pointer}
-    .content{position:relative;z-index:2;min-height:inherit;width:100%;padding:clamp(48px,8vh,90px) 7vw 44px 13vw}
-    h1{display:flex;flex-direction:column;align-items:flex-start;gap:0;max-width:420px;margin:0;font-size:clamp(2rem,4.5vw,4.35rem);font-weight:400;line-height:1.18;letter-spacing:0}
-    .headline-line{display:block;margin:0;padding:0;font:inherit;line-height:inherit;white-space:nowrap}
-    #changing-word{transform:none!important}
-    .word-focus{color:#ff2d24}
-    .lower{display:grid;grid-template-columns:minmax(260px,32vw) minmax(340px,460px);gap:clamp(50px,9vw,150px);align-items:start;margin-top:clamp(38px,7vh,78px)}
-    .details{margin:0;font-size:clamp(.75rem,1.25vw,1rem);line-height:1.55}
-    .secondary{min-width:0}
+    .content{position:relative;z-index:2;min-height:inherit;width:100%;padding:28px 5vw 44px}
+    h1{display:flex;align-items:center;justify-content:center;width:100%;max-width:1000px;margin:0 auto;font-weight:800;line-height:.9;letter-spacing:0;white-space:nowrap;text-align:center}
+    #changing-word{display:block}
+    @media(max-width:760px){h1{width:100vw;max-width:none;margin-left:-5vw;padding:0 8px}}
+    .lower{display:block;margin-top:14px}
+    .details{max-width:850px;white-space:normal;margin:0;font-size:clamp(.875rem,1.25vw,1.125rem);line-height:1.55}
+    .secondary{min-width:0;max-width:520px;margin-top:30px}
     .contact,.instagram{margin:0 0 18px;font-size:clamp(.72rem,1.1vw,.9rem);line-height:1.5}
     .email{white-space:nowrap}
     .signup{width:100%;margin:18px 0 0}
@@ -45,37 +43,61 @@
     .official{margin:28px 0 0}
     .official a{margin-left:12px}
     @media(max-width:760px){
-      .tab-strip a{padding:13px 14px;font-size:.66rem}
-      .sound{position:fixed;top:70px;right:18px;background:rgba(244,240,231,.7)}
-      body{padding:0}.frame{min-height:100vh}
-      .content{padding:70px 24px 34px 12vw}.backdrop{object-position:center}
-      .lower{grid-template-columns:1fr;gap:clamp(70px,12vh,120px);margin-top:clamp(38px,7vh,78px)}
+      .tab-strip a{padding:13px 14px;font-size:.8rem}
+      .sound{position:static;background:rgba(244,240,231,.7)}
+      body{padding:52px 0 0}.frame{min-height:100vh}
+      .content{padding:22px 5vw 34px}.backdrop{object-position:center}
+      .lower{margin-top:12px}
       .form-row{grid-template-columns:1fr}.form-row input{border-right:1px solid #111;border-bottom:0}
       .signup button{height:38px}.email{white-space:normal}
     }
     @media(prefers-reduced-motion:reduce){.tab-strip a{animation:none}.backdrop{display:none}}
+
+    .events{position:relative;z-index:3;width:100%;max-width:1000px;margin:16px auto 0}
+    .event-controls{position:absolute;inset:0;z-index:4;pointer-events:none}
+    .event-arrow{position:absolute;top:calc(50% - 40px);transform:translateY(-50%);width:44px;height:44px;padding:0;border:1px solid rgba(255,255,255,.5);border-radius:50%;background:rgba(0,0,0,.9);color:#fff;font:inherit;font-size:30px;line-height:1;cursor:pointer;pointer-events:auto;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+    #events-prev{left:6px}#events-next{right:6px}
+    .event-grid{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:28px 0 20px}
+    .event-grid::-webkit-scrollbar{display:none}
+    .event-card{position:relative;padding-top:22px;display:flex;flex-direction:column;align-items:stretch;flex:0 0 240px;min-width:0;scroll-snap-align:start}
+    .event-img{display:block;width:100%;height:auto;border-radius:22px;object-fit:contain;box-shadow:0 16px 32px rgba(0,0,0,.45)}
+    .event-name{font-size:.8rem;line-height:1.4;margin:12px 0 8px}
+    .event-action{position:absolute;top:0;left:9%;z-index:2;display:flex;justify-content:center;align-items:center;width:82%;min-height:56px;padding:6px 4px;border:5px solid #ffeb00;border-radius:8px;background:#d71920;color:#fff;font:inherit;font-size:clamp(18px,2vw,24px);font-weight:800;line-height:1;text-decoration:none;text-align:center;white-space:nowrap;transform:rotate(-10deg);box-shadow:4px 6px 0 #750d12,7px 10px 14px rgba(0,0,0,.6)}
+    .event-action[disabled]{font-size:16px}
+    .event-action:hover{background:#b31218}
+    .event-action:focus-visible,.event-arrow:focus-visible{outline:3px solid #ff2d24;outline-offset:3px}
+    .event-action[disabled]{background:#f4f0e7;opacity:.75}
+    .event-note{font-size:.7rem;line-height:1.5;margin:8px 0}
+
+    @media(max-width:760px){.event-grid{gap:16px}.event-card{flex-basis:min(62%,240px)}}
+
+    .content{color:#fff}
+    .sound,input,.signup button{color:#fff;border-color:rgba(255,255,255,.7);background:rgba(0,0,0,.55)}
+    input::placeholder{color:rgba(255,255,255,.8);opacity:1}
+    .event-action[disabled]{color:#fff;background:#333}
   </style>
 </head>
 <body>
   <nav class="tab-strip" aria-label="Rebel Bingo sections">
     <a class="tab-home active" aria-current="page" href="index.html">Home</a>
-    <a class="tab-announcements" href="announcements.html">Announcements</a>
     <a class="tab-venue" href="venue.html">Venue Info</a>
-    <a class="tab-partnerships" href="partnerships.html">Festivals &amp; Partnerships</a>
-    <a class="tab-party" href="party-schedule.html">Party Schedule</a>
-    <a class="tab-plan" href="plan.html">The Plan</a>
     <a class="tab-instagram" href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a>
   </nav>
   <main class="frame">
     <video class="backdrop" autoplay muted loop playsinline aria-hidden="true">
-      <source src="video/Rebelbingo1.mp4" type="video/mp4">
+      <source src="video/rebeleverything1.mp4" type="video/mp4">
     </video>
+    <button class="video-play" id="video-play" type="button" hidden>PLAY VIDEO</button>
     <section class="content">
-      <h1><span class="headline-line">The</span><span class="headline-line">Underground</span><span class="headline-line">Rebel</span><span class="headline-line" id="changing-word">Bingo</span><span class="headline-line">Club</span></h1>
+      <h1 aria-label="Social immersive interactive entertainment. New concept venue. Camden London."><span id="changing-word" aria-hidden="true">SOCIAL</span></h1>
 
-      <div class="lower">
-        <p class="details">Venue 1<br>Opening Autumn 2026<br>3am License<br><a href="https://maps.app.goo.gl/NevSjaJQXdpViCkWA" target="_blank" rel="noopener">Central London</a></p>
-
+      <section class="events" aria-label="Events">
+        <div class="event-controls">
+          <button type="button" class="event-arrow" id="events-prev" aria-label="Previous events">‹</button>
+          <button type="button" class="event-arrow" id="events-next" aria-label="Next events">›</button>
+        </div>
+        <div class="event-grid" id="events-grid" tabindex="0" aria-label="Scroll through events"></div>
+      </section>
         <div class="secondary">
           <button class="sound" id="sound" type="button">SOUND ON</button>
           <p class="contact">Private hires & Partnerships:<br><span class="email">rebels@rebelbingo.com</span></p>
@@ -87,43 +109,63 @@
               <input id="email" name="email" type="email" placeholder="type email here for more info" autocomplete="email" required>
               <button type="submit">sign up</button>
             </div>
-            <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time. See the <a href="announcements.html">announcements page</a> for the communications schedule.</p>
+            <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
             <p class="status" aria-live="polite"></p>
           </form>
 
           <p class="official">© 2026 Rebel Bingo. All rights reserved.<a href="privacy.html">Privacy Policy</a></p>
         </div>
-      </div>
     </section>
   </main>
 
+  <script src="events.js"></script>
+  <script src="event-carousel.js"></script>
   <script>
-    const words=["Madonna","Jungle","Botox","Tokyo","Kylie","Psychedelic","Cans","Midnight","Take That","Latex","Margate","Therapy","Cowgirl","80s","Electric","Friends","Britney","Crocs","Ibiza","Hallucination","Cocktails","Cowboy","Romance","DNB","Halloween","Lovers","Eurovision","Leopard","Tuesday","Aperol","Fashion","End of the World","Glitter","Future","Karaoke","Kink"];
+    const words=["SOCIAL","IMMERSIVE","INTERACTIVE","ENTERTAINMENT","NEW","CONCEPT","VENUE","CAMDEN","LONDON"];
+    const heading=document.querySelector("h1");
     const changingWord=document.querySelector("#changing-word");
-
-    function showFocusedWord(word){
-      const letterPositions=[...word].map((character,index)=>/[A-Za-z0-9]/.test(character)?index:-1).filter(index=>index>=0);
-      const focusPosition=letterPositions[Math.floor((letterPositions.length-1)*.35)]??0;
-      changingWord.replaceChildren(
-        document.createTextNode(word.slice(0,focusPosition)),
-        Object.assign(document.createElement("span"),{className:"word-focus",textContent:word.charAt(focusPosition)}),
-        document.createTextNode(word.slice(focusPosition+1))
-      );
-    }
-
+    const measuringContext=document.createElement("canvas").getContext("2d");
+    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
     let wordIndex=0;
-    showFocusedWord(words[wordIndex]);
+    let wordSizes=[];
+    function fitWords(){
+      const style=getComputedStyle(heading);
+      const available=heading.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)-4;
+      measuringContext.font=style.fontWeight+" 100px "+style.fontFamily;
+      wordSizes=words.map(word=>available/measuringContext.measureText(word).width*100);
+      // Reserve the same space for every word so the tablets stay still.
+      heading.style.height=(Math.max(...wordSizes)*.9+12)+"px";
+      showWord();
+    }
+    function showWord(){
+      changingWord.textContent=words[wordIndex];
+      changingWord.style.fontSize=wordSizes[wordIndex]+"px";
+    }
+    fitWords();
+    window.addEventListener("resize",fitWords);
+    document.fonts.ready.then(fitWords);
     setInterval(()=>{
+      if(reducedMotion.matches||document.hidden)return;
       wordIndex=(wordIndex+1)%words.length;
-      showFocusedWord(words[wordIndex]);
-    },500);
+      showWord();
+    },650);
 
     const video=document.querySelector(".backdrop");
     const sound=document.querySelector("#sound");
+    const playButton=document.querySelector("#video-play");
+    async function startVideo(){
+      try{await video.play()}catch{playButton.hidden=false}
+    }
+    video.addEventListener("playing",()=>{playButton.hidden=true});
+    video.addEventListener("error",()=>{playButton.hidden=false;playButton.textContent="VIDEO UNAVAILABLE"});
+    playButton.addEventListener("click",startVideo);
+    window.addEventListener("pageshow",startVideo);
+    document.addEventListener("visibilitychange",()=>{if(!document.hidden)startVideo()});
+    setTimeout(()=>{if(video.paused)playButton.hidden=false},2000);
     sound.addEventListener("click",()=>{
       video.muted=!video.muted;
       sound.textContent=video.muted?"SOUND ON":"SOUND OFF";
-      if(video.paused)video.play();
+      if(video.paused)startVideo();
     });
 
     const API="https://script.google.com/macros/s/AKfycbxNawMmEhahRcxid5ii09EFDbEe7QfXpF_ATkzyorO7Z5Vxx36zmg_sgB0FqtJFf_CY/exec";
