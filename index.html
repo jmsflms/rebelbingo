@@ -75,6 +75,12 @@
     .sound,input,.signup button{color:#fff;border-color:rgba(255,255,255,.7);background:rgba(0,0,0,.55)}
     input::placeholder{color:rgba(255,255,255,.8);opacity:1}
     .event-action[disabled]{color:#fff;background:#333}
+
+    .rebel-countdown{width:100%;max-width:1000px;margin:0 auto 24px;text-align:center;background:transparent;color:#fff;text-shadow:0 2px 6px #000,0 0 18px #000}
+    #rebel-countdown-label{margin:0 0 8px;font-size:clamp(.9rem,2vw,1.4rem);font-weight:800}
+    #rebel-timer{font-family:monospace;font-weight:800;font-size:clamp(27px,6.8vw,82px);letter-spacing:.025em;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .booking-info{max-width:1000px;margin:24px auto 8px;font-size:clamp(.9rem,1.7vw,1.15rem);line-height:1.6;text-align:center;text-shadow:0 2px 6px #000,0 0 12px #000}
+    .booking-info p{margin:6px 0}.booking-info a{font-weight:800}
   </style>
 </head>
 <body>
@@ -89,8 +95,16 @@
     </video>
     <button class="video-play" id="video-play" type="button" hidden>PLAY VIDEO</button>
     <section class="content">
+      <div class="rebel-countdown" aria-label="Opening night countdown">
+        <p id="rebel-countdown-label">OPENING NIGHT</p>
+        <div id="rebel-timer" role="timer">00d 00:00:00</div>
+      </div>
       <h1 aria-label="Social immersive interactive entertainment. New concept venue. Camden London."><span id="changing-word" aria-hidden="true">SOCIAL</span></h1>
 
+      <div class="booking-info">
+        <p>Email <a href="mailto:rebels@rebelbingo.com">rebels@rebelbingo.com</a> for opening night guestlist, private &amp; Xmas Parties</p>
+        <p><a href="https://www.eventbrite.com/cc/the-underground-rebel-bingo-club-new-venue-4882342/" target="_blank" rel="noopener">Ticket Link</a></p>
+      </div>
       <section class="events" aria-label="Events">
         <div class="event-controls">
           <button type="button" class="event-arrow" id="events-prev" aria-label="Previous events">‹</button>
@@ -118,6 +132,7 @@
     </section>
   </main>
 
+  <script type="module" src="countdown.js"></script>
   <script src="events.js"></script>
   <script src="event-carousel.js"></script>
   <script>
