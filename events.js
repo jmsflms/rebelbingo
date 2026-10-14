@@ -8,6 +8,7 @@ window.REBEL_EVENTS = {
   events: [
     {title: "Rebel Bingo", image: "productions/tab_rebel_bingo.png", status: "book", url: "", visible: true},
     {title: "Rebel Karaoke Club", image: "productions/tab_rebel_karaoke.png", status: "book", url: "", visible: true},
-    {title: "The End of the World Experience", image: "productions/tab-eotw.png", status: "book", url: "", visible: true}
+    {title: "The End of the World Experience", image: "productions/tab-eotw.png", status: "book", url: "", visible: true},
+    {title: "Cat Face Party", image: "productions/tab-cat-face.png", status: "book", actionText: "INSTAGRAM", url: "https://www.instagram.com/catface.party/", visible: true}
   ]
 };

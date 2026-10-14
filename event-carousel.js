@@ -23,7 +23,7 @@
     const url = safeUrl(event.url || (waitlist ? config.waitlistUrl : config.bookUrl));
     const action = document.createElement(url ? "a" : "button");
     action.className = "event-action";
-    action.textContent = waitlist ? "JOIN WAITLIST" : "GET TICKETS";
+    action.textContent = event.actionText || (waitlist ? "JOIN WAITLIST" : "GET TICKETS");
     if (url) {
       action.href = url;
       action.target = "_blank";
