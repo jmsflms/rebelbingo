@@ -76,9 +76,10 @@
     input::placeholder{color:rgba(255,255,255,.8);opacity:1}
     .event-action[disabled]{color:#fff;background:#333}
 
-    .rebel-countdown{width:100%;max-width:1000px;margin:0 auto 24px;text-align:center;background:transparent;color:#fff;text-shadow:0 2px 6px #000,0 0 18px #000}
-    #rebel-countdown-label{margin:0 0 8px;font-size:clamp(.9rem,2vw,1.4rem);font-weight:800}
-    #rebel-timer{font-family:monospace;font-weight:800;font-size:clamp(27px,6.8vw,82px);letter-spacing:.025em;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .rebel-countdown{width:100%;max-width:1000px;margin:0 auto 12px;text-align:center;background:transparent;color:#ff2d24;text-shadow:3px 4px 0 #000,5px 7px 9px #000;line-height:1}
+    #rebel-countdown-label{margin:0 0 4px;font-size:clamp(.9rem,2vw,1.4rem);font-weight:800}
+    #rebel-timer{font-family:monospace;font-weight:900;font-size:clamp(30px,7.8vw,98px);letter-spacing:-.065em;white-space:nowrap;font-variant-numeric:tabular-nums;-webkit-text-stroke:.6px currentColor}
+    #rebel-milliseconds{font-size:.5em;letter-spacing:-.04em;-webkit-text-stroke:.3px currentColor}
     .booking-info{max-width:1000px;margin:24px auto 8px;font-size:clamp(.9rem,1.7vw,1.15rem);line-height:1.6;text-align:center;text-shadow:0 2px 6px #000,0 0 12px #000}
     .booking-info p{margin:6px 0}.booking-info a{font-weight:800}
   </style>
@@ -97,7 +98,7 @@
     <section class="content">
       <div class="rebel-countdown" aria-label="Opening night countdown">
         <p id="rebel-countdown-label">OPENING NIGHT</p>
-        <div id="rebel-timer" role="timer">00d 00:00:00</div>
+        <div id="rebel-timer" role="timer"><span id="rebel-time">0D 00:00:00</span><span id="rebel-milliseconds">.000</span></div>
       </div>
       <h1 aria-label="Social immersive interactive entertainment. New concept venue. Camden London."><span id="changing-word" aria-hidden="true">SOCIAL</span></h1>
 
@@ -132,7 +133,7 @@
     </section>
   </main>
 
-  <script type="module" src="countdown.js"></script>
+  <script type="module" src="countdown.js?v=milliseconds"></script>
   <script src="events.js"></script>
   <script src="event-carousel.js"></script>
   <script>

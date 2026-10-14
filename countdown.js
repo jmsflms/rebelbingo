@@ -14,13 +14,20 @@ function rebelSettings(base){
  return {...DEFAULT,...documentSettings(base).groups?.rebelbingo};
 }
 function formatCountdown(ms){
- const total=Math.max(0,Math.floor(ms/1000)), pad=n=>String(n).padStart(2,"0");
- return Math.floor(total/86400)+"d "+pad(Math.floor(total/3600)%24)+":"+pad(Math.floor(total/60)%60)+":"+pad(total%60);
+ ms=Math.max(0,Math.floor(ms));
+ const total=Math.floor(ms/1000), pad=n=>String(n).padStart(2,"0");
+ return Math.floor(total/86400)+"D "+pad(Math.floor(total/3600)%24)+":"+pad(Math.floor(total/60)%60)+":"+pad(total%60)+"."+String(ms%1000).padStart(3,"0");
 }
 
-const timer=document.getElementById("rebel-timer"),message=document.getElementById("rebel-countdown-label");
+const timer=document.getElementById("rebel-time"),milliseconds=document.getElementById("rebel-milliseconds"),message=document.getElementById("rebel-countdown-label");
 let settings=DEFAULT;
-function render(){message.textContent=settings.message;timer.textContent=formatCountdown(new Date(settings.end_time).getTime()-Date.now())}
+function render(){
+ if(message.textContent!==settings.message)message.textContent=settings.message;
+ const [time,ms]=formatCountdown(new Date(settings.end_time).getTime()-Date.now()).split(".");
+ if(timer.textContent!==time)timer.textContent=time;
+ milliseconds.textContent="."+ms;
+}
+function animate(){render();requestAnimationFrame(animate)}
 async function load(){try{const next=rebelSettings(await readBase());if(Number.isFinite(Date.parse(next.end_time)))settings=next;render()}catch{}}
-render();setInterval(render,250);load();setInterval(load,5000);
+animate();load();setInterval(load,5000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
