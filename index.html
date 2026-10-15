@@ -82,6 +82,18 @@
     #rebel-milliseconds{font-size:.5em;letter-spacing:-.04em;-webkit-text-stroke:.3px currentColor}
     .booking-info{max-width:1000px;margin:24px auto 8px;font-size:clamp(.9rem,1.7vw,1.15rem);line-height:1.6;text-align:center;text-shadow:0 2px 6px #000,0 0 12px #000}
     .booking-info p{margin:6px 0}.booking-info a{font-weight:800}
+
+    #signup.signup-feature{width:min(760px,100%);margin:26px auto 0;padding:clamp(20px,3vw,32px);background:#d71920;border:3px solid #ffeb00;border-radius:12px;box-shadow:5px 7px 0 #750d12,0 12px 24px rgba(0,0,0,.35);text-align:center}
+    #signup.signup-feature label{margin:0 0 18px;font-size:clamp(1.3rem,2.6vw,2rem);font-weight:800;line-height:1.15;color:#fff}
+    #signup .form-row{grid-template-columns:minmax(0,1fr) auto;gap:10px}
+    #signup input{height:60px;padding:0 18px;border:2px solid #fff;border-radius:6px;background:#fff;color:#111;font-size:1.05rem;text-align:left}
+    #signup input::placeholder{color:#555}
+    #signup button{height:60px;padding:0 25px;border:2px solid #ffeb00;border-radius:6px;background:#111;color:#fff;font-size:1.05rem;font-weight:800;text-transform:uppercase;box-shadow:0 3px 0 #750d12}
+    #signup button:hover:not(:disabled){background:#292929}
+    #signup input:focus-visible,#signup button:focus-visible{outline:3px solid #ffeb00;outline-offset:3px}
+    #signup .legal{font-size:.72rem;line-height:1.45;margin-top:14px;color:#fff}
+    #signup .status{font-size:.95rem;font-weight:700;margin:10px 0 0;color:#fff}
+    @media(max-width:520px){#signup .form-row{grid-template-columns:1fr}#signup input,#signup button{height:56px;width:100%}}
   </style>
 </head>
 <body>
@@ -113,20 +125,20 @@
         </div>
         <div class="event-grid" id="events-grid" tabindex="0" aria-label="Scroll through events"></div>
       </section>
+          <form class="signup signup-feature" id="signup">
+            <label for="email">Get party news &amp; ticket updates</label>
+            <div class="form-row">
+              <input id="email" name="email" type="email" placeholder="Your email address" aria-label="Your email address" autocomplete="email" required>
+              <button type="submit">SIGN ME UP</button>
+            </div>
+            <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
+            <p class="status" aria-live="polite"></p>
+          </form>
         <div class="secondary">
           <button class="sound" id="sound" type="button">SOUND ON</button>
           <p class="contact">Private hires & Partnerships:<br><span class="email">rebels@rebelbingo.com</span></p>
           <p class="instagram"><a href="https://www.instagram.com/rebel_bingo/" target="_blank" rel="noopener">Instagram</a></p>
 
-          <form class="signup" id="signup">
-            <label for="email">Receive scheduled information:</label>
-            <div class="form-row">
-              <input id="email" name="email" type="email" placeholder="type email here for more info" autocomplete="email" required>
-              <button type="submit">sign up</button>
-            </div>
-            <p class="legal">By signing up, you agree to receive news and updates from Rebel Bingo. You can unsubscribe at any time.</p>
-            <p class="status" aria-live="polite"></p>
-          </form>
 
           <p class="official">© 2026 Rebel Bingo. All rights reserved.<a href="privacy.html">Privacy Policy</a></p>
         </div>
